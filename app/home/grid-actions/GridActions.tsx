@@ -1,5 +1,4 @@
-// import { Grid, GridItem } from "@/components/ui/grid";
-import { gameColors } from "@/app/index.tsx";
+import { gameColors } from "@/assets/game-colors/gameColors";
 import { Avatar, AvatarFallbackText } from "@/components/ui/avatar";
 import { Box } from "@/components/ui/box";
 import { Center } from "@/components/ui/center";
@@ -11,7 +10,7 @@ import { FlatGrid } from "react-native-super-grid";
 export const GridActions = () => {
 	return (
 		<FlatGrid
-			style={{ zIndex: 1000 }}
+			style={{ zIndex: 10 }}
 			itemDimension={100}
 			data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}
 			maxItemsPerRow={3}
@@ -20,7 +19,11 @@ export const GridActions = () => {
 				index > 0 ? (
 					<Box
 						className="bg-background-card rounded-2xl h-48 border-2  border-background-card-shadow opacity-95"
-						style={{ borderLeftWidth: 6, borderBottomWidth: 6 }}
+						style={{
+							borderLeftWidth: 6,
+							borderBottomWidth: 6,
+							zIndex: 10,
+						}}
 						key={item}
 					>
 						<Center className="h-full">
