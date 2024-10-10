@@ -169,6 +169,7 @@ module.exports = {
 					dark: "#181719",
 					base: "var(--color-background-base)",
 					card: "var(--color-background-card)",
+					"card-shadow": "var(--color-background-card-shadow)",
 					icon: "var(--color-background-icon)",
 				},
 				indicator: {

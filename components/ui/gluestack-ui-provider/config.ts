@@ -156,6 +156,7 @@ export const config = {
 
 		"--color-background-base": "#f2f2f6",
 		"--color-background-card": "#f9f9f9",
+		"--color-background-card-shadow": "#c3c3c7",
 		"--color-background-icon": "#e4e4e5",
 	}),
 	dark: vars({
@@ -312,6 +313,7 @@ export const config = {
 
 		"--color-background-base": "#1c1c1e",
 		"--color-background-card": "#2b2b2d",
+		"--color-background-card-shadow": "#3d3d41",
 		"--color-background-icon": "#444447",
 	}),
 };
