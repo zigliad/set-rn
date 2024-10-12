@@ -1,3 +1,5 @@
+import { modesConfig } from "@/app/modes/config";
+import { modes } from "@/app/modes/modes";
 import { gameColors } from "@/assets/game-colors/gameColors";
 import { Avatar, AvatarFallbackText } from "@/components/ui/avatar";
 import { Box } from "@/components/ui/box";
@@ -12,11 +14,12 @@ export const GridActions = () => {
 		<FlatGrid
 			style={{ zIndex: 10 }}
 			itemDimension={100}
-			data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}
+			data={modesConfig}
 			maxItemsPerRow={3}
 			spacing={20}
-			renderItem={({ item, index }) =>
-				index > 0 ? (
+			renderItem={({ item, index }) => {
+				if (index === 0) return <Box />;
+				return (
 					<Box
 						className="bg-background-card rounded-2xl h-48 border-2  border-background-card-shadow opacity-95"
 						style={{
@@ -24,7 +27,7 @@ export const GridActions = () => {
 							borderBottomWidth: 6,
 							zIndex: 10,
 						}}
-						key={item}
+						key={item.mode}
 					>
 						<Center className="h-full">
 							<VStack className="justify-center" space="md">
@@ -39,24 +42,24 @@ export const GridActions = () => {
 									}}
 								>
 									<AvatarFallbackText>
-										Ronald Richards
+										{item.title}
 									</AvatarFallbackText>
 								</Avatar>
-								<Heading
-									size="xl"
-									style={{
-										fontFamily: "PlayfairDisplay_Bold",
-									}}
-								>
-									1 Minute
-								</Heading>
+								<Center>
+									<Heading
+										size="xl"
+										style={{
+											fontFamily: "PlayfairDisplay_Bold",
+										}}
+									>
+										{item.title}
+									</Heading>
+								</Center>
 							</VStack>
 						</Center>
 					</Box>
-				) : (
-					<Box />
-				)
-			}
+				);
+			}}
 		/>
 	);
 };
