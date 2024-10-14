@@ -1,4 +1,4 @@
-import { Modes } from "@/app/modes/modes";
+import { Modes } from "@/modes/modes";
 
 export type ModeConfig = {
 	title: string;

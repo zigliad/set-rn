@@ -19,14 +19,10 @@ export default function RootLayout() {
 	});
 
 	useEffect(() => {
-		if (loaded) {
-			SplashScreen.hideAsync();
-		}
+		if (loaded) SplashScreen.hideAsync();
 	}, [loaded]);
 
-	if (!loaded) {
-		return null;
-	}
+	if (!loaded) return null;
 
 	return (
 		<GluestackUIProvider mode="system">
@@ -36,6 +32,7 @@ export default function RootLayout() {
 				}}
 			>
 				<Stack.Screen name="index" />
+				<Stack.Screen name="game" />
 			</Stack>
 		</GluestackUIProvider>
 	);
