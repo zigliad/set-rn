@@ -1,5 +1,5 @@
-import { GridActions } from "@/app/home/grid-actions/GridActions";
 import { gameColors } from "@/assets/game-colors/gameColors";
+import { GridActions } from "@/components/pages/home/GridActions";
 import { Heading } from "@/components/ui/heading";
 import { HStack } from "@/components/ui/hstack";
 import { useRef } from "react";

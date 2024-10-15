@@ -1,25 +1,26 @@
+import { GameBar } from "@/components/pages/game/GameBar";
+import { GameGrid } from "@/components/pages/game/GameGrid";
+import { HStack } from "@/components/ui/hstack";
 import { ModeContext } from "@/modes/context/context";
 import { modes, Modes } from "@/modes/modes";
-import { Box } from "@/components/ui/box";
-import { Text } from "@/components/ui/text";
 import { useLocalSearchParams } from "expo-router";
 import React from "react";
-import { Dimensions, SafeAreaView, View } from "react-native";
+import { SafeAreaView } from "react-native";
 import useMount from "react-use/lib/useMount";
 
 export default function Game() {
 	const { mode } = useLocalSearchParams<{ mode: Modes }>();
-	const useMode = modes[mode];
-
-	const modeData = useMode();
+	const useChosenMode = modes[mode];
+	const modeData = useChosenMode();
 	useMount(modeData.newGame);
 
 	return (
 		<SafeAreaView className="bg-background-base w-full h-full">
 			<ModeContext.Provider value={modeData}>
-				<Text>{mode}</Text>
-				{/* <GameBar />
-				<GameGrid /> */}
+				<HStack className="h-full w-full pt-4 pb-2 flex justify-center items-center">
+					<GameGrid />
+					<GameBar />
+				</HStack>
 			</ModeContext.Provider>
 		</SafeAreaView>
 	);

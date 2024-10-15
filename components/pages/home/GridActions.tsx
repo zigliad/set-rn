@@ -21,7 +21,7 @@ export const GridActions = () => {
 				if (index === 0) return <Box />;
 				return (
 					<Box
-						className="bg-background-card rounded-2xl h-48 border-2  border-background-card-shadow opacity-95"
+						className="bg-background-card rounded-2xl h-48 border-2 border-background-card-shadow opacity-95"
 						style={{
 							borderLeftWidth: 6,
 							borderBottomWidth: 6,

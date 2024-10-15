@@ -1,6 +1,6 @@
 import DeckGenerator from "@/bl/generators/deck/DeckGenerator";
 import { useSinglePlayerMode } from "@/bl/modes/single/useSinglePlayerMode";
-import { useSet } from "react-use";
+import useSet from "react-use/lib/useSet";
 
 export const useStaticMode = (
 	deckGenerator: DeckGenerator,
