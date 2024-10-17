@@ -1,10 +1,15 @@
 import { Box } from "@/components/ui/box";
 import React, { PropsWithChildren } from "react";
+import { RecursiveArray, StyleProp, ViewStyle } from "react-native";
 
 export const ElevatedCard = ({
 	children,
 	className = "",
-}: PropsWithChildren<{ className?: string }>) => {
+	style = undefined,
+}: PropsWithChildren<{
+	className?: string;
+	style?: StyleProp<ViewStyle>;
+}>) => {
 	return (
 		<Box
 			className={
@@ -12,9 +17,10 @@ export const ElevatedCard = ({
 				className
 			}
 			style={{
-				borderLeftWidth: 6,
-				borderBottomWidth: 6,
+				// borderLeftWidth: 6,
+				// borderBottomWidth: 6,
 				zIndex: 10,
+				...(style ?? {}),
 			}}
 		>
 			{children}

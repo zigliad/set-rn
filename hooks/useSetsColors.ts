@@ -9,16 +9,16 @@ export const colors = [
 	["#FF006E", "#8338EC", "#FFBE0B"],
 ];
 
-// export const useSetColors = () => {
-// 	const setColorsIndex = UIStore.useState((s) => s.setColorsIndex);
-// 	const change = (index: number) => {
-// 		UIStore.update((s) => {
-// 			set(SET_COLORS_INDEX_KEY, index);
-// 			s.setColorsIndex = index;
-// 		});
-// 	};
+export const useSetColors = () => {
+	const setColorsIndex = 0; //UIStore.useState((s) => s.setColorsIndex);
+	const change = (index: number) => {
+		// UIStore.update((s) => {
+		// 	set(SET_COLORS_INDEX_KEY, index);
+		// 	s.setColorsIndex = index;
+		// });
+	};
 
-// 	const next = () => change((setColorsIndex + 1) % colors.length);
+	const next = () => change((setColorsIndex + 1) % colors.length);
 
-// 	return { colors: colors[setColorsIndex], next, change };
-// };
+	return { colors: colors[setColorsIndex], next, change };
+};

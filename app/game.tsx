@@ -17,7 +17,10 @@ export default function Game() {
 	return (
 		<SafeAreaView className="bg-background-base w-full h-full">
 			<ModeContext.Provider value={modeData}>
-				<HStack className="h-full w-full pt-4 pb-2 flex justify-center items-center">
+				<HStack
+					className="h-full w-full pt-4 pb-2 flex justify-center items-center"
+					space="lg"
+				>
 					<GameGrid />
 					<GameBar />
 				</HStack>
