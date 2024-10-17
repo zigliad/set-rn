@@ -61,7 +61,6 @@ export const GameGrid = () => {
 			data={modeData.deck.cards}
 			scrollEnabled={false}
 			keyExtractor={(item) => item.attributes.join("")}
-			// contentContainerStyle={{ margin: -CARD_PADDING }}
 			renderItem={({ item, index }) => {
 				if (gridSize) {
 					const cardSize = {

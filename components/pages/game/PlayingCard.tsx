@@ -5,7 +5,6 @@ import { ElevatedCard } from "@/components/ElevatedCard";
 import { useSetColors } from "@/hooks/useSetsColors";
 
 import { Center } from "@/components/ui/center";
-import { Text } from "@/components/ui/text";
 import cardsSvgs from "@/utils/svgsLoader";
 import { Pressable } from "react-native";
 
@@ -39,7 +38,7 @@ export const PlayingCard = ({
 			<ElevatedCard
 				key={cardString}
 				className={
-					"flex items-center justify-center rounded-xl transform transition-all " +
+					"flex items-center justify-center rounded-xl transform transition-all scale-100 " +
 					(picked ? "scale-75" : "")
 				}
 				style={{ ...size }}
