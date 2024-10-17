@@ -4,11 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Center } from "@/components/ui/center";
 import { Icon } from "@/components/ui/icon";
 import { Text } from "@/components/ui/text";
-import { VStack } from "@/components/ui/vstack";
 import { useMode } from "@/modes/context/context";
 import { router } from "expo-router";
 import { CircleArrowLeft, Info, RotateCcw } from "lucide-react-native";
 import React, { useState } from "react";
+
+const iconClassName = "w-7 h-7";
 
 export const GameBar = () => {
 	const modeData = useMode();
@@ -26,7 +27,7 @@ export const GameBar = () => {
 						router.back();
 					}}
 				>
-					<Icon as={Info} size={25} />
+					<Icon as={Info} className={iconClassName} />
 				</Button>
 				<Button
 					variant="link"
@@ -34,7 +35,7 @@ export const GameBar = () => {
 						modeData.newGame();
 					}}
 				>
-					<Icon as={RotateCcw} size={25} />
+					<Icon as={RotateCcw} className={iconClassName} />
 				</Button>
 			</Box>
 			<Center
@@ -62,7 +63,7 @@ export const GameBar = () => {
 					router.back();
 				}}
 			>
-				<Icon as={CircleArrowLeft} size={25} />
+				<Icon as={CircleArrowLeft} className={iconClassName} />
 			</Button>
 		</ElevatedCard>
 	);
