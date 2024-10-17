@@ -28,20 +28,23 @@ export const PlayingCard = ({
 	const imageCardString = cardString.slice(0, 3); // For the image, ignore the color attribute
 	const CardImage = cardsSvgs[imageCardString];
 
-	// const borderColor =
-	// 	cardString.length >= 5
-	// 		? colors[+cardString.charAt(4) - 1]
-	// 		: "transparent";
+	const borderColor =
+		cardString.length >= 5
+			? colors[+cardString.charAt(4) - 1]
+			: "transparent";
 
 	return (
 		<Pressable onPress={onPress}>
 			<ElevatedCard
-				key={cardString}
 				className={
 					"flex items-center justify-center rounded-xl transform transition-all scale-100 " +
 					(picked ? "scale-75" : "")
 				}
-				style={{ ...size }}
+				style={{
+					...size,
+					// borderLeftColor: borderColor,
+					// borderBottomColor: borderColor,
+				}}
 			>
 				<Center className="rotate-90 w-full h-full">
 					<CardImage

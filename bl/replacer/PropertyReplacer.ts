@@ -23,7 +23,10 @@ export default class PropertyReplacer extends Replacer {
 			}
 		});
 
-		if (deck.countSets() < this.minSets) {
+		if (
+			deck.countSets() < this.minSets ||
+			new Set(deck.cards.map((card) => card.toString())).size < deck.size
+		) {
 			this.replace(indexes, deck);
 		}
 	}

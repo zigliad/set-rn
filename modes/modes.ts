@@ -20,7 +20,7 @@ export const modes: Record<Modes, Supplier<Mode>> = {
 	time60Attributes5: createTimeMode(4, 60, 5),
 	static6: createStaticMode(6, 8),
 	race5: createRaceMode(5, 30),
-	disco: createDiscoMode(4, 60),
+	disco: createDiscoMode(4, 60, 5),
 	relax: createRelaxMode(4),
 	relaxHard: createRelaxMode(2, 5),
 };
