@@ -26,7 +26,7 @@ export default function Index() {
 				>
 					SET
 				</Heading>
-				<HStack className="w-9/12 self-end">
+				<HStack className="w-5/6 self-end">
 					<GridActions />
 				</HStack>
 				<ConfettiCannon

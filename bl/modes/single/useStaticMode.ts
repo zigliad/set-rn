@@ -1,5 +1,6 @@
 import DeckGenerator from "@/bl/generators/deck/DeckGenerator";
 import { useSinglePlayerMode } from "@/bl/modes/single/useSinglePlayerMode";
+import { GameResult } from "@/modes/types/types";
 import useSet from "react-use/lib/useSet";
 
 export const useStaticMode = (
@@ -9,6 +10,8 @@ export const useStaticMode = (
 	const {
 		gameEnded,
 		setGameEnded,
+		gameResult,
+		setGameResult,
 		deck,
 		brain,
 		newGame: baseNewGame,
@@ -31,6 +34,7 @@ export const useStaticMode = (
 			if (!has(setString)) {
 				if (sets.size + 1 === totalSets) {
 					setGameEnded(true);
+					setGameResult(GameResult.win);
 				}
 
 				add(setString);
@@ -42,6 +46,7 @@ export const useStaticMode = (
 
 	return {
 		gameEnded,
+		gameResult,
 		deck,
 		brain,
 		newGame,

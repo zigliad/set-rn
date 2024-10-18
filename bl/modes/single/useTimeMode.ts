@@ -12,6 +12,8 @@ export const useTimeMode = (
 	const {
 		gameEnded,
 		setGameEnded,
+		gameResult,
+		setGameResult,
 		deck,
 		brain,
 		newGame: baseNewGame,
@@ -28,7 +30,7 @@ export const useTimeMode = (
 			}
 			decTime();
 		},
-		gameEnded ? null : 1_000
+		gameEnded ? null : 1000
 	);
 
 	const newGame = () => {

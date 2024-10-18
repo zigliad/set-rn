@@ -1,13 +1,16 @@
 import DeckGenerator from "@/bl/generators/deck/DeckGenerator";
 import { Set } from "@/bl/types/set";
+import { GameResult } from "@/modes/types/types";
 import { useState } from "react";
 
 export const useSinglePlayerMode = (deckGenerator: DeckGenerator) => {
-	const [gameEnded, setGameEnded] = useState(true);
+	const [gameEnded, setGameEnded] = useState(false);
+	const [gameResult, setGameResult] = useState<GameResult>();
 	const [deck, setDeck] = useState(deckGenerator.generate());
 
 	const newGame = () => {
 		setGameEnded(false);
+		setGameResult(undefined);
 		setDeck(deckGenerator.generate());
 	};
 
@@ -27,6 +30,8 @@ export const useSinglePlayerMode = (deckGenerator: DeckGenerator) => {
 	return {
 		gameEnded,
 		setGameEnded,
+		gameResult,
+		setGameResult,
 		deck,
 		brain: deck.brain,
 		newGame,

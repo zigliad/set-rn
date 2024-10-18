@@ -5,6 +5,8 @@ import { ElevatedCard } from "@/components/ElevatedCard";
 import { useSetColors } from "@/hooks/useSetsColors";
 
 import { Center } from "@/components/ui/center";
+import { sounds } from "@/constants/sounds";
+import { playSound } from "@/utils/soundPlayer";
 import cardsSvgs from "@/utils/svgsLoader";
 import { Pressable } from "react-native";
 
@@ -34,7 +36,12 @@ export const PlayingCard = ({
 			: "transparent";
 
 	return (
-		<Pressable onPress={onPress}>
+		<Pressable
+			onPress={async () => {
+				await playSound(sounds.click);
+				onPress();
+			}}
+		>
 			<ElevatedCard
 				className={
 					"flex items-center justify-center rounded-xl transform transition-all scale-100 " +

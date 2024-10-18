@@ -1,10 +1,13 @@
+import { AwesomeModal } from "@/components/awesome-modal/AwesomeModal";
 import { ElevatedCard } from "@/components/ElevatedCard";
 import { Box } from "@/components/ui/box";
 import { Button } from "@/components/ui/button";
 import { Center } from "@/components/ui/center";
 import { Icon } from "@/components/ui/icon";
 import { Text } from "@/components/ui/text";
+import { sounds } from "@/constants/sounds";
 import { useMode } from "@/modes/context/context";
+import { playSound } from "@/utils/soundPlayer";
 import { router } from "expo-router";
 import { CircleArrowLeft, Info, RotateCcw } from "lucide-react-native";
 import React, { useState } from "react";
@@ -13,6 +16,7 @@ const iconClassName = "w-7 h-7";
 
 export const GameBar = () => {
 	const modeData = useMode();
+	const [visibleModal, setVisibleModal] = useState(false);
 	const [textBoxSize, setTextBoxSize] = useState<{
 		width: number;
 		height: number;
@@ -24,15 +28,16 @@ export const GameBar = () => {
 				<Button
 					variant="link"
 					onPress={() => {
-						router.back();
+						setVisibleModal(true);
 					}}
 				>
 					<Icon as={Info} className={iconClassName} />
 				</Button>
 				<Button
 					variant="link"
-					onPress={() => {
+					onPress={async () => {
 						modeData.newGame();
+						await playSound(sounds.restart);
 					}}
 				>
 					<Icon as={RotateCcw} className={iconClassName} />
@@ -65,6 +70,7 @@ export const GameBar = () => {
 			>
 				<Icon as={CircleArrowLeft} className={iconClassName} />
 			</Button>
+			{/* <AwesomeModal visible={visibleModal} /> */}
 		</ElevatedCard>
 	);
 };

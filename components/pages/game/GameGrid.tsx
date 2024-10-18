@@ -3,40 +3,50 @@ import { PlayingCard } from "@/components/pages/game/PlayingCard";
 import { Box } from "@/components/ui/box";
 import { Center } from "@/components/ui/center";
 import { Text } from "@/components/ui/text";
+import { sounds } from "@/constants/sounds";
 import { useMode } from "@/modes/context/context";
-import React, { useState } from "react";
+import { GameResult } from "@/modes/types/types";
+import { playSound } from "@/utils/soundPlayer";
+import React, { useEffect, useState } from "react";
 import { FlatGrid } from "react-native-super-grid";
 import useList from "react-use/lib/useList";
 
 const SPACING = 12;
-const CARD_PADDING = 6;
 
 export const GameGrid = () => {
 	const modeData = useMode();
 
-	const { deck, checkSet, gameEnded, endgameTitle } = useMode();
+	const { deck, checkSet, gameEnded, endgameTitle, gameResult } = useMode();
 	const [picked, { push, removeAt, reset }] = useList<number>([]);
 	const [gridSize, setGridSize] = useState<{
 		width: number;
 		height: number;
 	}>();
 
-	const cardClicked = (index: number) => {
+	const cardClicked = async (index: number) => {
 		const indexOfIndex = picked.indexOf(index);
 		if (indexOfIndex > -1) {
 			removeAt(indexOfIndex);
 		} else {
 			const pickedCloned = [...picked, index];
 			push(index);
-			const isSet = checkSet(pickedCloned);
 			if (pickedCloned.length === deck.brain.setSize) {
 				setTimeout(reset, 200);
-			}
-
-			if (isSet) {
+				const isSet = checkSet(pickedCloned);
+				await playSound(isSet ? sounds.setFound : sounds.error);
 			}
 		}
 	};
+
+	useEffect(() => {
+		if (gameEnded) {
+			(async () => {
+				await playSound(
+					gameResult === GameResult.lose ? sounds.lose : sounds.win
+				);
+			})();
+		}
+	}, [gameEnded, gameResult]);
 
 	if (gameEnded) {
 		return (

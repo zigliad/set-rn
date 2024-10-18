@@ -1,7 +1,7 @@
 import DeckGenerator from "@/bl/generators/deck/DeckGenerator";
 import { useSinglePlayerMode } from "@/bl/modes/single/useSinglePlayerMode";
 import Replacer from "@/bl/replacer/Replacer";
-import { useState } from "react";
+import { GameResult } from "@/modes/types/types";
 import useCounter from "react-use/lib/useCounter";
 import useInterval from "react-use/lib/useInterval";
 
@@ -14,6 +14,8 @@ export const useRaceMode = (
 	const {
 		gameEnded,
 		setGameEnded,
+		gameResult,
+		setGameResult,
 		deck,
 		brain,
 		newGame: baseNewGame,
@@ -23,24 +25,24 @@ export const useRaceMode = (
 	const [time, { dec: decTime, reset: resetTime, set: setTime }] =
 		useCounter(maxTime);
 	const [score, { inc: incScore, reset: resetScore }] = useCounter(0);
-	const [won, setWon] = useState(false);
 
 	useInterval(
 		() => {
 			if (time <= 0) {
 				setTime(0);
 				setGameEnded(true);
+				setGameResult(GameResult.lose);
+			} else {
+				decTime(0.1);
 			}
-			decTime(0.01);
 		},
-		gameEnded ? null : 10
+		gameEnded ? null : 100
 	);
 
 	const newGame = () => {
 		baseNewGame();
 		resetTime();
 		resetScore();
-		setWon(false);
 	};
 
 	const checkSet = (indexes: number[]) => {
@@ -48,7 +50,7 @@ export const useRaceMode = (
 		if (isSet) {
 			if (score + 1 === goal) {
 				setGameEnded(true);
-				setWon(true);
+				setGameResult(GameResult.win);
 			}
 			incScore();
 			replacer.replace(indexes, deck);
@@ -59,17 +61,19 @@ export const useRaceMode = (
 
 	return {
 		gameEnded,
+		gameResult,
 		deck,
 		brain,
 		newGame,
 		checkSet,
 		rules: `Find ${goal} sets before the clock strikes zero!`,
 		title: `${score} / ${goal} sets, ${time.toFixed(1)}`,
-		endgameTitle: won
-			? `You did it!\n${goal} sets in ${(maxTime - time).toFixed(
-					2
-				)} seconds!`
-			: "Better luck next time...",
+		endgameTitle:
+			gameResult === GameResult.win
+				? `You did it!\n${goal} sets in ${(maxTime - time).toFixed(
+						2
+					)} seconds!`
+				: "Better luck next time...",
 		name: "Race Mode",
 	};
 };

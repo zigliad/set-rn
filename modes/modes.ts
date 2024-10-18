@@ -10,6 +10,7 @@ export type Modes =
 	| "time60"
 	| "time60Attributes5"
 	| "static6"
+	| "static8"
 	| "race5"
 	| "disco"
 	| "relax"
@@ -19,6 +20,7 @@ export const modes: Record<Modes, Supplier<Mode>> = {
 	time60: createTimeMode(4, 60),
 	time60Attributes5: createTimeMode(4, 60, 5),
 	static6: createStaticMode(6, 8),
+	static8: createStaticMode(8, 8),
 	race5: createRaceMode(5, 30),
 	disco: createDiscoMode(4, 60, 5),
 	relax: createRelaxMode(4),

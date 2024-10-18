@@ -1,6 +1,7 @@
 import DeckGenerator from "@/bl/generators/deck/DeckGenerator";
 import { useSinglePlayerMode } from "@/bl/modes/single/useSinglePlayerMode";
 import Replacer from "@/bl/replacer/Replacer";
+import { GameResult } from "@/modes/types/types";
 import useCounter from "react-use/lib/useCounter";
 import useInterval from "react-use/lib/useInterval";
 
@@ -14,6 +15,8 @@ export const useDiscoMode = (
 	const {
 		gameEnded,
 		setGameEnded,
+		gameResult,
+		setGameResult,
 		deck,
 		brain,
 		newGame: baseNewGame,
@@ -27,10 +30,11 @@ export const useDiscoMode = (
 		() => {
 			if (timeLeft === 1) {
 				setGameEnded(true);
+				setGameResult(GameResult.win);
 			}
 			decTime();
 		},
-		gameEnded ? null : 1_000
+		gameEnded ? null : 1000
 	);
 
 	useInterval(
@@ -40,7 +44,7 @@ export const useDiscoMode = (
 				deck
 			);
 		},
-		gameEnded ? null : discoIntervalSeconds * 1_000
+		gameEnded ? null : discoIntervalSeconds * 1000
 	);
 
 	const newGame = () => {
@@ -61,6 +65,7 @@ export const useDiscoMode = (
 
 	return {
 		gameEnded,
+		gameResult,
 		deck,
 		brain,
 		newGame,
