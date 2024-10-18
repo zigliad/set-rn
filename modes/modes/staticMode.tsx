@@ -13,7 +13,8 @@ export const createStaticMode = (
 	totalSets: number,
 	minSets?: number,
 	attributesCount: number = 4,
-	optionsCount: number = 3
+	optionsCount: number = 3,
+	storageKey?: string
 ) => {
 	const useStaticModeX = () => {
 		const gameParts = useMemo(() => {
@@ -53,7 +54,7 @@ export const createStaticMode = (
 			};
 		}, []);
 
-		return useStaticMode(gameParts.deckGenerator, totalSets);
+		return useStaticMode(gameParts.deckGenerator, totalSets, storageKey);
 	};
 
 	return useStaticModeX;

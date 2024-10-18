@@ -5,7 +5,7 @@ import { Center } from "@/components/ui/center";
 import { Heading } from "@/components/ui/heading";
 import { Image } from "@/components/ui/image";
 import { VStack } from "@/components/ui/vstack";
-import { modesConfig } from "@/modes/config";
+import { modesConfig } from "@/modes/modesConfig";
 import { Link } from "expo-router";
 import React from "react";
 import { FlatGrid } from "react-native-super-grid";

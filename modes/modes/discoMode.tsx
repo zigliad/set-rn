@@ -5,8 +5,9 @@ import { useInitGameParts } from "@/hooks/useInitGameParts";
 export const createDiscoMode = (
 	x: number,
 	seconds: number,
-	discoIntervalSeconds: number = 6,
-	attributesCount = 4
+	discoIntervalSeconds: number = 5,
+	attributesCount = 4,
+	storageKey?: string
 ) => {
 	const useDiscoModeX = () => {
 		const { deckGenerator, replacer } = useInitGameParts({
@@ -19,7 +20,8 @@ export const createDiscoMode = (
 			replacer,
 			seconds,
 			new PropertyReplacer(x, 3),
-			discoIntervalSeconds
+			discoIntervalSeconds,
+			storageKey
 		);
 	};
 

@@ -1,4 +1,3 @@
-import { gameColors } from "@/assets/game-colors/gameColors";
 import { GridActions } from "@/components/pages/home/GridActions";
 import { Heading } from "@/components/ui/heading";
 import { HStack } from "@/components/ui/hstack";
@@ -29,7 +28,7 @@ export default function Index() {
 				<HStack className="w-5/6 self-end">
 					<GridActions />
 				</HStack>
-				<ConfettiCannon
+				{/* <ConfettiCannon
 					ref={confettiRef}
 					count={40}
 					autoStartDelay={0}
@@ -39,7 +38,7 @@ export default function Index() {
 					explosionSpeed={1000}
 					fadeOut
 					onAnimationEnd={() => confettiRef.current?.start()}
-				/>
+				/> */}
 			</View>
 		</SafeAreaView>
 	);

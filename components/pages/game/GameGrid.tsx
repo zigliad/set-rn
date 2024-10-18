@@ -1,3 +1,4 @@
+import { Set as CardsSet } from "@/bl/types/set";
 import { ElevatedCard } from "@/components/ElevatedCard";
 import { PlayingCard } from "@/components/pages/game/PlayingCard";
 import { Box } from "@/components/ui/box";
@@ -7,11 +8,30 @@ import { sounds } from "@/constants/sounds";
 import { useMode } from "@/modes/context/context";
 import { GameResult } from "@/modes/types/types";
 import { playSound } from "@/utils/soundPlayer";
+import {
+	getData,
+	getObjectData,
+	StorageKey,
+	storeData,
+	storeObjectData,
+} from "@/utils/storage";
 import React, { useEffect, useState } from "react";
 import { FlatGrid } from "react-native-super-grid";
 import useList from "react-use/lib/useList";
 
 const SPACING = 12;
+
+const setFound = async (set: CardsSet) => {
+	const totalSetsFound = (await getData(StorageKey.totalSetsFound)) ?? 0;
+	await storeData(StorageKey.totalSetsFound, +totalSetsFound + 1);
+
+	if (set[0].attributes.length === 4) {
+		const setString = set.map((c) => c.toString()).join(":");
+		const setsFound = (await getObjectData(StorageKey.setsFound)) ?? [];
+		const newSetsFound = new Set([...setsFound, setString]);
+		await storeObjectData(StorageKey.setsFound, Array.from(newSetsFound));
+	}
+};
 
 export const GameGrid = () => {
 	const modeData = useMode();
@@ -32,8 +52,9 @@ export const GameGrid = () => {
 			push(index);
 			if (pickedCloned.length === deck.brain.setSize) {
 				setTimeout(reset, 200);
-				const isSet = checkSet(pickedCloned);
+				const { isSet, set } = await checkSet(pickedCloned);
 				await playSound(isSet ? sounds.setFound : sounds.error);
+				if (isSet && set) await setFound(set);
 			}
 		}
 	};

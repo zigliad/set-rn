@@ -1,5 +1,6 @@
 import Brain from "@/bl/brain/Brain";
 import Deck from "@/bl/deck/Deck";
+import { Set } from "@/bl/types/set";
 import { Function } from "@/extra-types/utils/functions";
 import { DispatchWithoutAction } from "react";
 
@@ -14,7 +15,7 @@ export type Mode = {
 	deck: Deck;
 	brain: Brain;
 	newGame: DispatchWithoutAction;
-	checkSet: Function<number[], boolean>;
+	checkSet: Function<number[], Promise<{ isSet: boolean; set?: Set }>>;
 	rules: string;
 	name: string;
 	title: string;

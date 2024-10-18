@@ -22,14 +22,14 @@ export const useRelaxMode = (
 		setAvailableSets(deck.countSets());
 	};
 
-	const checkSet = (indexes: number[]) => {
-		const [isSet] = baseCheckSet(indexes);
-		if (isSet) {
+	const checkSet = async (indexes: number[]) => {
+		const result = baseCheckSet(indexes);
+		if (result.isSet) {
 			replacer.replace(indexes, deck);
 			setAvailableSets(deck.countSets());
 		}
 
-		return isSet;
+		return result;
 	};
 
 	return {

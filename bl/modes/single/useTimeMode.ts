@@ -1,37 +1,30 @@
 import DeckGenerator from "@/bl/generators/deck/DeckGenerator";
 import { useSinglePlayerMode } from "@/bl/modes/single/useSinglePlayerMode";
 import Replacer from "@/bl/replacer/Replacer";
+import { GameResult } from "@/modes/types/types";
+import { getData } from "@/utils/storage";
+import { useCallback } from "react";
 import useCounter from "react-use/lib/useCounter";
 import useInterval from "react-use/lib/useInterval";
 
 export const useTimeMode = (
 	deckGenerator: DeckGenerator,
 	replacer: Replacer,
-	seconds: number
+	seconds: number,
+	storageKey?: string
 ) => {
 	const {
 		gameEnded,
-		setGameEnded,
 		gameResult,
-		setGameResult,
 		deck,
 		brain,
 		newGame: baseNewGame,
+		endGame: baseEndGame,
 		checkSet: baseCheckSet,
-	} = useSinglePlayerMode(deckGenerator);
+	} = useSinglePlayerMode(deckGenerator, storageKey);
 
 	const [timeLeft, { dec: decTime, reset: resetTime }] = useCounter(seconds);
 	const [score, { inc: incScore, reset: resetScore }] = useCounter(0);
-
-	useInterval(
-		() => {
-			if (timeLeft === 1) {
-				setGameEnded(true);
-			}
-			decTime();
-		},
-		gameEnded ? null : 1000
-	);
 
 	const newGame = () => {
 		baseNewGame();
@@ -39,18 +32,37 @@ export const useTimeMode = (
 		resetScore();
 	};
 
-	const checkSet = (indexes: number[]) => {
-		const [isSet] = baseCheckSet(indexes);
-		if (isSet) {
+	const endGame = useCallback(
+		async (result?: GameResult) => {
+			const best = await getData(storageKey);
+			baseEndGame(result, score > +(best ?? 0) ? score : undefined);
+		},
+		[baseEndGame, storageKey]
+	);
+
+	useInterval(
+		async () => {
+			if (timeLeft === 1) {
+				await endGame();
+			}
+			decTime();
+		},
+		gameEnded ? null : 1000
+	);
+
+	const checkSet = async (indexes: number[]) => {
+		const result = baseCheckSet(indexes);
+		if (result.isSet) {
 			incScore();
 			replacer.replace(indexes, deck);
 		}
 
-		return isSet;
+		return result;
 	};
 
 	return {
 		gameEnded,
+		gameResult,
 		deck,
 		brain,
 		newGame,
