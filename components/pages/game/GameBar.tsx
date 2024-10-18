@@ -44,7 +44,7 @@ export const GameBar = () => {
 				</Button>
 			</Box>
 			<Center
-				className="-rotatex-90 flex-1 flex-1 "
+				className="flex-1"
 				onLayout={(event) => {
 					event.target.measure((x, y, width, height) => {
 						if (!textBoxSize) setTextBoxSize({ width, height });
@@ -57,6 +57,7 @@ export const GameBar = () => {
 					style={{
 						width: textBoxSize?.height,
 						height: "auto",
+						fontFamily: "PlayfairDisplay_Medium",
 					}}
 				>
 					{modeData.title}

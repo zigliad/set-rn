@@ -39,10 +39,10 @@ export const modesConfig: ModeConfig[] = [
 		Icon: require("@/assets/images/mode-icons/8-ball.png"),
 	},
 	{
-		title: "Race",
+		title: "High-5",
 		mode: "race5",
 		// Icon: EmojiFlagsRoundedIcon,
-		Icon: require("@/assets/images/mode-icons/relax.png"),
+		Icon: require("@/assets/images/mode-icons/high-5.png"),
 	},
 	{
 		title: "Disco",
