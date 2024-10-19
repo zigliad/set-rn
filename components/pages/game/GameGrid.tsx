@@ -1,4 +1,8 @@
 import { Set as CardsSet } from "@/bl/types/set";
+import {
+	AwesomeModal,
+	ModalType,
+} from "@/components/awesome-modal/AwesomeModal";
 import { ElevatedCard } from "@/components/ElevatedCard";
 import { PlayingCard } from "@/components/pages/game/PlayingCard";
 import { Box } from "@/components/ui/box";
@@ -59,9 +63,12 @@ export const GameGrid = () => {
 		}
 	};
 
+	const [visibleModal, setVisibleModal] = useState(false);
+
 	useEffect(() => {
 		if (gameEnded) {
 			(async () => {
+				setVisibleModal(true);
 				await playSound(
 					gameResult === GameResult.lose ? sounds.lose : sounds.win
 				);
@@ -69,47 +76,51 @@ export const GameGrid = () => {
 		}
 	}, [gameEnded, gameResult]);
 
-	if (gameEnded) {
-		return (
-			<Center className="w-full h-full">
-				<ElevatedCard className="p-8">
-					<Text>{endgameTitle}</Text>
-				</ElevatedCard>
-			</Center>
-		);
-	}
-
 	return (
-		<FlatGrid
-			className="h-full"
-			onLayout={(event) => {
-				event.target.measure((x, y, width, height) => {
-					setGridSize({ width, height });
-				});
-			}}
-			maxItemsPerRow={4}
-			spacing={SPACING}
-			data={modeData.deck.cards}
-			scrollEnabled={false}
-			keyExtractor={(item) => item.attributes.join("")}
-			renderItem={({ item, index }) => {
-				if (gridSize) {
-					const cardSize = {
-						width: (gridSize.width - 5 * SPACING) / 4,
-						height: (gridSize.height - 4 * SPACING) / 3,
-					};
-					return (
-						<PlayingCard
-							card={item}
-							onPress={() => cardClicked(index)}
-							picked={picked.indexOf(index) > -1}
-							size={cardSize}
-						/>
-					);
-				}
+		<>
+			<FlatGrid
+				className="h-full"
+				onLayout={(event) => {
+					event.target.measure((x, y, width, height) => {
+						setGridSize({ width, height });
+					});
+				}}
+				maxItemsPerRow={4}
+				spacing={SPACING}
+				data={modeData.deck.cards}
+				scrollEnabled={false}
+				keyExtractor={(item) => item.attributes.join("")}
+				renderItem={({ item, index }) => {
+					if (gridSize) {
+						const cardSize = {
+							width: (gridSize.width - 5 * SPACING) / 4,
+							height: (gridSize.height - 4 * SPACING) / 3,
+						};
+						return (
+							<PlayingCard
+								card={item}
+								onPress={() => cardClicked(index)}
+								picked={picked.indexOf(index) > -1}
+								size={cardSize}
+							/>
+						);
+					}
 
-				return <Box />;
-			}}
-		/>
+					return <Box />;
+				}}
+			/>
+			<AwesomeModal
+				visible={visibleModal}
+				onResolve={async () => {
+					setVisibleModal(false);
+					modeData.newGame();
+					await playSound(sounds.restart);
+				}}
+				header={gameResult === GameResult.win ? "You Won" : "You Lose"}
+				content={modeData.endgameTitle}
+				type={gameResult === GameResult.win ? "success" : "error"}
+				buttonText={"Play Again"}
+			/>
+		</>
 	);
 };

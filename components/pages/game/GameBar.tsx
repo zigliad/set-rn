@@ -71,7 +71,14 @@ export const GameBar = () => {
 			>
 				<Icon as={CircleArrowLeft} className={iconClassName} />
 			</Button>
-			{/* <AwesomeModal visible={visibleModal} /> */}
+			<AwesomeModal
+				visible={visibleModal}
+				onResolve={() => setVisibleModal(false)}
+				type="info"
+				header="Rules"
+				content={modeData.rules}
+				backdropOnResolve
+			/>
 		</ElevatedCard>
 	);
 };
