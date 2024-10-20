@@ -1,16 +1,10 @@
 import { Set as CardsSet } from "@/bl/types/set";
-import {
-	AwesomeModal,
-	ModalType,
-} from "@/components/awesome-modal/AwesomeModal";
-import { ElevatedCard } from "@/components/ElevatedCard";
+import { AwesomeModal } from "@/components/awesome-modal/AwesomeModal";
 import { PlayingCard } from "@/components/pages/game/PlayingCard";
 import { Box } from "@/components/ui/box";
-import { Center } from "@/components/ui/center";
-import { Text } from "@/components/ui/text";
 import { sounds } from "@/constants/sounds";
-import { useMode } from "@/modes/context/context";
-import { GameResult } from "@/modes/types/types";
+import { useMode } from "@/modes/modesContext";
+import { GameResult } from "@/modes/modeTypes";
 import { playSound } from "@/utils/soundPlayer";
 import {
 	getData,
@@ -30,7 +24,10 @@ const setFound = async (set: CardsSet) => {
 	await storeData(StorageKey.totalSetsFound, +totalSetsFound + 1);
 
 	if (set[0].attributes.length === 4) {
-		const setString = set.map((c) => c.toString()).join(":");
+		const setString = set
+			.map((c) => c.toString())
+			.sort()
+			.join(":");
 		const setsFound = (await getObjectData(StorageKey.setsFound)) ?? [];
 		const newSetsFound = new Set([...setsFound, setString]);
 		await storeObjectData(StorageKey.setsFound, Array.from(newSetsFound));
@@ -38,9 +35,16 @@ const setFound = async (set: CardsSet) => {
 };
 
 export const GameGrid = () => {
-	const modeData = useMode();
+	const {
+		checkSet,
+		gameEnded,
+		endgameTitle,
+		endgameContent,
+		gameResult,
+		deck,
+		newGame,
+	} = useMode();
 
-	const { deck, checkSet, gameEnded, endgameTitle, gameResult } = useMode();
 	const [picked, { push, removeAt, reset }] = useList<number>([]);
 	const [gridSize, setGridSize] = useState<{
 		width: number;
@@ -87,7 +91,7 @@ export const GameGrid = () => {
 				}}
 				maxItemsPerRow={4}
 				spacing={SPACING}
-				data={modeData.deck.cards}
+				data={deck.cards}
 				scrollEnabled={false}
 				keyExtractor={(item) => item.attributes.join("")}
 				renderItem={({ item, index }) => {
@@ -113,11 +117,11 @@ export const GameGrid = () => {
 				visible={visibleModal}
 				onResolve={async () => {
 					setVisibleModal(false);
-					modeData.newGame();
+					newGame();
 					await playSound(sounds.restart);
 				}}
-				header={gameResult === GameResult.win ? "You Won" : "You Lose"}
-				content={modeData.endgameTitle}
+				header={endgameTitle}
+				content={endgameContent}
 				type={gameResult === GameResult.win ? "success" : "error"}
 				buttonText={"Play Again"}
 			/>

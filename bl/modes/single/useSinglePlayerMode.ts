@@ -1,5 +1,5 @@
 import DeckGenerator from "@/bl/generators/deck/DeckGenerator";
-import { GameResult } from "@/modes/types/types";
+import { GameResult } from "@/modes/modeTypes";
 import { storeData } from "@/utils/storage";
 import { useCallback, useState } from "react";
 

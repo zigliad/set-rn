@@ -1,23 +1,33 @@
-import { gameColors } from "@/assets/game-colors/gameColors";
-import { Avatar, AvatarFallbackText } from "@/components/ui/avatar";
+import { Avatar } from "@/components/ui/avatar";
 import { Box } from "@/components/ui/box";
 import { Center } from "@/components/ui/center";
 import { Heading } from "@/components/ui/heading";
 import { Image } from "@/components/ui/image";
 import { VStack } from "@/components/ui/vstack";
-import { modesConfig } from "@/modes/modesConfig";
-import { Link } from "expo-router";
-import React from "react";
+import { sounds } from "@/constants/sounds";
+import { useColors } from "@/hooks/useInitColors";
+import { playSound } from "@/utils/soundPlayer";
+import React, { DispatchWithoutAction } from "react";
+import { ImageURISource, Pressable } from "react-native";
 import { FlatGrid } from "react-native-super-grid";
 
-export const GridActions = () => {
+export type GridAction = {
+	title: string;
+	Icon: ImageURISource;
+	onClick: DispatchWithoutAction;
+	key?: string;
+};
+
+export const GridActions = ({ actions }: { actions: GridAction[] }) => {
+	const { colors } = useColors();
+
 	return (
 		<FlatGrid
 			style={{ zIndex: 10 }}
 			itemDimension={100}
 			maxItemsPerRow={3}
 			spacing={20}
-			data={modesConfig}
+			data={actions}
 			renderItem={({ item, index }) => {
 				if (index === 0) return <Box />;
 				return (
@@ -28,13 +38,13 @@ export const GridActions = () => {
 							borderBottomWidth: 6,
 							zIndex: 10,
 						}}
-						key={item.mode}
+						key={item.key ?? item.title}
 					>
 						<Center className="h-full">
-							<Link
-								href={{
-									pathname: "/game",
-									params: { mode: item.mode },
+							<Pressable
+								onPress={async () => {
+									item.onClick();
+									await playSound(sounds.click);
 								}}
 							>
 								<VStack className="justify-center" space="md">
@@ -43,9 +53,7 @@ export const GridActions = () => {
 										style={{
 											overflow: "hidden",
 											borderColor:
-												gameColors[
-													index % gameColors.length
-												],
+												colors[index % colors.length],
 										}}
 									>
 										<Image
@@ -66,7 +74,7 @@ export const GridActions = () => {
 										</Heading>
 									</Center>
 								</VStack>
-							</Link>
+							</Pressable>
 						</Center>
 					</Box>
 				);

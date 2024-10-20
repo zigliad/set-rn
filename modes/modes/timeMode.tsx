@@ -1,6 +1,6 @@
 import { useTimeMode } from "@/bl/modes/single/useTimeMode";
 import { useInitGameParts } from "@/hooks/useInitGameParts";
-import { Mode } from "@/modes/types/types";
+import { Mode } from "@/modes/modeTypes";
 
 export const createTimeMode = (
 	x: number,

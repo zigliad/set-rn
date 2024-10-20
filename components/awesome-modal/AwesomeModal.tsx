@@ -7,6 +7,7 @@ import { Modal, ModalBackdrop, ModalContent } from "@/components/ui/modal";
 import { Text } from "@/components/ui/text";
 import { Check, Info, LucideIcon, TriangleAlert, X } from "lucide-react-native";
 import React, { DispatchWithoutAction } from "react";
+import { ScrollView } from "react-native";
 
 export type ModalType = "info" | "success" | "error" | "warning";
 
@@ -75,7 +76,6 @@ export const AwesomeModal = ({
 						style={{ backgroundColor: "#0f0" }}
 					>
 						<Center
-							// style={{ backgroundColor: "#ff0000" }}
 							className={
 								"w-20 h-20 rounded-full " +
 								(computedTailwindColor ?? "")
@@ -101,14 +101,16 @@ export const AwesomeModal = ({
 						>
 							{header}
 						</Heading>
-						<Text
-							className="text-center mt-2"
-							style={{
-								fontFamily: "PlayfairDisplay_Medium",
-							}}
-						>
-							{content}
-						</Text>
+						<ScrollView style={{ maxHeight: 120 }} className="px-4">
+							<Text
+								className="text-center mt-2"
+								style={{
+									fontFamily: "PlayfairDisplay_Medium",
+								}}
+							>
+								{content}
+							</Text>
+						</ScrollView>
 						<Button
 							size="md"
 							variant="solid"

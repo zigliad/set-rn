@@ -20,4 +20,5 @@ export type Mode = {
 	name: string;
 	title: string;
 	endgameTitle: string;
+	endgameContent: string;
 };

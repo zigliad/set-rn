@@ -6,6 +6,7 @@ import "react-native-reanimated";
 
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import "@/global.css";
+import { ColorsContext, useInitColors } from "@/hooks/useInitColors";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -22,18 +23,24 @@ export default function RootLayout() {
 		if (loaded) SplashScreen.hideAsync();
 	}, [loaded]);
 
+	const colors = useInitColors();
+
 	if (!loaded) return null;
 
 	return (
 		<GluestackUIProvider mode="system">
-			<Stack
-				screenOptions={{
-					headerShown: false,
-				}}
-			>
-				<Stack.Screen name="index" />
-				<Stack.Screen name="game" />
-			</Stack>
+			<ColorsContext.Provider value={colors}>
+				<Stack
+					screenOptions={{
+						headerShown: false,
+					}}
+				>
+					<Stack.Screen name="index" />
+					<Stack.Screen name="game" />
+					<Stack.Screen name="more" />
+					<Stack.Screen name="setsFound" />
+				</Stack>
+			</ColorsContext.Provider>
 		</GluestackUIProvider>
 	);
 }

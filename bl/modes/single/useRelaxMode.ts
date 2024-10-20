@@ -38,9 +38,10 @@ export const useRelaxMode = (
 		brain,
 		newGame,
 		checkSet,
-		rules: `There is no time nor score. Just find sets and relax.`,
+		rules: `There is no time nor score.\nJust find sets and relax.`,
 		title: `${availableSets} sets available`,
 		endgameTitle: `Wait, What?`,
+		endgameContent: "Wait, What?",
 		name: "Relax Mode",
 	};
 };

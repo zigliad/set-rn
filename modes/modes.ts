@@ -4,7 +4,7 @@ import { createRaceMode } from "@/modes/modes/raceMode";
 import { createRelaxMode } from "@/modes/modes/relaxMode";
 import { createStaticMode } from "@/modes/modes/staticMode";
 import { createTimeMode } from "@/modes/modes/timeMode";
-import { Mode } from "@/modes/types/types";
+import { Mode } from "@/modes/modeTypes";
 import { StorageKey } from "@/utils/storage";
 
 export type Modes =

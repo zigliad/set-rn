@@ -1,7 +1,7 @@
 import DeckGenerator from "@/bl/generators/deck/DeckGenerator";
 import { useSinglePlayerMode } from "@/bl/modes/single/useSinglePlayerMode";
 import Replacer from "@/bl/replacer/Replacer";
-import { GameResult } from "@/modes/types/types";
+import { GameResult } from "@/modes/modeTypes";
 import { getData } from "@/utils/storage";
 import { useCallback } from "react";
 import useCounter from "react-use/lib/useCounter";
@@ -69,7 +69,8 @@ export const useTimeMode = (
 		checkSet,
 		rules: `Find as many sets as you can in ${seconds} seconds!`,
 		title: `Score: ${score} - ${timeLeft} seconds left`,
-		endgameTitle: `Time's up!\nYour score is ${score}`,
+		endgameTitle: `Time's up!`,
+		endgameContent: `You found ${score} sets`,
 		name: "Time Mode",
 	};
 };

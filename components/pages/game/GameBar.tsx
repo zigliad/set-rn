@@ -6,7 +6,7 @@ import { Center } from "@/components/ui/center";
 import { Icon } from "@/components/ui/icon";
 import { Text } from "@/components/ui/text";
 import { sounds } from "@/constants/sounds";
-import { useMode } from "@/modes/context/context";
+import { useMode } from "@/modes/modesContext";
 import { playSound } from "@/utils/soundPlayer";
 import { router } from "expo-router";
 import { CircleArrowLeft, Info, RotateCcw } from "lucide-react-native";

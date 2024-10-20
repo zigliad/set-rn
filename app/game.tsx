@@ -1,8 +1,8 @@
 import { GameBar } from "@/components/pages/game/GameBar";
 import { GameGrid } from "@/components/pages/game/GameGrid";
 import { HStack } from "@/components/ui/hstack";
-import { ModeContext } from "@/modes/context/context";
 import { modes, Modes } from "@/modes/modes";
+import { ModeContext } from "@/modes/modesContext";
 import { useLocalSearchParams } from "expo-router";
 import React from "react";
 import { SafeAreaView } from "react-native";

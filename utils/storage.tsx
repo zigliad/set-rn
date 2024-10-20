@@ -8,6 +8,8 @@ export enum StorageKey {
 	disco60 = "disco60",
 	totalSetsFound = "totalSetsFound",
 	setsFound = "setsFound", // concrete sets values
+	colorIndex = "colorIndex",
+	muteSounds = "muteSounds",
 }
 
 export const storeData = async (key: string, value: string | number) => {

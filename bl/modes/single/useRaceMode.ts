@@ -1,7 +1,7 @@
 import DeckGenerator from "@/bl/generators/deck/DeckGenerator";
 import { useSinglePlayerMode } from "@/bl/modes/single/useSinglePlayerMode";
 import Replacer from "@/bl/replacer/Replacer";
-import { GameResult } from "@/modes/types/types";
+import { GameResult } from "@/modes/modeTypes";
 import { getData } from "@/utils/storage";
 import { useCallback } from "react";
 import useCounter from "react-use/lib/useCounter";
@@ -80,12 +80,11 @@ export const useRaceMode = (
 		checkSet,
 		rules: `Find ${goal} sets before the clock strikes zero!`,
 		title: `${score} / ${goal} sets, ${time.toFixed(1)}`,
-		endgameTitle:
+		endgameTitle: gameResult === GameResult.win ? "You Won" : "You Lose",
+		endgameContent:
 			gameResult === GameResult.win
-				? `You did it!\n${goal} sets in ${(maxTime - time).toFixed(
-						2
-					)} seconds!`
-				: "Better luck next time...",
+				? `${goal} sets in ${(maxTime - time).toFixed(2)} seconds!`
+				: `You found ${score}/${goal} sets in ${maxTime} seconds`,
 		name: "Race Mode",
 	};
 };

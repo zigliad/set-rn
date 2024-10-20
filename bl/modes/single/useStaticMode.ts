@@ -1,6 +1,6 @@
 import DeckGenerator from "@/bl/generators/deck/DeckGenerator";
 import { useSinglePlayerMode } from "@/bl/modes/single/useSinglePlayerMode";
-import { GameResult } from "@/modes/types/types";
+import { GameResult } from "@/modes/modeTypes";
 import { getData } from "@/utils/storage";
 import { useCallback } from "react";
 import useSet from "react-use/lib/useSet";
@@ -62,7 +62,8 @@ export const useStaticMode = (
 		checkSet,
 		rules: `There are many sets here.\nYour job is to find ${totalSets} of them.`,
 		title: `${sets.size} / ${totalSets} sets found`,
-		endgameTitle: `You did it!\nYou are the best!`,
+		endgameTitle: `You Won`,
+		endgameContent: `You found ${totalSets} sets`,
 		name: "Static Mode",
 	};
 };
