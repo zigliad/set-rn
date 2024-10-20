@@ -5,7 +5,13 @@ import { Heading } from "@/components/ui/heading";
 import { Icon } from "@/components/ui/icon";
 import { Modal, ModalBackdrop, ModalContent } from "@/components/ui/modal";
 import { Text } from "@/components/ui/text";
-import { Check, Info, LucideIcon, TriangleAlert, X } from "lucide-react-native";
+import {
+	BadgeInfo,
+	Check,
+	LucideIcon,
+	TriangleAlert,
+	X,
+} from "lucide-react-native";
 import React, { DispatchWithoutAction } from "react";
 import { ScrollView } from "react-native";
 
@@ -17,7 +23,7 @@ const modalTypeConfig: Record<
 > = {
 	info: {
 		tailwindColor: "bg-info-500",
-		icon: Info,
+		icon: BadgeInfo,
 	},
 	success: {
 		tailwindColor: "bg-success-400",
@@ -38,7 +44,7 @@ export const AwesomeModal = ({
 	onResolve,
 	header,
 	content,
-	type = "info",
+	type,
 	buttonText = "Ok",
 	color,
 	tailwindColor,
@@ -56,10 +62,12 @@ export const AwesomeModal = ({
 	icon?: LucideIcon;
 	backdropOnResolve?: boolean;
 }) => {
-	const computedColor = modalTypeConfig[type]?.color ?? color;
-	const computedTailwindColor =
-		modalTypeConfig[type]?.tailwindColor ?? tailwindColor;
-	const ComputedIcon = modalTypeConfig[type]?.icon ?? icon;
+	const computedType = !color && !tailwindColor ? (type ?? "info") : "info";
+	const computedColor = color ? color : modalTypeConfig[computedType].color;
+	const computedTailwindColor = tailwindColor
+		? tailwindColor
+		: modalTypeConfig[computedType].tailwindColor;
+	const computedIcon = icon ? icon : modalTypeConfig[computedType].icon;
 
 	return (
 		<Modal isOpen={visible}>
@@ -87,7 +95,7 @@ export const AwesomeModal = ({
 							}}
 						>
 							<Icon
-								as={ComputedIcon}
+								as={computedIcon}
 								className={"w-8 h-8 text-white"}
 							/>
 						</Center>
@@ -101,7 +109,10 @@ export const AwesomeModal = ({
 						>
 							{header}
 						</Heading>
-						<ScrollView style={{ maxHeight: 120 }} className="px-4">
+						<ScrollView
+							style={{ maxHeight: 120 }}
+							className="px-4 w-full"
+						>
 							<Text
 								className="text-center mt-2"
 								style={{

@@ -8,7 +8,7 @@ import {
 import React, { useCallback, useEffect, useState } from "react";
 
 export const useStorageState = (storageKey: StorageKey) => {
-	const [value, _setValue] = useState<string>("");
+	const [value, _setValue] = useState<string | undefined | null>("");
 
 	const setValue = useCallback(
 		async (newValue: string) => {
@@ -21,15 +21,16 @@ export const useStorageState = (storageKey: StorageKey) => {
 	useEffect(() => {
 		(async () => {
 			const loadedValue = await getData(storageKey);
-			if (loadedValue !== null && loadedValue !== undefined)
-				_setValue(loadedValue);
+			_setValue(loadedValue);
 		})();
 	}, [storageKey]);
 
 	return [value, setValue] as [string, (newValue: string) => Promise<void>];
 };
 
-export const useStorageObjectState = <T extends {}>(storageKey: StorageKey) => {
+export const useStorageObjectState = <T extends {} | []>(
+	storageKey: StorageKey
+) => {
 	const [value, _setValue] = useState<T>();
 
 	const setValue = useCallback(
@@ -43,8 +44,7 @@ export const useStorageObjectState = <T extends {}>(storageKey: StorageKey) => {
 	useEffect(() => {
 		(async () => {
 			const loadedValue = await getObjectData(storageKey);
-			if (loadedValue !== null && loadedValue !== undefined)
-				_setValue(loadedValue);
+			_setValue(loadedValue);
 		})();
 	}, [storageKey]);
 

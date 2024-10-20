@@ -9,7 +9,12 @@ import { sounds } from "@/constants/sounds";
 import { useMode } from "@/modes/modesContext";
 import { playSound } from "@/utils/soundPlayer";
 import { router } from "expo-router";
-import { CircleArrowLeft, Info, RotateCcw } from "lucide-react-native";
+import {
+	CircleArrowLeft,
+	GraduationCap,
+	Info,
+	RotateCcw,
+} from "lucide-react-native";
 import React, { useState } from "react";
 
 const iconClassName = "w-7 h-7";
@@ -77,6 +82,7 @@ export const GameBar = () => {
 				type="info"
 				header="Rules"
 				content={modeData.rules}
+				icon={GraduationCap}
 				backdropOnResolve
 			/>
 		</ElevatedCard>

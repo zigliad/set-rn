@@ -4,9 +4,11 @@ import { HStack } from "@/components/ui/hstack";
 import { useColors } from "@/hooks/useInitColors";
 import { getData, StorageKey, storeData } from "@/utils/storage";
 import { router } from "expo-router";
-import { Linking, SafeAreaView, View } from "react-native";
+import { Linking, Platform, SafeAreaView, View } from "react-native";
 import { AwesomeModal } from "@/components/awesome-modal/AwesomeModal";
 import { useState } from "react";
+import { useStorageState } from "@/hooks/useStorageState";
+import { Candy } from "lucide-react-native";
 
 const creditsText = `
 App developed and designed by Liad Zigdon, all rights reserved.\n
@@ -14,9 +16,13 @@ The game 'SET' was invented by Marsha Falco in 1974.\n
 Icons are from www.flaticon.com and were made by Freepik, Good Ware, Those Icons, mynamepong, Google, Pixel Perfect and Roundicons.
 `;
 
+const androidPackageName = "host.exp.exponent";
+const itunesItemId = 982107779;
+
 export default function MoreOptions() {
 	const { next: nextColors } = useColors();
 	const [visibleModal, setVisibleModal] = useState(false);
+	const [muteSounds, setMuteSounds] = useStorageState(StorageKey.muteSounds);
 
 	const moreOptionsConfig: GridAction[] = [
 		{
@@ -47,13 +53,10 @@ export default function MoreOptions() {
 			},
 		},
 		{
-			title: "Sounds",
+			title: +muteSounds ? "Unmute" : "Mute",
 			Icon: require("@/assets/images/mode-icons/1-minute.png"),
-			onClick: async () => {
-				const muteSounds = +(
-					(await getData(StorageKey.muteSounds)) ?? 0
-				);
-				await storeData(StorageKey.muteSounds, 1 - muteSounds);
+			onClick: () => {
+				setMuteSounds(String(1 - +muteSounds));
 			},
 		},
 		{
@@ -68,7 +71,16 @@ export default function MoreOptions() {
 		{
 			title: "Rate",
 			Icon: require("@/assets/images/mode-icons/relax.png"),
-			onClick: () => {},
+			onClick: () => {
+				if (Platform.OS === "ios")
+					Linking.openURL(
+						`itms-apps://itunes.apple.com/app/viewContentsUserReviews/id${itunesItemId}?action=write-review`
+					);
+				else if (Platform.OS === "android")
+					Linking.openURL(
+						`market://details?id=${androidPackageName}&showAllReviews=true`
+					);
+			},
 		},
 		{
 			title: "Credits",
@@ -105,6 +117,7 @@ export default function MoreOptions() {
 					type="info"
 					header="Credits"
 					content={creditsText}
+					icon={Candy}
 					backdropOnResolve
 				/>
 			</View>

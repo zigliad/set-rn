@@ -1,41 +1,37 @@
-import React, { DispatchWithoutAction } from "react";
-
 import Card from "@/bl/card/Card";
 import { ElevatedCard } from "@/components/ElevatedCard";
-import { useColors } from "@/hooks/useInitColors";
-
 import { Center } from "@/components/ui/center";
 import { sounds } from "@/constants/sounds";
+import { useColors } from "@/hooks/useInitColors";
 import { playSound } from "@/utils/soundPlayer";
 import cardsSvgs from "@/utils/svgsLoader";
+import React, { DispatchWithoutAction } from "react";
 import { Pressable } from "react-native";
 
-export const PlayingCard = ({
-	card,
-	picked = false,
-	onPress,
-	size,
-}: {
+type InnerPlayingCardProps = {
 	card: Card;
 	picked?: boolean;
-	onPress?: DispatchWithoutAction;
-	size: { width: number | string; height: number | string };
-}) => {
+	size: { width: number | "100%"; height: number | "100%" };
+};
+
+const InnerPlayingCard = ({
+	card,
+	picked = false,
+	size,
+}: InnerPlayingCardProps) => {
 	const { colors } = useColors();
 	const cardString = card.attributes
 		.map((attr) => `${attr + 1}`)
 		.reduce((a1, a2) => a1 + a2, "");
-
 	const color = colors[+cardString.charAt(3) - 1];
 	const imageCardString = cardString.slice(0, 3); // For the image, ignore the color attribute
 	const CardImage = cardsSvgs[imageCardString];
+	// const borderColor =
+	// 	cardString.length >= 5
+	// 		? colors[+cardString.charAt(4) - 1]
+	// 		: "transparent";
 
-	const borderColor =
-		cardString.length >= 5
-			? colors[+cardString.charAt(4) - 1]
-			: "transparent";
-
-	const CardComponent = (
+	return (
 		<ElevatedCard
 			className={
 				"flex items-center justify-center rounded-xl transform transition-all scale-100 " +
@@ -57,8 +53,15 @@ export const PlayingCard = ({
 			</Center>
 		</ElevatedCard>
 	);
+};
 
-	return onPress ? (
+export const PlayingCard = ({
+	onPress,
+	...props
+}: InnerPlayingCardProps & {
+	onPress?: DispatchWithoutAction;
+}) =>
+	onPress ? (
 		<Pressable
 			onPress={async () => {
 				if (onPress) {
@@ -67,9 +70,8 @@ export const PlayingCard = ({
 				}
 			}}
 		>
-			{CardComponent}
+			<InnerPlayingCard {...props} />
 		</Pressable>
 	) : (
-		CardComponent
+		<InnerPlayingCard {...props} />
 	);
-};

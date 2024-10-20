@@ -1,26 +1,35 @@
 import { GridAction, GridActions } from "@/components/GridActions";
+import { StatsModal } from "@/components/StatsModal";
 import { Heading } from "@/components/ui/heading";
 import { HStack } from "@/components/ui/hstack";
 import { useColors, useInitColors } from "@/hooks/useInitColors";
 import { modesConfig } from "@/modes/modesConfig";
 import { router } from "expo-router";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { SafeAreaView, View } from "react-native";
 import ConfettiCannon from "react-native-confetti-cannon";
-
-const moreOptions: GridAction[] = [
-	{
-		title: "More",
-		Icon: require("@/assets/images/mode-icons/relax.png"),
-		onClick: () => {
-			router.push({ pathname: "/more" });
-		},
-	},
-];
 
 export default function Index() {
 	const { colors } = useColors();
 	const confettiRef = useRef<ConfettiCannon | null>(null);
+	const [visibleStatsModal, setVisibleStatsModal] = useState(false);
+
+	const moreOptions: GridAction[] = [
+		{
+			title: "Stats",
+			Icon: require("@/assets/images/mode-icons/relax.png"),
+			onClick: () => {
+				setVisibleStatsModal(true);
+			},
+		},
+		{
+			title: "More",
+			Icon: require("@/assets/images/mode-icons/relax.png"),
+			onClick: () => {
+				router.push({ pathname: "/more" });
+			},
+		},
+	];
 
 	return (
 		<SafeAreaView className="bg-background-base">
@@ -56,6 +65,12 @@ export default function Index() {
 							.concat(moreOptions)}
 					/>
 				</HStack>
+				{visibleStatsModal && (
+					<StatsModal
+						visible={visibleStatsModal}
+						onResolve={() => setVisibleStatsModal(false)}
+					/>
+				)}
 				{/* <ConfettiCannon
 					ref={confettiRef}
 					count={40}

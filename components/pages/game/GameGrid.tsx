@@ -122,7 +122,7 @@ export const GameGrid = () => {
 				}}
 				header={endgameTitle}
 				content={endgameContent}
-				type={gameResult === GameResult.win ? "success" : "error"}
+				type={gameResult === GameResult.lose ? "error" : "success"}
 				buttonText={"Play Again"}
 			/>
 		</>

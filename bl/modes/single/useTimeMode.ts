@@ -37,7 +37,7 @@ export const useTimeMode = (
 			const best = await getData(storageKey);
 			baseEndGame(result, score > +(best ?? 0) ? score : undefined);
 		},
-		[baseEndGame, storageKey]
+		[baseEndGame, storageKey, score]
 	);
 
 	useInterval(
