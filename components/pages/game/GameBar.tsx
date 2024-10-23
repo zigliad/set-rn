@@ -15,11 +15,17 @@ import {
 	Info,
 	RotateCcw,
 } from "lucide-react-native";
-import React, { useState } from "react";
+import React, { DispatchWithoutAction, useState } from "react";
 
 const iconClassName = "w-7 h-7";
 
-export const GameBar = () => {
+export const GameBar = ({
+	resetPicked,
+	dummyReset,
+}: {
+	resetPicked: DispatchWithoutAction;
+	dummyReset: DispatchWithoutAction;
+}) => {
 	const modeData = useMode();
 	const [visibleModal, setVisibleModal] = useState(false);
 	const [textBoxSize, setTextBoxSize] = useState<{
@@ -41,6 +47,8 @@ export const GameBar = () => {
 				<Button
 					variant="link"
 					onPress={async () => {
+						resetPicked();
+						dummyReset();
 						modeData.newGame();
 						await playSound(sounds.restart);
 					}}

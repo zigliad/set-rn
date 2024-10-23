@@ -13,9 +13,14 @@ import {
 	storeData,
 	storeObjectData,
 } from "@/utils/storage";
-import React, { useEffect, useState } from "react";
+import React, {
+	DispatchWithoutAction,
+	useCallback,
+	useEffect,
+	useState,
+} from "react";
 import { FlatGrid } from "react-native-super-grid";
-import useList from "react-use/lib/useList";
+import { IHookStateSetAction } from "react-use/lib/misc/hookState";
 
 const SPACING = 12;
 
@@ -34,7 +39,27 @@ const setFound = async (set: CardsSet) => {
 	}
 };
 
-export const GameGrid = () => {
+export const GameGrid = ({
+	picked,
+	push,
+	removeAt,
+	reset,
+	dummyPicked,
+	dummyPush,
+	dummyRemoveAt,
+	dummyReset,
+	dummySet,
+}: {
+	picked: number[];
+	push: (...items: number[]) => void;
+	removeAt: (index: number) => void;
+	reset: DispatchWithoutAction;
+	dummyPicked: number[];
+	dummyPush: (...items: number[]) => void;
+	dummyRemoveAt: (index: number) => void;
+	dummyReset: DispatchWithoutAction;
+	dummySet: (newList: IHookStateSetAction<number[]>) => void;
+}) => {
 	const {
 		checkSet,
 		gameEnded,
@@ -45,27 +70,43 @@ export const GameGrid = () => {
 		newGame,
 	} = useMode();
 
-	const [picked, { push, removeAt, reset }] = useList<number>([]);
 	const [gridSize, setGridSize] = useState<{
 		width: number;
 		height: number;
 	}>();
 
-	const cardClicked = async (index: number) => {
-		const indexOfIndex = picked.indexOf(index);
-		if (indexOfIndex > -1) {
-			removeAt(indexOfIndex);
-		} else {
-			const pickedCloned = [...picked, index];
-			push(index);
-			if (pickedCloned.length === deck.brain.setSize) {
-				setTimeout(reset, 200);
-				const { isSet, set } = await checkSet(pickedCloned);
-				await playSound(isSet ? sounds.setFound : sounds.error);
-				if (isSet && set) await setFound(set);
+	const _checkSet = useCallback(
+		async (newPicked: number[]) => {
+			dummySet(newPicked);
+			setTimeout(dummyReset, 200);
+			reset();
+			const { isSet, set } = await checkSet(newPicked);
+			await playSound(isSet ? sounds.setFound : sounds.error);
+			if (isSet && set) await setFound(set);
+		},
+		[dummySet, dummyReset, reset, checkSet]
+	);
+
+	const cardClicked = useCallback(
+		async (index: number) => {
+			const indexOfIndex = picked.indexOf(index);
+			if (indexOfIndex > -1) removeAt(indexOfIndex);
+			else push(index);
+		},
+		[picked, removeAt, push]
+	);
+
+	useEffect(() => {
+		(async () => {
+			if (picked.length === deck.brain.setSize) {
+				await _checkSet(picked);
+			} else if (picked.length > deck.brain.setSize) {
+				// should'nt happen, but prevents bugs
+				reset();
+				dummyReset();
 			}
-		}
-	};
+		})();
+	}, [deck.brain.setSize, picked, _checkSet, reset, dummyReset]);
 
 	const [visibleModal, setVisibleModal] = useState(false);
 
@@ -104,7 +145,10 @@ export const GameGrid = () => {
 							<PlayingCard
 								card={item}
 								onPress={() => cardClicked(index)}
-								picked={picked.indexOf(index) > -1}
+								picked={
+									dummyPicked.includes(index) ||
+									picked.includes(index)
+								}
 								size={cardSize}
 							/>
 						);
@@ -118,6 +162,8 @@ export const GameGrid = () => {
 				onResolve={async () => {
 					setVisibleModal(false);
 					newGame();
+					reset();
+					dummyReset();
 					await playSound(sounds.restart);
 				}}
 				header={endgameTitle}

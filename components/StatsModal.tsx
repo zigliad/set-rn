@@ -29,7 +29,7 @@ export const StatsModal = ({
 				onResolve();
 			}}
 			header={"Statistics"}
-			content={`1-Minute best: ${time60 ?? 0}\n6-Pack wins: ${static6}\n8-Pack wins: ${static8 ?? 0}\nHigh-5 best: ${race5 ?? Infinity}\nDisco best: ${disco60 ?? 0}\nTotal sets found: ${totalSetsFound}\n\n${setsFound?.length ?? 0} unique sets found`}
+			content={`1-Minute best: ${time60 ?? 0}\n6-Pack wins: ${static6 ?? 0}\n8-Pack wins: ${static8 ?? 0}\nHigh-5 best: ${race5 ?? Infinity}\nDisco best: ${disco60 ?? 0}\nTotal sets found: ${totalSetsFound ?? 0}\n\n${setsFound?.length ?? 0} unique sets found`}
 			tailwindColor="bg-purple-500"
 			icon={Award}
 			backdropOnResolve

@@ -6,7 +6,7 @@ import { useColors } from "@/hooks/useInitColors";
 import { playSound } from "@/utils/soundPlayer";
 import cardsSvgs from "@/utils/svgsLoader";
 import React, { DispatchWithoutAction } from "react";
-import { Pressable } from "react-native";
+import { BaseButton } from "react-native-gesture-handler";
 
 type InnerPlayingCardProps = {
 	card: Card;
@@ -62,7 +62,8 @@ export const PlayingCard = ({
 	onPress?: DispatchWithoutAction;
 }) =>
 	onPress ? (
-		<Pressable
+		<BaseButton
+			exclusive={false}
 			onPress={async () => {
 				if (onPress) {
 					await playSound(sounds.click);
@@ -71,7 +72,7 @@ export const PlayingCard = ({
 			}}
 		>
 			<InnerPlayingCard {...props} />
-		</Pressable>
+		</BaseButton>
 	) : (
 		<InnerPlayingCard {...props} />
 	);

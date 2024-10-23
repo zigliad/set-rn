@@ -17,7 +17,7 @@ export default function SetsFound() {
 
 	return (
 		<SafeAreaView className="bg-background-base">
-			<Box className="relative">
+			<Box className="relative w-full h-full">
 				<FlatGrid
 					spacing={20}
 					data={setsFound}
