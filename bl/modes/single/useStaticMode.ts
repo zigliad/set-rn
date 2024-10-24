@@ -1,11 +1,13 @@
 import DeckGenerator from "@/bl/generators/deck/DeckGenerator";
 import { useSinglePlayerMode } from "@/bl/modes/single/useSinglePlayerMode";
+import { onGameEndCallback } from "@/modes/modes";
 import { GameResult } from "@/modes/modeTypes";
 import { getData } from "@/utils/storage";
 import { useCallback } from "react";
 import useSet from "react-use/lib/useSet";
 
 export const useStaticMode = (
+	onGameEnd: onGameEndCallback,
 	deckGenerator: DeckGenerator,
 	totalSets: number,
 	storageKey?: string
@@ -18,7 +20,7 @@ export const useStaticMode = (
 		newGame: baseNewGame,
 		endGame: baseEndGame,
 		checkSet: baseCheckSet,
-	} = useSinglePlayerMode(deckGenerator, storageKey);
+	} = useSinglePlayerMode(onGameEnd, deckGenerator, storageKey);
 
 	const [sets, { add, has, reset }] = useSet(new Set<string>([]));
 

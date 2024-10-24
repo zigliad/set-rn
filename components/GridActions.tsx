@@ -6,9 +6,10 @@ import { Image } from "@/components/ui/image";
 import { VStack } from "@/components/ui/vstack";
 import { sounds } from "@/constants/sounds";
 import { useColors } from "@/hooks/useInitColors";
+import { fontWeightStyles } from "@/styles/commonStyles";
 import { playSound } from "@/utils/soundPlayer";
 import React, { DispatchWithoutAction } from "react";
-import { ImageURISource, Pressable } from "react-native";
+import { ImageURISource, Pressable, StyleSheet, useColorScheme } from "react-native";
 import { FlatGrid } from "react-native-super-grid";
 
 export type GridAction = {
@@ -18,12 +19,24 @@ export type GridAction = {
 	key?: string;
 };
 
+const styles = StyleSheet.create({
+	grid: {
+		zIndex: 10,
+	},
+	box: {
+		borderLeftWidth: 6,
+		borderBottomWidth: 6,
+		zIndex: 10,
+	},
+});
+
 export const GridActions = ({ actions }: { actions: GridAction[] }) => {
 	const { colors } = useColors();
+	const currentScheme = useColorScheme();
 
 	return (
 		<FlatGrid
-			style={{ zIndex: 10 }}
+			style={styles.grid}
 			itemDimension={100}
 			maxItemsPerRow={3}
 			spacing={20}
@@ -33,18 +46,14 @@ export const GridActions = ({ actions }: { actions: GridAction[] }) => {
 				return (
 					<Box
 						className="bg-background-card rounded-2xl h-48 border-2 border-background-card-shadow opacity-95"
-						style={{
-							borderLeftWidth: 6,
-							borderBottomWidth: 6,
-							zIndex: 10,
-						}}
+						style={styles.box}
 						key={item.key ?? item.title}
 					>
 						<Center className="h-full">
 							<Pressable
 								onPress={async () => {
 									item.onClick();
-									await playSound(sounds.click);
+									playSound(sounds.click);
 								}}
 							>
 								<VStack className="justify-center" space="md">
@@ -60,15 +69,17 @@ export const GridActions = ({ actions }: { actions: GridAction[] }) => {
 											source={item.Icon}
 											alt={item.title}
 											className="w-full h-full"
+											tintColor={
+												currentScheme === "light"
+													? "#181718"
+													: "#fff"
+											}
 										/>
 									</Avatar>
 									<Center>
 										<Heading
 											size="xl"
-											style={{
-												fontFamily:
-													"PlayfairDisplay_Bold",
-											}}
+											style={fontWeightStyles.bold}
 										>
 											{item.title}
 										</Heading>

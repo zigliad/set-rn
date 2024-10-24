@@ -1,9 +1,11 @@
 import DeckGenerator from "@/bl/generators/deck/DeckGenerator";
+import { onGameEndCallback } from "@/modes/modes";
 import { GameResult } from "@/modes/modeTypes";
 import { storeData } from "@/utils/storage";
 import { useCallback, useState } from "react";
 
 export const useSinglePlayerMode = (
+	onGameEnd: onGameEndCallback,
 	deckGenerator: DeckGenerator,
 	storageKey?: string
 ) => {
@@ -34,6 +36,7 @@ export const useSinglePlayerMode = (
 		async (result?: GameResult, scoreToSave?: string | number) => {
 			setGameEnded(true);
 			setGameResult(result);
+			onGameEnd(result);
 			if (storageKey && scoreToSave)
 				await storeData(storageKey, scoreToSave);
 		},

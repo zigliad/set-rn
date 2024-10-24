@@ -1,8 +1,10 @@
 import { useDiscoMode } from "@/bl/modes/single/useDiscoMode";
 import PropertyReplacer from "@/bl/replacer/PropertyReplacer";
 import { useInitGameParts } from "@/hooks/useInitGameParts";
+import { onGameEndCallback } from "@/modes/modes";
 
 export const createDiscoMode = (
+	onGameEnd: onGameEndCallback,
 	x: number,
 	seconds: number,
 	discoIntervalSeconds: number = 5,
@@ -16,6 +18,7 @@ export const createDiscoMode = (
 			attributesCount,
 		});
 		return useDiscoMode(
+			onGameEnd,
 			deckGenerator,
 			replacer,
 			seconds,

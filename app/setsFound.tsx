@@ -5,15 +5,30 @@ import { Button } from "@/components/ui/button";
 import { Center } from "@/components/ui/center";
 import { Icon } from "@/components/ui/icon";
 import { Text } from "@/components/ui/text";
+import { sounds } from "@/constants/sounds";
 import { useStorageObjectState } from "@/hooks/useStorageState";
+import { fontWeightStyles } from "@/styles/commonStyles";
+import { playSound } from "@/utils/soundPlayer";
 import { StorageKey } from "@/utils/storage";
 import { router } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, StyleSheet } from "react-native";
 import { FlatGrid } from "react-native-super-grid";
 
+const styles = StyleSheet.create({
+	itemContainer: { height: "100%" },
+	cardWrapper: { height: "32%" },
+	card: {
+		width: 180,
+		height: "100%",
+	},
+});
+
 export default function SetsFound() {
-	const [setsFound] = useStorageObjectState<string[]>(StorageKey.setsFound);
+	const [setsFound] = useStorageObjectState<string[]>(
+		StorageKey.setsFound,
+		[]
+	);
 
 	return (
 		<SafeAreaView className="bg-background-base">
@@ -22,7 +37,7 @@ export default function SetsFound() {
 					spacing={20}
 					data={setsFound}
 					itemDimension={180}
-					itemContainerStyle={{ height: "100%" }}
+					itemContainerStyle={styles.itemContainer}
 					horizontal
 					keyExtractor={(x) => x}
 					renderItem={({ item, index }) => {
@@ -36,15 +51,12 @@ export default function SetsFound() {
 							<Center className="h-full flex flex-col justify-between">
 								{setCards.map((card) => (
 									<Center
-										style={{ height: "32%" }}
+										style={styles.cardWrapper}
 										key={card.toString()}
 									>
 										<PlayingCard
 											card={card}
-											size={{
-												width: 180,
-												height: "100%",
-											}}
+											size={styles.card}
 										/>
 									</Center>
 								))}
@@ -54,7 +66,10 @@ export default function SetsFound() {
 				/>
 				<Button
 					className="absolute bottom-0 left-0 rounded-full bg-background-800 shadow-xl"
-					onPress={router.back}
+					onPress={async () => {
+						playSound(sounds.click);
+						router.back();
+					}}
 				>
 					<Icon
 						as={ArrowLeft}
@@ -65,9 +80,7 @@ export default function SetsFound() {
 					<Text
 						size="lg"
 						className="text-typography-0"
-						style={{
-							fontFamily: "PlayfairDisplay_Black",
-						}}
+						style={fontWeightStyles.black}
 					>
 						{setsFound?.length ?? 0} / 1080
 					</Text>

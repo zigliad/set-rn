@@ -1,6 +1,7 @@
 import DeckGenerator from "@/bl/generators/deck/DeckGenerator";
 import { useSinglePlayerMode } from "@/bl/modes/single/useSinglePlayerMode";
 import Replacer from "@/bl/replacer/Replacer";
+import { onGameEndCallback } from "@/modes/modes";
 import { GameResult } from "@/modes/modeTypes";
 import { getData } from "@/utils/storage";
 import { useCallback } from "react";
@@ -8,6 +9,7 @@ import useCounter from "react-use/lib/useCounter";
 import useInterval from "react-use/lib/useInterval";
 
 export const useRaceMode = (
+	onGameEnd: onGameEndCallback,
 	deckGenerator: DeckGenerator,
 	replacer: Replacer,
 	goal: number,
@@ -22,7 +24,7 @@ export const useRaceMode = (
 		newGame: baseNewGame,
 		endGame: baseEndGame,
 		checkSet: baseCheckSet,
-	} = useSinglePlayerMode(deckGenerator);
+	} = useSinglePlayerMode(onGameEnd, deckGenerator);
 
 	const [time, { dec: decTime, reset: resetTime, set: setTime }] =
 		useCounter(maxTime);
@@ -52,10 +54,10 @@ export const useRaceMode = (
 				setTime(0);
 				await endGame(GameResult.lose);
 			} else {
-				decTime(0.1);
+				decTime(1);
 			}
 		},
-		gameEnded ? null : 100
+		gameEnded ? null : 1000
 	);
 
 	const checkSet = async (indexes: number[]) => {
@@ -79,7 +81,7 @@ export const useRaceMode = (
 		newGame,
 		checkSet,
 		rules: `Find ${goal} sets before the clock strikes zero!`,
-		title: `${score} / ${goal} sets, ${time.toFixed(1)}`,
+		title: `${score} / ${goal} sets, ${time.toFixed(0)}`,
 		endgameTitle: gameResult === GameResult.win ? "You Won" : "You Lose",
 		endgameContent:
 			gameResult === GameResult.win

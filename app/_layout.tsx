@@ -6,14 +6,17 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-// import mobileAds from "react-native-google-mobile-ads";
+import mobileAds, {
+	InterstitialAd,
+	TestIds,
+} from "react-native-google-mobile-ads";
 import "react-native-reanimated";
 
-// mobileAds()
-// 	.initialize()
-// 	.then((adapterStatuses) => {
-// 		console.log("adMob inited");
-// 	});
+mobileAds()
+	.initialize()
+	.then((adapterStatuses) => {
+		console.log("adMob inited");
+	});
 
 // ca-app-pub-4427652774441300/7289515970
 

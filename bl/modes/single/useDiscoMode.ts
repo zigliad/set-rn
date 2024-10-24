@@ -1,6 +1,7 @@
 import DeckGenerator from "@/bl/generators/deck/DeckGenerator";
 import { useSinglePlayerMode } from "@/bl/modes/single/useSinglePlayerMode";
 import Replacer from "@/bl/replacer/Replacer";
+import { onGameEndCallback } from "@/modes/modes";
 import { GameResult } from "@/modes/modeTypes";
 import { getData } from "@/utils/storage";
 import { useCallback } from "react";
@@ -8,6 +9,7 @@ import useCounter from "react-use/lib/useCounter";
 import useInterval from "react-use/lib/useInterval";
 
 export const useDiscoMode = (
+	onGameEnd: onGameEndCallback,
 	deckGenerator: DeckGenerator,
 	replacer: Replacer,
 	seconds: number,
@@ -23,7 +25,7 @@ export const useDiscoMode = (
 		newGame: baseNewGame,
 		endGame: baseEndGame,
 		checkSet: baseCheckSet,
-	} = useSinglePlayerMode(deckGenerator);
+	} = useSinglePlayerMode(onGameEnd, deckGenerator);
 
 	const [timeLeft, { dec: decTime, reset: resetTime }] = useCounter(seconds);
 	const [score, { inc: incScore, reset: resetScore }] = useCounter(0);
@@ -80,7 +82,7 @@ export const useDiscoMode = (
 		newGame,
 		checkSet,
 		rules: `Find as many sets as you can in ${seconds} seconds while colors are changing every ${discoIntervalSeconds} seconds!`,
-		title: `Score: ${score} - ${timeLeft} seconds left`,
+		title: `${timeLeft} seconds left / ${score}`,
 		endgameTitle: "Time's up!",
 		endgameContent: `Your found ${score} sets`,
 		name: "Disco Mode",

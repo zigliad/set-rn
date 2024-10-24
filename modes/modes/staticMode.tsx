@@ -1,5 +1,3 @@
-import { useMemo } from "react";
-
 import Brain from "@/bl/brain/Brain";
 import OddSizeSetValidator from "@/bl/brain/parts/set-validator/OddSizeSetValidator";
 import BasicSetsComparator from "@/bl/brain/parts/sets-comparators/BasicSetsComparator";
@@ -8,8 +6,11 @@ import BasicRandomCardExcludeGenerator from "@/bl/generators/card/random-exclude
 import BasicRandomCardGenerator from "@/bl/generators/card/random/BasicRandomCardGenerator";
 import OddOptionsManySetsDeckGenerator from "@/bl/generators/deck/OddOptionsManySetsDeckGenerator";
 import { useStaticMode } from "@/bl/modes/single/useStaticMode";
+import { onGameEndCallback } from "@/modes/modes";
+import { useMemo } from "react";
 
 export const createStaticMode = (
+	onGameEnd: onGameEndCallback,
 	totalSets: number,
 	minSets?: number,
 	attributesCount: number = 4,
@@ -54,7 +55,7 @@ export const createStaticMode = (
 			};
 		}, []);
 
-		return useStaticMode(gameParts.deckGenerator, totalSets, storageKey);
+		return useStaticMode(onGameEnd, gameParts.deckGenerator, totalSets, storageKey);
 	};
 
 	return useStaticModeX;

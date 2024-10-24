@@ -1,17 +1,17 @@
-import { Box } from "@/components/ui/box";
+import { Center } from "@/components/ui/center";
 import React, { PropsWithChildren } from "react";
 import { StyleProp, ViewStyle } from "react-native";
 
 export const ElevatedCard = ({
 	children,
 	className = "",
-	style = undefined,
+	style: extraStyle = undefined,
 }: PropsWithChildren<{
 	className?: string;
 	style?: StyleProp<ViewStyle>;
 }>) => {
 	return (
-		<Box
+		<Center
 			className={
 				"bg-background-card rounded-2xl border-2 border-background-card-shadow " +
 				className
@@ -22,10 +22,10 @@ export const ElevatedCard = ({
 					borderBottomWidth: 6,
 					zIndex: 10,
 				},
-				style,
+				extraStyle,
 			]}
 		>
 			{children}
-		</Box>
+		</Center>
 	);
 };

@@ -1,8 +1,9 @@
 import { useTimeMode } from "@/bl/modes/single/useTimeMode";
 import { useInitGameParts } from "@/hooks/useInitGameParts";
-import { Mode } from "@/modes/modeTypes";
+import { onGameEndCallback } from "@/modes/modes";
 
 export const createTimeMode = (
+	onGameEnd: onGameEndCallback,
 	x: number,
 	seconds: number,
 	attributesCount = 4,
@@ -14,7 +15,13 @@ export const createTimeMode = (
 			replacerMinSets: x,
 			attributesCount,
 		});
-		return useTimeMode(deckGenerator, replacer, seconds, storageKey);
+		return useTimeMode(
+			onGameEnd,
+			deckGenerator,
+			replacer,
+			seconds,
+			storageKey
+		);
 	};
 
 	return useTimeModeX;

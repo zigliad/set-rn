@@ -38,8 +38,9 @@ export const GameBar = ({
 			<Box>
 				<Button
 					variant="link"
-					onPress={() => {
+					onPress={async () => {
 						setVisibleModal(true);
+						await playSound(sounds.click);
 					}}
 				>
 					<Icon as={Info} className={iconClassName} />
@@ -65,9 +66,10 @@ export const GameBar = ({
 				}}
 			>
 				<Text
-					className="text-primary-500 -rotate-90 text-center"
+					className="text-primary-500 text-center"
 					size="lg"
 					style={{
+						transform: [{ rotate: "-90deg" }],
 						width: textBoxSize?.height,
 						height: "auto",
 						fontFamily: "PlayfairDisplay_Medium",
@@ -78,7 +80,8 @@ export const GameBar = ({
 			</Center>
 			<Button
 				variant="link"
-				onPress={() => {
+				onPress={async () => {
+					await playSound(sounds.click);
 					router.back();
 				}}
 			>

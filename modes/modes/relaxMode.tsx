@@ -1,14 +1,19 @@
 import { useRelaxMode } from "@/bl/modes/single/useRelaxMode";
 import { useInitGameParts } from "@/hooks/useInitGameParts";
+import { onGameEndCallback } from "@/modes/modes";
 
-export const createRelaxMode = (x: number, attributesCount = 4) => {
+export const createRelaxMode = (
+	onGameEnd: onGameEndCallback,
+	x: number,
+	attributesCount = 4
+) => {
 	const useRelaxModeX = () => {
 		const { deckGenerator, replacer } = useInitGameParts({
 			deckGeneratorMinSets: x,
 			replacerMinSets: x,
 			attributesCount,
 		});
-		return useRelaxMode(deckGenerator, replacer);
+		return useRelaxMode(onGameEnd, deckGenerator, replacer);
 	};
 
 	return useRelaxModeX;

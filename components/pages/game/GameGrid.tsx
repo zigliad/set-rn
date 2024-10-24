@@ -1,10 +1,8 @@
 import { Set as CardsSet } from "@/bl/types/set";
-import { AwesomeModal } from "@/components/awesome-modal/AwesomeModal";
 import { PlayingCard } from "@/components/pages/game/PlayingCard";
 import { Box } from "@/components/ui/box";
 import { sounds } from "@/constants/sounds";
 import { useMode } from "@/modes/modesContext";
-import { GameResult } from "@/modes/modeTypes";
 import { playSound } from "@/utils/soundPlayer";
 import {
 	getData,
@@ -45,8 +43,6 @@ export const GameGrid = ({
 	removeAt,
 	reset,
 	dummyPicked,
-	dummyPush,
-	dummyRemoveAt,
 	dummyReset,
 	dummySet,
 }: {
@@ -55,20 +51,10 @@ export const GameGrid = ({
 	removeAt: (index: number) => void;
 	reset: DispatchWithoutAction;
 	dummyPicked: number[];
-	dummyPush: (...items: number[]) => void;
-	dummyRemoveAt: (index: number) => void;
 	dummyReset: DispatchWithoutAction;
 	dummySet: (newList: IHookStateSetAction<number[]>) => void;
 }) => {
-	const {
-		checkSet,
-		gameEnded,
-		endgameTitle,
-		endgameContent,
-		gameResult,
-		deck,
-		newGame,
-	} = useMode();
+	const { checkSet, deck } = useMode();
 
 	const [gridSize, setGridSize] = useState<{
 		width: number;
@@ -108,19 +94,6 @@ export const GameGrid = ({
 		})();
 	}, [deck.brain.setSize, picked, _checkSet, reset, dummyReset]);
 
-	const [visibleModal, setVisibleModal] = useState(false);
-
-	useEffect(() => {
-		if (gameEnded) {
-			(async () => {
-				setVisibleModal(true);
-				await playSound(
-					gameResult === GameResult.lose ? sounds.lose : sounds.win
-				);
-			})();
-		}
-	}, [gameEnded, gameResult]);
-
 	return (
 		<>
 			<FlatGrid
@@ -156,20 +129,6 @@ export const GameGrid = ({
 
 					return <Box />;
 				}}
-			/>
-			<AwesomeModal
-				visible={visibleModal}
-				onResolve={async () => {
-					setVisibleModal(false);
-					newGame();
-					reset();
-					dummyReset();
-					await playSound(sounds.restart);
-				}}
-				header={endgameTitle}
-				content={endgameContent}
-				type={gameResult === GameResult.lose ? "error" : "success"}
-				buttonText={"Play Again"}
 			/>
 		</>
 	);

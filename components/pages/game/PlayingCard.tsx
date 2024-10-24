@@ -43,7 +43,10 @@ const InnerPlayingCard = ({
 				// borderBottomColor: borderColor,
 			}}
 		>
-			<Center className="rotate-90 w-full h-full">
+			<Center
+				className="w-full h-full"
+				style={{ transform: [{ rotate: "90deg" }] }}
+			>
 				<CardImage
 					fill={color}
 					stroke={color}

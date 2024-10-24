@@ -61,7 +61,10 @@ export default class OddOptionsManySetsDeckGenerator extends DeckGenerator {
 				const newSet = this.generateRandomSet(exclude);
 				exclude = [...exclude, ...newSet];
 			}
-			deck = new Deck(exclude, this.brain);
+			deck = new Deck(
+				exclude, //.sort(() => Math.random() - 0.5),
+				this.brain
+			);
 			sets = deck.countSets();
 		} while (sets < this.minSets);
 

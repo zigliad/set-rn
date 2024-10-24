@@ -1,9 +1,11 @@
 import DeckGenerator from "@/bl/generators/deck/DeckGenerator";
 import { useSinglePlayerMode } from "@/bl/modes/single/useSinglePlayerMode";
 import Replacer from "@/bl/replacer/Replacer";
+import { onGameEndCallback } from "@/modes/modes";
 import { useState } from "react";
 
 export const useRelaxMode = (
+	onGameEnd: onGameEndCallback,
 	deckGenerator: DeckGenerator,
 	replacer: Replacer
 ) => {
@@ -13,7 +15,7 @@ export const useRelaxMode = (
 		brain,
 		newGame: baseNewGame,
 		checkSet: baseCheckSet,
-	} = useSinglePlayerMode(deckGenerator);
+	} = useSinglePlayerMode(onGameEnd, deckGenerator);
 
 	const [availableSets, setAvailableSets] = useState(deck.countSets());
 

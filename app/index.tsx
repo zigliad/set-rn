@@ -6,25 +6,35 @@ import { useColors, useInitColors } from "@/hooks/useInitColors";
 import { modesConfig } from "@/modes/modesConfig";
 import { router } from "expo-router";
 import { useRef, useState } from "react";
-import { SafeAreaView, View } from "react-native";
+import { SafeAreaView, StyleSheet, View } from "react-native";
 import ConfettiCannon from "react-native-confetti-cannon";
 
+export const titleStyles = StyleSheet.create({
+	pageTitle: {
+		zIndex: 0,
+		fontFamily: "PlayfairDisplay_Black",
+		fontSize: 130,
+		textShadowColor: "#aaa",
+		textShadowOffset: { width: 5, height: 5 },
+		textShadowRadius: 0,
+	},
+});
+
 export default function Index() {
-	const { colors } = useColors();
 	const confettiRef = useRef<ConfettiCannon | null>(null);
 	const [visibleStatsModal, setVisibleStatsModal] = useState(false);
 
 	const moreOptions: GridAction[] = [
 		{
 			title: "Stats",
-			Icon: require("@/assets/images/mode-icons/relax.png"),
+			Icon: require("@/assets/images/grid-action-icons/medal.png"),
 			onClick: () => {
 				setVisibleStatsModal(true);
 			},
 		},
 		{
 			title: "More",
-			Icon: require("@/assets/images/mode-icons/relax.png"),
+			Icon: require("@/assets/images/grid-action-icons/more.png"),
 			onClick: () => {
 				router.push({ pathname: "/more" });
 			},
@@ -37,14 +47,7 @@ export default function Index() {
 				<Heading
 					className="absolute top-8 left-8"
 					size="5xl"
-					style={{
-						zIndex: 0,
-						fontFamily: "PlayfairDisplay_Black",
-						fontSize: 130,
-						textShadowColor: "#aaa",
-						textShadowOffset: { width: 5, height: 5 },
-						textShadowRadius: 0,
-					}}
+					style={titleStyles.pageTitle}
 				>
 					SET
 				</Heading>
