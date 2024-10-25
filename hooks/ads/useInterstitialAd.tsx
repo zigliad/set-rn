@@ -21,7 +21,7 @@ export const useInterstitialAd = (interstitial: InterstitialAd) => {
 
 	const showAdIfLoaded = useCallback(() => {
 		if (loaded) {
-			interstitial.show({});
+			interstitial.show();
 			setLoaded(false);
 			interstitial.load();
 		}

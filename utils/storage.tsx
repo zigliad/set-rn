@@ -30,14 +30,14 @@ export const storeObjectData = async (key: string, value: Object) => {
 	}
 };
 
-export const getData = async (key?: string) => {
-	if (key === undefined) return undefined;
+export const getData = async (key: string, defaultValue: string) => {
 	try {
 		// returns null if not exists yet
 		const value = await AsyncStorage.getItem(key);
-		return value;
+		return value ?? defaultValue;
 	} catch (e) {
 		// error reading value
+		return defaultValue;
 	}
 };
 

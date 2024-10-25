@@ -24,7 +24,10 @@ export const ColorsContext = createContext<ColorContextType>(
 );
 
 export const useInitColors = () => {
-	const [colorIndex, setColorsIndex] = useStorageState(StorageKey.colorIndex);
+	const [colorIndex, setColorsIndex] = useStorageState(
+		StorageKey.colorIndex,
+		"0"
+	);
 
 	const next = useCallback(
 		async () =>

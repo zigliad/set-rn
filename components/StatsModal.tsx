@@ -14,15 +14,12 @@ export const StatsModal = ({
 	visible: boolean;
 	onResolve: DispatchWithoutAction;
 }) => {
-	const [time60] = useStorageState(StorageKey.time60, String(0));
-	const [static6] = useStorageState(StorageKey.static6, String(0));
-	const [static8] = useStorageState(StorageKey.static8, String(0));
+	const [time60] = useStorageState(StorageKey.time60, "0");
+	const [static6] = useStorageState(StorageKey.static6, "0");
+	const [static8] = useStorageState(StorageKey.static8, "0");
 	const [race5] = useStorageState(StorageKey.race5, String(Infinity));
-	const [disco60] = useStorageState(StorageKey.disco60, String(0));
-	const [totalSetsFound] = useStorageState(
-		StorageKey.totalSetsFound,
-		String(0)
-	);
+	const [disco60] = useStorageState(StorageKey.disco60, "0");
+	const [totalSetsFound] = useStorageState(StorageKey.totalSetsFound, "0");
 	const [setsFound] = useStorageObjectState<string[]>(
 		StorageKey.setsFound,
 		[]

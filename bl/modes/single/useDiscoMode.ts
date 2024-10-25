@@ -25,7 +25,7 @@ export const useDiscoMode = (
 		newGame: baseNewGame,
 		endGame: baseEndGame,
 		checkSet: baseCheckSet,
-	} = useSinglePlayerMode(onGameEnd, deckGenerator);
+	} = useSinglePlayerMode(onGameEnd, deckGenerator, storageKey);
 
 	const [timeLeft, { dec: decTime, reset: resetTime }] = useCounter(seconds);
 	const [score, { inc: incScore, reset: resetScore }] = useCounter(0);
@@ -48,8 +48,12 @@ export const useDiscoMode = (
 
 	const endGame = useCallback(
 		async (result?: GameResult) => {
-			const best = await getData(storageKey);
-			baseEndGame(result, score > +(best ?? 0) ? score : undefined);
+			let newBest;
+			if (storageKey) {
+				const best = await getData(storageKey, "0");
+				newBest = score > +best ? score : undefined;
+			}
+			baseEndGame(result, newBest);
 		},
 		[baseEndGame, storageKey, score]
 	);

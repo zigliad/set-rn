@@ -40,7 +40,7 @@ export const useSinglePlayerMode = (
 			if (storageKey && scoreToSave)
 				await storeData(storageKey, scoreToSave);
 		},
-		[storageKey]
+		[storageKey, onGameEnd]
 	);
 
 	return {

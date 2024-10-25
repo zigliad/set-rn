@@ -24,7 +24,7 @@ export const useRaceMode = (
 		newGame: baseNewGame,
 		endGame: baseEndGame,
 		checkSet: baseCheckSet,
-	} = useSinglePlayerMode(onGameEnd, deckGenerator);
+	} = useSinglePlayerMode(onGameEnd, deckGenerator, storageKey);
 
 	const [time, { dec: decTime, reset: resetTime, set: setTime }] =
 		useCounter(maxTime);
@@ -39,9 +39,10 @@ export const useRaceMode = (
 	const endGame = useCallback(
 		async (result?: GameResult) => {
 			let newBest;
-			if (result !== GameResult.lose) {
-				const best = await getData(storageKey);
-				newBest = time < +(best ?? Infinity) ? time : undefined;
+			if (result !== GameResult.lose && storageKey) {
+				const best = await getData(storageKey, String(Infinity));
+				const gameTime = maxTime - time;
+				newBest = gameTime < +best ? gameTime : undefined;
 			}
 			baseEndGame(result, newBest);
 		},
@@ -85,7 +86,7 @@ export const useRaceMode = (
 		endgameTitle: gameResult === GameResult.win ? "You Won" : "You Lose",
 		endgameContent:
 			gameResult === GameResult.win
-				? `${goal} sets in ${(maxTime - time).toFixed(2)} seconds!`
+				? `${goal} sets in ${(maxTime - time).toFixed(0)} seconds!`
 				: `You found ${score}/${goal} sets in ${maxTime} seconds`,
 		name: "Race Mode",
 	};

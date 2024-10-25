@@ -3,13 +3,12 @@ import { useInitGameParts } from "@/hooks/useInitGameParts";
 import { onGameEndCallback } from "@/modes/modes";
 
 export const createTimeMode = (
-	onGameEnd: onGameEndCallback,
 	x: number,
 	seconds: number,
 	attributesCount = 4,
 	storageKey?: string
 ) => {
-	const useTimeModeX = () => {
+	const useTimeModeX = (onGameEnd: onGameEndCallback) => {
 		const { deckGenerator, replacer } = useInitGameParts({
 			deckGeneratorMinSets: x,
 			replacerMinSets: x,

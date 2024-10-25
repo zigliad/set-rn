@@ -3,12 +3,11 @@ import { useInitGameParts } from "@/hooks/useInitGameParts";
 import { onGameEndCallback } from "@/modes/modes";
 
 export const createRaceMode = (
-	onGameEnd: onGameEndCallback,
 	goal: number,
 	maxTime: number,
 	storageKey?: string
 ) => {
-	const useRaceModeX = () => {
+	const useRaceModeX = (onGameEnd: onGameEndCallback) => {
 		const { deckGenerator, replacer } = useInitGameParts({});
 		return useRaceMode(
 			onGameEnd,

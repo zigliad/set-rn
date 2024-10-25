@@ -5,7 +5,7 @@ import { Heading } from "@/components/ui/heading";
 import { HStack } from "@/components/ui/hstack";
 import { useColors } from "@/hooks/useInitColors";
 import { useStorageState } from "@/hooks/useStorageState";
-import { getData, StorageKey, storeData } from "@/utils/storage";
+import { StorageKey } from "@/utils/storage";
 import { router } from "expo-router";
 import { Candy } from "lucide-react-native";
 import { useState } from "react";
@@ -23,7 +23,10 @@ const itunesItemId = 982107779;
 export default function MoreOptions() {
 	const { next: nextColors } = useColors();
 	const [visibleModal, setVisibleModal] = useState(false);
-	const [muteSounds, setMuteSounds] = useStorageState(StorageKey.muteSounds);
+	const [muteSounds, setMuteSounds] = useStorageState(
+		StorageKey.muteSounds,
+		"0"
+	);
 
 	const moreOptionsConfig: GridAction[] = [
 		{

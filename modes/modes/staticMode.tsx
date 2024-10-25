@@ -10,14 +10,13 @@ import { onGameEndCallback } from "@/modes/modes";
 import { useMemo } from "react";
 
 export const createStaticMode = (
-	onGameEnd: onGameEndCallback,
 	totalSets: number,
 	minSets?: number,
 	attributesCount: number = 4,
 	optionsCount: number = 3,
 	storageKey?: string
 ) => {
-	const useStaticModeX = () => {
+	const useStaticModeX = (onGameEnd: onGameEndCallback) => {
 		const gameParts = useMemo(() => {
 			const validator = new OddSizeSetValidator(
 				attributesCount,
@@ -55,7 +54,12 @@ export const createStaticMode = (
 			};
 		}, []);
 
-		return useStaticMode(onGameEnd, gameParts.deckGenerator, totalSets, storageKey);
+		return useStaticMode(
+			onGameEnd,
+			gameParts.deckGenerator,
+			totalSets,
+			storageKey
+		);
 	};
 
 	return useStaticModeX;

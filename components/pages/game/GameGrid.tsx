@@ -23,7 +23,7 @@ import { IHookStateSetAction } from "react-use/lib/misc/hookState";
 const SPACING = 12;
 
 const setFound = async (set: CardsSet) => {
-	const totalSetsFound = (await getData(StorageKey.totalSetsFound)) ?? 0;
+	const totalSetsFound = await getData(StorageKey.totalSetsFound, "0");
 	await storeData(StorageKey.totalSetsFound, +totalSetsFound + 1);
 
 	if (set[0].attributes.length === 4) {

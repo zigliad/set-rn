@@ -31,8 +31,12 @@ export const useStaticMode = (
 
 	const endGame = useCallback(
 		async (result?: GameResult) => {
-			const score = await getData(storageKey);
-			baseEndGame(result, +(score ?? 0) + 1);
+			let wins;
+			if (storageKey) {
+				const score = await getData(storageKey, "0");
+				wins = +score + 1;
+			}
+			baseEndGame(result, wins);
 		},
 		[baseEndGame, storageKey]
 	);

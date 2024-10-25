@@ -4,14 +4,13 @@ import { useInitGameParts } from "@/hooks/useInitGameParts";
 import { onGameEndCallback } from "@/modes/modes";
 
 export const createDiscoMode = (
-	onGameEnd: onGameEndCallback,
 	x: number,
 	seconds: number,
 	discoIntervalSeconds: number = 5,
 	attributesCount = 4,
 	storageKey?: string
 ) => {
-	const useDiscoModeX = () => {
+	const useDiscoModeX = (onGameEnd: onGameEndCallback) => {
 		const { deckGenerator, replacer } = useInitGameParts({
 			deckGeneratorMinSets: x,
 			replacerMinSets: x,

@@ -36,8 +36,12 @@ export const useTimeMode = (
 
 	const endGame = useCallback(
 		async (result?: GameResult) => {
-			const best = await getData(storageKey);
-			baseEndGame(result, score > +(best ?? 0) ? score : undefined);
+			let newBest;
+			if (storageKey) {
+				const best = await getData(storageKey, "0");
+				newBest = score > +best ? score : undefined;
+			}
+			baseEndGame(result, newBest);
 		},
 		[baseEndGame, storageKey, score]
 	);

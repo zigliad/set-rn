@@ -20,19 +20,12 @@ export type Modes =
 	| "relaxHard";
 
 export const modes: Record<Modes, Function<onGameEndCallback, Mode>> = {
-	time60: (onGameEnd: onGameEndCallback) =>
-		createTimeMode(onGameEnd, 4, 60, 4, StorageKey.time60)(),
-	time60Attributes5: (onGameEnd: onGameEndCallback) =>
-		createTimeMode(onGameEnd, 4, 60, 5)(),
-	static6: (onGameEnd: onGameEndCallback) =>
-		createStaticMode(onGameEnd, 6, 8, 4, 3, StorageKey.static6)(),
-	static8: (onGameEnd: onGameEndCallback) =>
-		createStaticMode(onGameEnd, 8, 8, 4, 3, StorageKey.static6)(),
-	race5: (onGameEnd: onGameEndCallback) =>
-		createRaceMode(onGameEnd, 5, 30, StorageKey.race5)(),
-	disco60: (onGameEnd: onGameEndCallback) =>
-		createDiscoMode(onGameEnd, 4, 60, 5, 4, StorageKey.disco60)(),
-	relax: (onGameEnd: onGameEndCallback) => createRelaxMode(onGameEnd, 4)(),
-	relaxHard: (onGameEnd: onGameEndCallback) =>
-		createRelaxMode(onGameEnd, 2, 5)(),
+	time60: createTimeMode(4, 60, 4, StorageKey.time60),
+	time60Attributes5: createTimeMode(4, 60, 5),
+	static6: createStaticMode(6, 8, 4, 3, StorageKey.static6),
+	static8: createStaticMode(8, 8, 4, 3, StorageKey.static8),
+	race5: createRaceMode(5, 30, StorageKey.race5),
+	disco60: createDiscoMode(4, 60, 5, 4, StorageKey.disco60),
+	relax: createRelaxMode(4),
+	relaxHard: createRelaxMode(2, 5),
 };

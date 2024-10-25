@@ -2,6 +2,7 @@ import { AwesomeModal } from "@/components/awesome-modal/AwesomeModal";
 import { GameBar } from "@/components/pages/game/GameBar";
 import { GameGrid } from "@/components/pages/game/GameGrid";
 import { HStack } from "@/components/ui/hstack";
+import { GAMES_UNTIL_AD, interstitial } from "@/constants/ads";
 import { sounds } from "@/constants/sounds";
 import { useInterstitialAd } from "@/hooks/ads/useInterstitialAd";
 import { modes, Modes } from "@/modes/modes";
@@ -10,40 +11,30 @@ import { GameResult } from "@/modes/modeTypes";
 import { playSound } from "@/utils/soundPlayer";
 import { getData, StorageKey, storeData } from "@/utils/storage";
 import { useLocalSearchParams } from "expo-router";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { SafeAreaView } from "react-native";
-import { InterstitialAd, TestIds } from "react-native-google-mobile-ads";
 import useList from "react-use/lib/useList";
 import useMount from "react-use/lib/useMount";
 
-const GAMES_UNTIL_AD = 2;
-
-const adUnitId = __DEV__
-	? TestIds.INTERSTITIAL
-	: "ca-app-pub-xxxxxxxxxxxxx/yyyyyyyyyyyyyy";
-
-const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
-	keywords: ["fashion", "clothing"],
-});
-
 export default function Game() {
-	const { mode } = useLocalSearchParams<{ mode: Modes }>();
-	const useChosenMode = modes[mode];
-
-	const { showAdIfLoaded, loaded } = useInterstitialAd(interstitial);
+	const { showAdIfLoaded } = useInterstitialAd(interstitial);
 
 	const onGameEnd = useCallback(
 		async (gameResult?: GameResult) => {
-			const gamesPlayedWithoutAds =
-				(await getData(StorageKey.gamesPlayedWithoutAds)) ?? 0;
-			console.log(gamesPlayedWithoutAds);
+			const gamesPlayedWithoutAds = await getData(
+				StorageKey.gamesPlayedWithoutAds,
+				"0"
+			);
 			let newGamesPlayWithoutAds =
 				(+gamesPlayedWithoutAds + 1) % GAMES_UNTIL_AD;
 			await storeData(
 				StorageKey.gamesPlayedWithoutAds,
 				String(newGamesPlayWithoutAds)
 			);
-			if (newGamesPlayWithoutAds === 0) setTimeout(showAdIfLoaded, 500);
+
+			if (newGamesPlayWithoutAds === 0) {
+				setTimeout(showAdIfLoaded, 500);
+			}
 
 			setVisibleModal(true);
 			await playSound(
@@ -53,6 +44,8 @@ export default function Game() {
 		[showAdIfLoaded]
 	);
 
+	const { mode } = useLocalSearchParams<{ mode: Modes }>();
+	const useChosenMode = modes[mode];
 	const modeData = useChosenMode(onGameEnd);
 	useMount(modeData.newGame);
 

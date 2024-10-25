@@ -9,13 +9,13 @@ import React, { useCallback, useEffect, useState } from "react";
 
 export const useStorageState = (
 	storageKey: StorageKey,
-	defaultValue: string = ""
+	defaultValue: string
 ) => {
-	const [value, _setValue] = useState<string | undefined | null>("");
+	const [value, _setValue] = useState<string | undefined | null>();
 
 	useEffect(() => {
 		(async () => {
-			const loadedValue = await getData(storageKey);
+			const loadedValue = await getData(storageKey, defaultValue);
 			if (loadedValue === null) {
 				await storeData(storageKey, defaultValue);
 				_setValue(defaultValue);
