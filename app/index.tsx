@@ -2,8 +2,11 @@ import { GridAction, GridActions } from "@/components/GridActions";
 import { StatsModal } from "@/components/StatsModal";
 import { Heading } from "@/components/ui/heading";
 import { HStack } from "@/components/ui/hstack";
+import { useShowOnboarding } from "@/hooks/useShowOnBoarding";
+import { useStorageState } from "@/hooks/useStorageState";
 import { Modes } from "@/modes/modes";
 import { modesConfig } from "@/modes/modesConfig";
+import { StorageKey } from "@/utils/storage";
 import { router } from "expo-router";
 import { useMemo, useRef, useState } from "react";
 import { ImageURISource, SafeAreaView, StyleSheet, View } from "react-native";
@@ -23,6 +26,8 @@ export const titleStyles = StyleSheet.create({
 export default function Index() {
 	const confettiRef = useRef<ConfettiCannon | null>(null);
 	const [visibleStatsModal, setVisibleStatsModal] = useState(false);
+	const { visibleModal: visibleOnboardingModal, finishOnboarding } =
+		useShowOnboarding();
 
 	const moreOptions: GridAction[] = useMemo(
 		() => [

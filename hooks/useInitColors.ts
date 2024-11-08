@@ -9,9 +9,8 @@ import {
 
 export const colors = [
 	["#52D95D", "#FF0188", "#A2A0DF"],
-	["#EF476F", "#FFD166", "#06D6A0"],
-	["#FF9300", "#3DACF7", "#77C344"],
-	["#FF006E", "#8338EC", "#FFBE0B"],
+	["#06D6A0", "#EF476F", "#FFD166"],
+	["#8FD14F", "#FF6600", "#604CC3"],
 ];
 
 export type ColorContextType = {

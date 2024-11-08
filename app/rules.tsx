@@ -4,13 +4,15 @@ import { Button } from "@/components/ui/button";
 import { Center } from "@/components/ui/center";
 import { Heading } from "@/components/ui/heading";
 import { HStack } from "@/components/ui/hstack";
+import { Icon } from "@/components/ui/icon";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
+import { sounds } from "@/constants/sounds";
+import { playSound } from "@/utils/soundPlayer";
 import { router } from "expo-router";
-import { ArrowLeft } from "lucide-react-native";
+import { ArrowLeft, ArrowRight, X } from "lucide-react-native";
 import { useState } from "react";
-import { SafeAreaView, StyleSheet } from "react-native";
-import { Icon } from "@/components/ui/icon";
+import { SafeAreaView, StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
 	title: {
@@ -22,9 +24,11 @@ const styles = StyleSheet.create({
 	},
 	explanation: {
 		fontFamily: "PlayfairDisplay_Medium",
-		fontSize: 24,
+		fontSize: 22,
+		lineHeight: 24,
 	},
 	cardWrapper: { height: "32%" },
+	cardWidth: { width: 180 },
 	card: {
 		width: 180,
 		height: "100%",
@@ -137,33 +141,62 @@ export default function Rules() {
 
 	return (
 		<SafeAreaView className="bg-background-base">
-			<HStack className="justify-between pt-4" space={"md"}>
-				<VStack className="flex-1 p-4" space={"md"}>
-					<Heading size="5xl" style={styles.title}>
-						{rule.title}
-					</Heading>
-					<VStack className="pl-4" space="md">
-						{rule.explanation.map((txt) => (
-							<Text style={styles.explanation} key={txt}>
-								{txt}
-							</Text>
-						))}
+			<HStack className="justify-between pt-4 h-full" space={"md"}>
+				<VStack className="flex-1 p-4 h-full justify-between">
+					<VStack space={"md"}>
+						<Heading size="5xl" style={styles.title}>
+							{rule.title}
+						</Heading>
+						<VStack className="pl-4" space="md">
+							{rule.explanation.map((txt) => (
+								<Text style={styles.explanation} key={txt}>
+									{txt}
+								</Text>
+							))}
+						</VStack>
 					</VStack>
-					<Button
-						className="absolute bottom-0 left-0 rounded-full bg-background-800 shadow-xl"
-						onPress={async () => {
-							if (stage === rulesConfig.length - 1) router.back();
-							else setStage((s) => s + 1);
-						}}
-					>
-						<Icon
-							as={ArrowLeft}
-							className={"w-6 h-6 text-typography-0"}
-						/>
-					</Button>
+					<HStack className="w-full" space="md">
+						<HStack className="justify-between flex-grow">
+							<Button
+								className=" rounded-full bg-background-800 shadow-xl"
+								onPress={async () => {
+									playSound(sounds.click);
+									if (stage === 0) router.back();
+									else setStage((s) => s - 1);
+								}}
+							>
+								<Icon
+									as={stage === 0 ? X : ArrowLeft}
+									className={"w-6 h-6 text-typography-0"}
+								/>
+							</Button>
+							<Button
+								className=" rounded-full bg-background-800 shadow-xl"
+								onPress={async () => {
+									if (stage === rulesConfig.length - 1) {
+										playSound(sounds.win);
+										router.back();
+									} else {
+										playSound(sounds.click);
+										setStage((s) => s + 1);
+									}
+								}}
+							>
+								<Icon
+									as={
+										stage === rulesConfig.length - 1
+											? X
+											: ArrowRight
+									}
+									className={"w-6 h-6 text-typography-0"}
+								/>
+							</Button>
+						</HStack>
+						{!rule.cards && <View style={styles.cardWidth} />}
+					</HStack>
 				</VStack>
 				{rule.cards && (
-					<VStack className="">
+					<VStack>
 						<Center className="h-full flex flex-col justify-between">
 							{rule.cards.map((card) => (
 								<Center
