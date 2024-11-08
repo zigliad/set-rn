@@ -43,6 +43,7 @@ export default function RootLayout() {
 						<Stack.Screen name="game" />
 						<Stack.Screen name="more" />
 						<Stack.Screen name="setsFound" />
+						<Stack.Screen name="rules" />
 					</Stack>
 				</ColorsContext.Provider>
 			</GestureHandlerRootView>

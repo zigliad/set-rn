@@ -42,7 +42,9 @@ export default function MoreOptions() {
 		{
 			title: "Rules",
 			Icon: require("@/assets/images/grid-action-icons/rules.png"),
-			onClick: () => {},
+			onClick: () => {
+				router.push({ pathname: "/rules" });
+			},
 		},
 		{
 			title: "Colors",
