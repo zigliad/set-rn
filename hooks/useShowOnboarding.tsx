@@ -1,6 +1,6 @@
 import { useStorageState } from "@/hooks/useStorageState";
 import { StorageKey } from "@/utils/storage";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export const useShowOnboarding = () => {
 	const [visibleModal, setVisibleModal] = useState(false);

@@ -1,8 +1,9 @@
 import { GridAction, GridActions } from "@/components/GridActions";
+import { OnboardingModal } from "@/components/pages/index/OnboardingModal";
 import { StatsModal } from "@/components/StatsModal";
 import { Heading } from "@/components/ui/heading";
 import { HStack } from "@/components/ui/hstack";
-import { useShowOnboarding } from "@/hooks/useShowOnBoarding";
+import { useShowOnboarding } from "@/hooks/useShowOnboarding";
 import { useStorageState } from "@/hooks/useStorageState";
 import { Modes } from "@/modes/modes";
 import { modesConfig } from "@/modes/modesConfig";
@@ -106,6 +107,10 @@ export default function Index() {
 					onAnimationEnd={() => confettiRef.current?.start()}
 				/> */}
 			</View>
+			<OnboardingModal
+				visible={visibleOnboardingModal}
+				onResolve={finishOnboarding}
+			/>
 		</SafeAreaView>
 	);
 }

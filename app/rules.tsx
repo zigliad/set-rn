@@ -37,6 +37,13 @@ const styles = StyleSheet.create({
 
 const rulesConfig = [
 	{
+		title: "Welcome!",
+		explanation: [
+			"The rules of 'SET' are very simple.",
+			"Let's take a quick dive in!",
+		],
+	},
+	{
 		title: "Card",
 		explanation: [
 			"Every card has 4 features: Color, Symbol, Number and Shading.",

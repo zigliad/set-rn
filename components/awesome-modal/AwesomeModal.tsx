@@ -2,6 +2,7 @@ import { Box } from "@/components/ui/box";
 import { Button, ButtonText } from "@/components/ui/button";
 import { Center } from "@/components/ui/center";
 import { Heading } from "@/components/ui/heading";
+import { HStack } from "@/components/ui/hstack";
 import { Icon } from "@/components/ui/icon";
 import { Modal, ModalBackdrop, ModalContent } from "@/components/ui/modal";
 import { Text } from "@/components/ui/text";
@@ -19,22 +20,22 @@ export type ModalType = "info" | "success" | "error" | "warning";
 
 const modalTypeConfig: Record<
 	ModalType,
-	{ color?: string; tailwindColor?: string; icon: LucideIcon }
+	{ color?: string; bgTailwindColor?: string; icon: LucideIcon }
 > = {
 	info: {
-		tailwindColor: "bg-info-500",
+		bgTailwindColor: "bg-info-500",
 		icon: BadgeInfo,
 	},
 	success: {
-		tailwindColor: "bg-success-400",
+		bgTailwindColor: "bg-success-400",
 		icon: Check,
 	},
 	error: {
-		tailwindColor: "bg-error-500",
+		bgTailwindColor: "bg-error-500",
 		icon: X,
 	},
 	warning: {
-		tailwindColor: "bg-warning-500",
+		bgTailwindColor: "bg-warning-500",
 		icon: TriangleAlert,
 	},
 };
@@ -50,6 +51,8 @@ export const AwesomeModal = ({
 	tailwindColor,
 	icon,
 	backdropOnResolve = false,
+	secondaryOnResolve,
+	secondaryButtonText,
 }: {
 	visible?: boolean;
 	onResolve?: DispatchWithoutAction;
@@ -61,12 +64,14 @@ export const AwesomeModal = ({
 	tailwindColor?: string;
 	icon?: LucideIcon;
 	backdropOnResolve?: boolean;
+	secondaryOnResolve?: DispatchWithoutAction;
+	secondaryButtonText?: string;
 }) => {
 	const computedType = !color && !tailwindColor ? (type ?? "info") : "info";
 	const computedColor = color ? color : modalTypeConfig[computedType].color;
 	const computedTailwindColor = tailwindColor
 		? tailwindColor
-		: modalTypeConfig[computedType].tailwindColor;
+		: modalTypeConfig[computedType].bgTailwindColor;
 	const computedIcon = icon ? icon : modalTypeConfig[computedType].icon;
 
 	return (
@@ -122,29 +127,47 @@ export const AwesomeModal = ({
 								{content}
 							</Text>
 						</ScrollView>
-						<Button
-							size="md"
-							variant="solid"
-							className={
-								"mt-6 bg-success-400 w-full rounded-lg " +
-								(computedTailwindColor ?? "")
-							}
-							onPress={onResolve}
-							style={{
-								...(computedColor && {
-									backgroundColor: computedColor,
-								}),
-							}}
-						>
-							<ButtonText
-								className="text-white"
+						<HStack space="sm" className="mt-6">
+							{secondaryOnResolve && secondaryButtonText && (
+								<Button
+									size="md"
+									variant="outline"
+									className={"flex-1 rounded-lg"}
+									onPress={secondaryOnResolve}
+								>
+									<ButtonText
+										style={{
+											fontFamily: "PlayfairDisplay_Black",
+										}}
+									>
+										{secondaryButtonText}
+									</ButtonText>
+								</Button>
+							)}
+							<Button
+								size="md"
+								variant="solid"
+								className={
+									"flex-1 rounded-lg " +
+									(computedTailwindColor ?? "")
+								}
+								onPress={onResolve}
 								style={{
-									fontFamily: "PlayfairDisplay_Black",
+									...(computedColor && {
+										backgroundColor: computedColor,
+									}),
 								}}
 							>
-								{buttonText}
-							</ButtonText>
-						</Button>
+								<ButtonText
+									className="text-white"
+									style={{
+										fontFamily: "PlayfairDisplay_Black",
+									}}
+								>
+									{buttonText}
+								</ButtonText>
+							</Button>
+						</HStack>
 					</Center>
 				</Center>
 			</ModalContent>
