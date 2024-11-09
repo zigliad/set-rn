@@ -33,7 +33,7 @@ export const useStaticMode = (
 		async (result?: GameResult) => {
 			let wins;
 			if (storageKey) {
-				const score = await getData(storageKey, "0");
+				const score = await getData(storageKey, String(0));
 				wins = +score + 1;
 			}
 			baseEndGame(result, wins);

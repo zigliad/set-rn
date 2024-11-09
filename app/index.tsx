@@ -4,14 +4,12 @@ import { StatsModal } from "@/components/StatsModal";
 import { Heading } from "@/components/ui/heading";
 import { HStack } from "@/components/ui/hstack";
 import { useShowOnboarding } from "@/hooks/useShowOnboarding";
-import { useStorageState } from "@/hooks/useStorageState";
 import { Modes } from "@/modes/modes";
 import { modesConfig } from "@/modes/modesConfig";
-import { StorageKey } from "@/utils/storage";
+import { medalConfig } from "@/types/medal";
 import { router } from "expo-router";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ImageURISource, SafeAreaView, StyleSheet, View } from "react-native";
-import ConfettiCannon from "react-native-confetti-cannon";
 
 export const titleStyles = StyleSheet.create({
 	pageTitle: {
@@ -25,7 +23,6 @@ export const titleStyles = StyleSheet.create({
 });
 
 export default function Index() {
-	const confettiRef = useRef<ConfettiCannon | null>(null);
 	const [visibleStatsModal, setVisibleStatsModal] = useState(false);
 	const { visibleModal: visibleOnboardingModal, finishOnboarding } =
 		useShowOnboarding();
@@ -50,18 +47,26 @@ export default function Index() {
 		[]
 	);
 
-	const gridActions: GridAction[] = useMemo(
-		() =>
-			modesConfig
-				.map((modeConf) => {
+	const [gridActions, setGridActions] = useState<GridAction[]>([]);
+
+	useEffect(() => {
+		(async () => {
+			const _promises: Promise<GridAction>[] = modesConfig.map(
+				async (modeConf) => {
 					const conf: {
 						title: string;
 						mode?: Modes;
 						Icon: ImageURISource;
 					} = { ...modeConf };
 					delete conf.mode;
+
+					let medalConf;
+					const medal = await modeConf.getMedal?.();
+					if (medal) medalConf = medalConfig[medal];
+
 					return {
 						...conf,
+						badge: medalConf,
 						onClick: () => {
 							router.push({
 								pathname: "/game",
@@ -71,10 +76,11 @@ export default function Index() {
 							});
 						},
 					};
-				})
-				.concat(moreOptions),
-		[moreOptions]
-	);
+				}
+			);
+			setGridActions([...(await Promise.all(_promises)), ...moreOptions]);
+		})();
+	}, [moreOptions]);
 
 	return (
 		<SafeAreaView className="bg-background-base">
@@ -95,17 +101,6 @@ export default function Index() {
 						onResolve={() => setVisibleStatsModal(false)}
 					/>
 				)}
-				{/* <ConfettiCannon
-					ref={confettiRef}
-					count={40}
-					autoStartDelay={0}
-					fallSpeed={5000}
-					origin={{ x: -10, y: -10 }}
-					colors={colors}
-					explosionSpeed={1000}
-					fadeOut
-					onAnimationEnd={() => confettiRef.current?.start()}
-				/> */}
 			</View>
 			<OnboardingModal
 				visible={visibleOnboardingModal}
