@@ -5,7 +5,10 @@ export enum StorageKey {
 	static6 = "static6",
 	static8 = "static8",
 	race5 = "race5",
+	race3_12 = "race3_12",
 	disco60 = "disco60",
+	drain = "drain",
+	speed10_5 = "speed10_5",
 	totalSetsFound = "totalSetsFound",
 	setsFound = "setsFound", // concrete sets values
 	colorIndex = "colorIndex",

@@ -24,7 +24,7 @@ export const useSinglePlayerMode = (
 
 		if (gameEnded) return falsyResult;
 
-		let cards = indexes.map((i) => deck.cards[i]);
+		let cards = indexes.map((i) => deck.cards[i]).filter((c) => c !== null);
 		if (deck.brain.isSet(cards)) {
 			return { isSet: true, set: cards };
 		}

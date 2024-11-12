@@ -70,6 +70,5 @@ export const useStaticMode = (
 		title: `${sets.size} / ${totalSets} sets found`,
 		endgameTitle: `You Won`,
 		endgameContent: `You found ${totalSets} sets`,
-		name: "Static Mode",
 	};
 };

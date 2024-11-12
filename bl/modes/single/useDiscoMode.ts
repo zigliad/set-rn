@@ -89,6 +89,5 @@ export const useDiscoMode = (
 		title: `${timeLeft} seconds left / ${score}`,
 		endgameTitle: "Time's up!",
 		endgameContent: `Your found ${score} sets`,
-		name: "Disco Mode",
 	};
 };

@@ -44,6 +44,5 @@ export const useRelaxMode = (
 		title: `${availableSets} sets available`,
 		endgameTitle: `Wait, What?`,
 		endgameContent: "Wait, What?",
-		name: "Relax Mode",
 	};
 };

@@ -5,6 +5,7 @@ import { onGameEndCallback } from "@/modes/modes";
 export const createRaceMode = (
 	goal: number,
 	maxTime: number,
+	reverse: boolean,
 	storageKey?: string
 ) => {
 	const useRaceModeX = (onGameEnd: onGameEndCallback) => {
@@ -15,6 +16,7 @@ export const createRaceMode = (
 			replacer,
 			goal,
 			maxTime,
+			reverse,
 			storageKey
 		);
 	};

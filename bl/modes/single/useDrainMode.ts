@@ -4,63 +4,57 @@ import Replacer from "@/bl/replacer/Replacer";
 import { onGameEndCallback } from "@/modes/modes";
 import { GameResult } from "@/modes/modeTypes";
 import { getData } from "@/utils/storage";
-import { useCallback } from "react";
-import useCounter from "react-use/lib/useCounter";
-import useInterval from "react-use/lib/useInterval";
+import { useCallback, useMemo, useState } from "react";
 
-export const useTimeMode = (
+export const useDrainMode = (
 	onGameEnd: onGameEndCallback,
 	deckGenerator: DeckGenerator,
 	replacer: Replacer,
-	seconds: number,
 	storageKey?: string
 ) => {
 	const {
-		gameEnded,
 		gameResult,
+		gameEnded,
 		deck,
 		brain,
-		newGame: baseNewGame,
 		endGame: baseEndGame,
+		newGame: baseNewGame,
 		checkSet: baseCheckSet,
 	} = useSinglePlayerMode(onGameEnd, deckGenerator, storageKey);
 
-	const [timeLeft, { dec: decTime, reset: resetTime }] = useCounter(seconds);
-	const [score, { inc: incScore, reset: resetScore }] = useCounter(0);
+	const [score, setScore] = useState(0);
+
+	const goal = useMemo(() => deck.size / deck.brain.options, [deck]);
 
 	const newGame = () => {
 		baseNewGame();
-		resetTime();
-		resetScore();
+		setScore(0);
 	};
 
 	const endGame = useCallback(
 		async (result?: GameResult) => {
-			let newBest;
+			let wins;
 			if (storageKey) {
-				const best = await getData(storageKey, "0");
-				newBest = score > +best ? score : undefined;
+				const score = await getData(storageKey, String(0));
+				wins = +score + 1;
 			}
-			baseEndGame(result, newBest);
+			baseEndGame(result, wins);
 		},
-		[baseEndGame, storageKey, score]
-	);
-
-	useInterval(
-		async () => {
-			if (timeLeft === 1) {
-				await endGame();
-			}
-			decTime();
-		},
-		gameEnded ? null : 1000
+		[baseEndGame, storageKey]
 	);
 
 	const checkSet = async (indexes: number[]) => {
 		const result = baseCheckSet(indexes);
 		if (result.isSet) {
-			incScore();
 			replacer.replace(indexes, deck);
+			const newScore = score + 1;
+			setScore(newScore);
+			if (newScore === goal) await endGame(GameResult.win);
+			else {
+				replacer.replace(indexes, deck);
+				const newSetsCount = deck.countSets();
+				if (newSetsCount === 0) await endGame(GameResult.lose);
+			}
 		}
 
 		return result;
@@ -73,9 +67,12 @@ export const useTimeMode = (
 		brain,
 		newGame,
 		checkSet,
-		rules: `Find as many sets as you can in ${seconds} seconds!`,
-		title: `${timeLeft} seconds left / ${score}`,
-		endgameTitle: `Time's up!`,
-		endgameContent: `You found ${score} sets`,
+		rules: `With the right moves, ${goal} sets can be formed. Find them, but be careful and choose wisely.`,
+		title: `${score} / ${goal} sets found`,
+		endgameTitle: gameResult === GameResult.win ? "You Won" : "You Lose",
+		endgameContent:
+			gameResult === GameResult.win
+				? `You drained the cards!`
+				: `No more sets`,
 	};
 };

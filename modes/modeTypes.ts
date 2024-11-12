@@ -17,7 +17,6 @@ export type Mode = {
 	newGame: DispatchWithoutAction;
 	checkSet: Function<number[], Promise<{ isSet: boolean; set?: Set }>>;
 	rules: string;
-	name: string;
 	title: string;
 	endgameTitle: string;
 	endgameContent: string;

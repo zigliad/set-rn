@@ -79,6 +79,36 @@ export const modesConfig: ModeConfig[] = [
 		},
 	},
 	{
+		title: "Drain",
+		mode: "drain",
+		Icon: require("@/assets/images/mode-icons/drain.png"),
+		getMedal: async () => {
+			const wins = +(await getData(StorageKey.drain, String(0)));
+			return wins >= 500
+				? Medal.gold
+				: wins >= 300
+					? Medal.silver
+					: wins >= 100
+						? Medal.bronze
+						: null;
+		},
+	},
+	{
+		title: "Speed",
+		mode: "speed10_5",
+		Icon: require("@/assets/images/mode-icons/speed.png"),
+		getMedal: async () => {
+			const best = +(await getData(StorageKey.speed10_5, "0"));
+			return best >= 20
+				? Medal.gold
+				: best >= 10
+					? Medal.silver
+					: best >= 5
+						? Medal.bronze
+						: null;
+		},
+	},
+	{
 		title: "Disco",
 		mode: "disco60",
 		Icon: require("@/assets/images/mode-icons/disco.png"),
@@ -89,6 +119,21 @@ export const modesConfig: ModeConfig[] = [
 				: best >= 12
 					? Medal.silver
 					: best >= 8
+						? Medal.bronze
+						: null;
+		},
+	},
+	{
+		title: "Sprint",
+		mode: "race3_12",
+		Icon: require("@/assets/images/mode-icons/sprint.png"),
+		getMedal: async () => {
+			const wins = +(await getData(StorageKey.race3_12, String(0)));
+			return wins >= 300
+				? Medal.gold
+				: wins >= 150
+					? Medal.silver
+					: wins >= 50
 						? Medal.bronze
 						: null;
 		},

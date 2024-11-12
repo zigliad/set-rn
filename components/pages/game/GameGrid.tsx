@@ -1,6 +1,8 @@
+import Card from "@/bl/card/Card";
 import { Set as CardsSet } from "@/bl/types/set";
 import { PlayingCard } from "@/components/pages/game/PlayingCard";
 import { Box } from "@/components/ui/box";
+import { Text } from "@/components/ui/text";
 import { sounds } from "@/constants/sounds";
 import { useMode } from "@/modes/modesContext";
 import { playSound } from "@/utils/soundPlayer";
@@ -15,6 +17,7 @@ import React, {
 	DispatchWithoutAction,
 	useCallback,
 	useEffect,
+	useMemo,
 	useState,
 } from "react";
 import { FlatGrid } from "react-native-super-grid";
@@ -94,6 +97,17 @@ export const GameGrid = ({
 		})();
 	}, [deck.brain.setSize, picked, _checkSet, reset, dummyReset]);
 
+	const cardSize = useMemo(
+		() =>
+			gridSize
+				? {
+						width: (gridSize.width - 5 * SPACING) / 4,
+						height: (gridSize.height - 4 * SPACING) / 3,
+					}
+				: null,
+		[gridSize]
+	);
+
 	return (
 		<>
 			<FlatGrid
@@ -105,18 +119,16 @@ export const GameGrid = ({
 				}}
 				maxItemsPerRow={4}
 				spacing={SPACING}
-				data={deck.cards}
+				data={deck.cards.map((c) =>
+					c === null ? new Card([-1, -1, -1, -1]) : c
+				)}
 				scrollEnabled={false}
-				keyExtractor={(item) => item.attributes.join("")}
 				renderItem={({ item, index }) => {
-					if (gridSize) {
-						const cardSize = {
-							width: (gridSize.width - 5 * SPACING) / 4,
-							height: (gridSize.height - 4 * SPACING) / 3,
-						};
-						return (
+					if (cardSize) {
+						return item.attributes[0] !== -1 ? (
 							<PlayingCard
 								card={item}
+								key={item.attributes.join("")}
 								onPress={() => cardClicked(index)}
 								picked={
 									dummyPicked.includes(index) ||
@@ -124,6 +136,8 @@ export const GameGrid = ({
 								}
 								size={cardSize}
 							/>
+						) : (
+							<Box key={index} style={cardSize} />
 						);
 					}
 

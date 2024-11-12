@@ -13,7 +13,8 @@ export const useRaceMode = (
 	deckGenerator: DeckGenerator,
 	replacer: Replacer,
 	goal: number,
-	maxTime: number = 30,
+	maxTime: number = 300,
+	reverse = false,
 	storageKey?: string
 ) => {
 	const {
@@ -26,8 +27,9 @@ export const useRaceMode = (
 		checkSet: baseCheckSet,
 	} = useSinglePlayerMode(onGameEnd, deckGenerator, storageKey);
 
-	const [time, { dec: decTime, reset: resetTime, set: setTime }] =
-		useCounter(maxTime);
+	const [time, { inc: incTime, reset: resetTime, set: setTime }] = useCounter(
+		reverse ? maxTime : 0
+	);
 	const [score, { inc: incScore, reset: resetScore }] = useCounter(0);
 
 	const newGame = () => {
@@ -40,22 +42,25 @@ export const useRaceMode = (
 		async (result?: GameResult) => {
 			let newBest;
 			if (result !== GameResult.lose && storageKey) {
-				const best = await getData(storageKey, String(Infinity));
-				const gameTime = maxTime - time;
-				newBest = gameTime < +best ? gameTime : undefined;
+				if (reverse) {
+					const score = await getData(storageKey, String(0));
+					newBest = +score + 1;
+				} else {
+					const best = await getData(storageKey, String(Infinity));
+					newBest = time < +best ? time : undefined;
+				}
 			}
 			baseEndGame(result, newBest);
 		},
-		[baseEndGame, storageKey]
+		[baseEndGame, storageKey, time]
 	);
 
 	useInterval(
 		async () => {
-			if (time <= 0) {
-				setTime(0);
+			if (reverse ? time <= 1 : time >= maxTime) {
 				await endGame(GameResult.lose);
 			} else {
-				decTime(1);
+				incTime(reverse ? -1 : 1);
 			}
 		},
 		gameEnded ? null : 1000
@@ -81,13 +86,18 @@ export const useRaceMode = (
 		brain,
 		newGame,
 		checkSet,
-		rules: `Find ${goal} sets before the clock strikes zero!`,
+		rules: reverse
+			? `Find ${goal} sets before the clock strikes zero!`
+			: `Find ${goal} sets as fast as you can!`,
 		title: `${score} / ${goal} sets, ${time.toFixed(0)}`,
 		endgameTitle: gameResult === GameResult.win ? "You Won" : "You Lose",
 		endgameContent:
 			gameResult === GameResult.win
-				? `${goal} sets in ${(maxTime - time).toFixed(0)} seconds!`
-				: `You found ${score}/${goal} sets in ${maxTime} seconds`,
-		name: "Race Mode",
+				? reverse
+					? `You found ${goal} sets in ${(maxTime - time).toFixed(0)} seconds!`
+					: `You found ${goal} sets in ${time} seconds!`
+				: reverse
+					? "Better luck next time!"
+					: `You found ${score}/${goal} sets in ${maxTime} seconds`,
 	};
 };

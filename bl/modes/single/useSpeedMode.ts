@@ -8,11 +8,12 @@ import { useCallback } from "react";
 import useCounter from "react-use/lib/useCounter";
 import useInterval from "react-use/lib/useInterval";
 
-export const useTimeMode = (
+export const useSpeedMode = (
 	onGameEnd: onGameEndCallback,
 	deckGenerator: DeckGenerator,
 	replacer: Replacer,
 	seconds: number,
+	timeBonus: number,
 	storageKey?: string
 ) => {
 	const {
@@ -25,7 +26,8 @@ export const useTimeMode = (
 		checkSet: baseCheckSet,
 	} = useSinglePlayerMode(onGameEnd, deckGenerator, storageKey);
 
-	const [timeLeft, { dec: decTime, reset: resetTime }] = useCounter(seconds);
+	const [timeLeft, { dec: decTime, reset: resetTime, set: setTime }] =
+		useCounter(seconds);
 	const [score, { inc: incScore, reset: resetScore }] = useCounter(0);
 
 	const newGame = () => {
@@ -38,7 +40,7 @@ export const useTimeMode = (
 		async (result?: GameResult) => {
 			let newBest;
 			if (storageKey) {
-				const best = await getData(storageKey, "0");
+				const best = await getData(storageKey, String(0));
 				newBest = score > +best ? score : undefined;
 			}
 			baseEndGame(result, newBest);
@@ -49,7 +51,7 @@ export const useTimeMode = (
 	useInterval(
 		async () => {
 			if (timeLeft === 1) {
-				await endGame();
+				await endGame(GameResult.lose);
 			}
 			decTime();
 		},
@@ -60,6 +62,7 @@ export const useTimeMode = (
 		const result = baseCheckSet(indexes);
 		if (result.isSet) {
 			incScore();
+			setTime((t) => Math.min(10, t + timeBonus));
 			replacer.replace(indexes, deck);
 		}
 
@@ -73,7 +76,7 @@ export const useTimeMode = (
 		brain,
 		newGame,
 		checkSet,
-		rules: `Find as many sets as you can in ${seconds} seconds!`,
+		rules: `You earn ${timeBonus} seconds with each set you find, ${seconds} is the limit. Don't get to 0.`,
 		title: `${timeLeft} seconds left / ${score}`,
 		endgameTitle: `Time's up!`,
 		endgameContent: `You found ${score} sets`,

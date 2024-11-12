@@ -18,7 +18,7 @@ export default class BasicReplacer extends Replacer {
 	replace(indexes: number[], deck: Deck) {
 		let newCards = this.cardsGenerator.generate(
 			deck.brain.options,
-			deck.cards
+			deck.cards.filter((c) => c !== null)
 		);
 
 		indexes.map((index, i) => deck.cards.splice(index, 1, newCards[i]));
