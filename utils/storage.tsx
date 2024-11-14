@@ -9,6 +9,7 @@ export enum StorageKey {
 	disco60 = "disco60",
 	drain = "drain",
 	speed10_5 = "speed10_5",
+	levels = "levels",
 	totalSetsFound = "totalSetsFound",
 	setsFound = "setsFound", // concrete sets values
 	colorIndex = "colorIndex",

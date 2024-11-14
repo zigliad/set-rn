@@ -1,27 +1,24 @@
-import {
-	getData,
-	getObjectData,
-	StorageKey,
-	storeData,
-	storeObjectData,
-} from "@/utils/storage";
-import React, { useCallback, useEffect, useState } from "react";
+import { getData, getObjectData, StorageKey, storeData, storeObjectData } from "@/utils/storage";
+import React, { DispatchWithoutAction, useCallback, useEffect, useState } from "react";
 
 export const useStorageState = (
 	storageKey: StorageKey,
-	defaultValue: string
+	defaultValue: string,
+	onLoad?: (value: string) => void
 ) => {
 	const [value, _setValue] = useState<string | undefined | null>();
 
 	useEffect(() => {
 		(async () => {
-			const loadedValue = await getData(storageKey, defaultValue);
+			let loadedValue = await getData(storageKey, defaultValue);
 			if (loadedValue === null) {
 				await storeData(storageKey, defaultValue);
 				_setValue(defaultValue);
+				loadedValue = defaultValue;
 			} else {
 				_setValue(loadedValue);
 			}
+			onLoad?.(loadedValue);
 		})();
 	}, [storageKey, defaultValue]);
 

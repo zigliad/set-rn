@@ -139,6 +139,21 @@ export const modesConfig: ModeConfig[] = [
 		},
 	},
 	{
+		title: "Levels",
+		mode: "levels",
+		Icon: require("@/assets/images/mode-icons/levels.png"),
+		getMedal: async () => {
+			const level = +(await getData(StorageKey.levels, String(0)));
+			return level >= 30
+				? Medal.gold
+				: level >= 15
+					? Medal.silver
+					: level >= 5
+						? Medal.bronze
+						: null;
+		},
+	},
+	{
 		title: "Relax",
 		mode: "relax",
 		Icon: require("@/assets/images/mode-icons/ying-yang.png"),

@@ -1,6 +1,7 @@
 import { AsyncAction1, Function } from "@/extra-types/utils/functions";
 import { createDiscoMode } from "@/modes/modes/discoMode";
 import { createDrainMode } from "@/modes/modes/drainMode";
+import { createLevelsMode } from "@/modes/modes/levelsMode";
 import { createRaceMode } from "@/modes/modes/raceMode";
 import { createRelaxMode } from "@/modes/modes/relaxMode";
 import { createSpeedMode } from "@/modes/modes/speedMode";
@@ -22,7 +23,8 @@ export type Modes =
 	| "relax"
 	| "relaxHard"
 	| "drain"
-	| "speed10_5";
+	| "speed10_5"
+	| "levels";
 
 export const modes: Record<Modes, Function<onGameEndCallback, Mode>> = {
 	time60: createTimeMode(4, 60, 4, StorageKey.time60),
@@ -36,4 +38,5 @@ export const modes: Record<Modes, Function<onGameEndCallback, Mode>> = {
 	drain: createDrainMode(4, 6, 4, 3, StorageKey.drain),
 	speed10_5: createSpeedMode(4, 10, 5, 4, StorageKey.speed10_5),
 	race3_12: createRaceMode(3, 12, true, StorageKey.race3_12),
+	levels: createLevelsMode(5, StorageKey.levels),
 };
