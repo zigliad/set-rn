@@ -1,5 +1,4 @@
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
-import "@/global.css";
 import { ColorsContext, useInitColors } from "@/hooks/useInitColors";
 import { ThemeProvider } from "@react-navigation/native";
 import { useFonts } from "expo-font";
@@ -8,6 +7,8 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import mobileAds from "react-native-google-mobile-ads";
+
+import "@/global.css";
 import "react-native-reanimated";
 
 mobileAds().initialize();
@@ -45,6 +46,7 @@ export default function RootLayout() {
 						<Stack.Screen name="more" />
 						<Stack.Screen name="setsFound" />
 						<Stack.Screen name="rules" />
+						<Stack.Screen name="colors" />
 					</Stack>
 				</ColorsContext.Provider>
 			</GestureHandlerRootView>

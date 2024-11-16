@@ -8,12 +8,13 @@ import { useCallback } from "react";
 import useCounter from "react-use/lib/useCounter";
 import useInterval from "react-use/lib/useInterval";
 
-export const useSpeedMode = (
+export const useSurvivalMode = (
 	onGameEnd: onGameEndCallback,
 	deckGenerator: DeckGenerator,
 	replacer: Replacer,
 	seconds: number,
 	timeBonus: number,
+	timePenalty: number,
 	storageKey?: string
 ) => {
 	const {
@@ -50,10 +51,10 @@ export const useSpeedMode = (
 
 	useInterval(
 		async () => {
-			if (timeLeft === 1) {
+			if (timeLeft <= 1) {
 				await endGame(GameResult.lose);
-			}
-			decTime();
+				setTime(0);
+			} else decTime();
 		},
 		gameEnded ? null : 1000
 	);
@@ -64,6 +65,11 @@ export const useSpeedMode = (
 			incScore();
 			setTime((t) => Math.min(10, t + timeBonus));
 			replacer.replace(indexes, deck);
+		} else if (timeLeft <= timePenalty) {
+			await endGame(GameResult.lose);
+			setTime(0);
+		} else {
+			setTime((t) => Math.max(0, t - timePenalty));
 		}
 
 		return result;
@@ -76,9 +82,9 @@ export const useSpeedMode = (
 		brain,
 		newGame,
 		checkSet,
-		rules: `You earn ${timeBonus} seconds with each set you find, ${seconds} is the limit. Don't get to 0.`,
+		rules: `You earn ${timeBonus} seconds for each set you find, you lose ${timePenalty} seconds for each wrong attempt, ${seconds} is the limit. Don't get to 0.`,
 		title: `${timeLeft} seconds left / ${score}`,
-		endgameTitle: `Time's up!`,
+		endgameTitle: `Time's Up!`,
 		endgameContent: `You found ${score} sets`,
 	};
 };

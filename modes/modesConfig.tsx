@@ -94,9 +94,9 @@ export const modesConfig: ModeConfig[] = [
 		},
 	},
 	{
-		title: "Speed",
+		title: "Survival",
 		mode: "speed10_5",
-		Icon: require("@/assets/images/mode-icons/speed.png"),
+		Icon: require("@/assets/images/mode-icons/survival.png"),
 		getMedal: async () => {
 			const best = +(await getData(StorageKey.speed10_5, "0"));
 			return best >= 20
@@ -124,9 +124,9 @@ export const modesConfig: ModeConfig[] = [
 		},
 	},
 	{
-		title: "Sprint",
+		title: "Speed",
 		mode: "race3_12",
-		Icon: require("@/assets/images/mode-icons/sprint.png"),
+		Icon: require("@/assets/images/mode-icons/speed.png"),
 		getMedal: async () => {
 			const wins = +(await getData(StorageKey.race3_12, String(0)));
 			return wins >= 300
@@ -153,6 +153,17 @@ export const modesConfig: ModeConfig[] = [
 						: null;
 		},
 	},
+
+	{
+		title: "Mania",
+		mode: "mania",
+		Icon: require("@/assets/images/mode-icons/mania.png"),
+	},
+	{
+		title: "Expert",
+		mode: "expert",
+		Icon: require("@/assets/images/mode-icons/expert.png"),
+	},
 	{
 		title: "Relax",
 		mode: "relax",
@@ -168,9 +179,4 @@ export const modesConfig: ModeConfig[] = [
 						: null;
 		},
 	},
-	// {
-	// 	title: "Relax: Harder",
-	// 	mode: "relaxHard",
-	// 	// Icon: LocalBarRoundedIcon,
-	// },
 ];

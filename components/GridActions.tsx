@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
 });
 
 export const GridActions = ({ actions }: { actions: GridAction[] }) => {
-	const { colors } = useColors();
+	const { currentColors: colors } = useColors();
 	const currentScheme = useColorScheme();
 
 	return (

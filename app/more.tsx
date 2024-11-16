@@ -21,7 +21,6 @@ const androidPackageName = "host.exp.exponent";
 const itunesItemId = 982107779;
 
 export default function MoreOptions() {
-	const { next: nextColors } = useColors();
 	const [visibleModal, setVisibleModal] = useState(false);
 	const [muteSounds, setMuteSounds] = useStorageState(
 		StorageKey.muteSounds,
@@ -49,7 +48,9 @@ export default function MoreOptions() {
 		{
 			title: "Colors",
 			Icon: require("@/assets/images/grid-action-icons/colors.png"),
-			onClick: nextColors,
+			onClick: () => {
+				router.push({ pathname: "/colors" });
+			},
 		},
 		{
 			title: "Your Sets",

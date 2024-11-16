@@ -14,7 +14,7 @@ export const OnboardingModal = ({
 	onResolve?: DispatchWithoutAction;
 }) => {
 	const [stage, setStage] = useState(0);
-	const { colors } = useColors();
+	const { currentColors: colors } = useColors();
 	const onboardingStages = useMemo(
 		() => [
 			{

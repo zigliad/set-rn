@@ -6,6 +6,11 @@ export const createTimeMode = (
 	x: number,
 	seconds: number,
 	attributesCount = 4,
+	harder?: {
+		timePenalty: number;
+		scorePenalty: number;
+		maxMistakes: number;
+	},
 	storageKey?: string
 ) => {
 	const useTimeModeX = (onGameEnd: onGameEndCallback) => {
@@ -19,6 +24,7 @@ export const createTimeMode = (
 			deckGenerator,
 			replacer,
 			seconds,
+			harder,
 			storageKey
 		);
 	};

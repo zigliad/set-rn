@@ -13,9 +13,11 @@ export enum StorageKey {
 	totalSetsFound = "totalSetsFound",
 	setsFound = "setsFound", // concrete sets values
 	colorIndex = "colorIndex",
+	currentColors = "currentColors",
 	muteSounds = "muteSounds",
 	gamesPlayedWithoutAds = "gamesPlayedWithoutAds",
 	seenOnboarding = "seenOnboarding",
+	coins = "coins",
 }
 
 export const storeData = async (key: string, value: string | number) => {

@@ -62,7 +62,7 @@ export default class OddOptionsManySetsDeckGenerator extends DeckGenerator {
 				exclude = [...exclude, ...newSet];
 			}
 			deck = new Deck(
-				exclude, //.sort(() => Math.random() - 0.5),
+				exclude.sort(() => Math.random() - 0.5),
 				this.brain
 			);
 			sets = deck.countSets();

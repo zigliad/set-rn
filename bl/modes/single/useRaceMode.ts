@@ -59,6 +59,7 @@ export const useRaceMode = (
 		async () => {
 			if (reverse ? time <= 1 : time >= maxTime) {
 				await endGame(GameResult.lose);
+				setTime(0);
 			} else {
 				incTime(reverse ? -1 : 1);
 			}
@@ -87,7 +88,7 @@ export const useRaceMode = (
 		newGame,
 		checkSet,
 		rules: reverse
-			? `Find ${goal} sets before the clock strikes zero!`
+			? `Simply find ${goal} sets ${maxTime} seconds!`
 			: `Find ${goal} sets as fast as you can!`,
 		title: `${score} / ${goal} sets, ${time.toFixed(0)}`,
 		endgameTitle: gameResult === GameResult.win ? "You Won" : "You Lose",

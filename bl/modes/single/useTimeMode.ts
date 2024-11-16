@@ -4,8 +4,7 @@ import Replacer from "@/bl/replacer/Replacer";
 import { onGameEndCallback } from "@/modes/modes";
 import { GameResult } from "@/modes/modeTypes";
 import { getData } from "@/utils/storage";
-import { useCallback } from "react";
-import useCounter from "react-use/lib/useCounter";
+import { useCallback, useState } from "react";
 import useInterval from "react-use/lib/useInterval";
 
 export const useTimeMode = (
@@ -13,6 +12,11 @@ export const useTimeMode = (
 	deckGenerator: DeckGenerator,
 	replacer: Replacer,
 	seconds: number,
+	harder?: {
+		timePenalty: number;
+		scorePenalty: number;
+		maxMistakes: number;
+	},
 	storageKey?: string
 ) => {
 	const {
@@ -25,13 +29,15 @@ export const useTimeMode = (
 		checkSet: baseCheckSet,
 	} = useSinglePlayerMode(onGameEnd, deckGenerator, storageKey);
 
-	const [timeLeft, { dec: decTime, reset: resetTime }] = useCounter(seconds);
-	const [score, { inc: incScore, reset: resetScore }] = useCounter(0);
+	const [timeLeft, setTimeLeft] = useState(seconds);
+	const [score, setScore] = useState(0);
+	const [mistakes, setMistakes] = useState(0);
 
 	const newGame = () => {
 		baseNewGame();
-		resetTime();
-		resetScore();
+		setTimeLeft(seconds);
+		setScore(0);
+		setMistakes(0);
 	};
 
 	const endGame = useCallback(
@@ -50,8 +56,8 @@ export const useTimeMode = (
 		async () => {
 			if (timeLeft === 1) {
 				await endGame();
-			}
-			decTime();
+				setTimeLeft(0);
+			} else setTimeLeft((t) => t - 1);
 		},
 		gameEnded ? null : 1000
 	);
@@ -59,8 +65,16 @@ export const useTimeMode = (
 	const checkSet = async (indexes: number[]) => {
 		const result = baseCheckSet(indexes);
 		if (result.isSet) {
-			incScore();
+			setScore((s) => s + 1);
 			replacer.replace(indexes, deck);
+		} else if (harder) {
+			if (mistakes + 1 === harder.maxMistakes) {
+				await endGame(GameResult.lose);
+			} else {
+				setScore((s) => s - harder.scorePenalty);
+				setMistakes((m) => m + 1);
+				setTimeLeft((t) => t - harder.timePenalty);
+			}
 		}
 
 		return result;
@@ -73,9 +87,15 @@ export const useTimeMode = (
 		brain,
 		newGame,
 		checkSet,
-		rules: `Find as many sets as you can in ${seconds} seconds!`,
+		rules: harder
+			? `Find as many sets as you can in ${seconds} seconds! For each mistake you lose ${harder.scorePenalty} points and ${harder.timePenalty} seconds.\nMax mistakes: ${harder.maxMistakes}.`
+			: `Find as many sets as you can in ${seconds} seconds!`,
 		title: `${timeLeft} seconds left / ${score}`,
-		endgameTitle: `Time's up!`,
-		endgameContent: `You found ${score} sets`,
+		endgameTitle:
+			gameResult === GameResult.lose ? `You Lose` : `Time's Up!`,
+		endgameContent:
+			gameResult === GameResult.lose
+				? `Better luck next time!`
+				: `You found ${score} sets`,
 	};
 };

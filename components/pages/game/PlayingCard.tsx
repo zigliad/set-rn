@@ -8,6 +8,9 @@ import cardsSvgs from "@/utils/svgsLoader";
 import React, { DispatchWithoutAction } from "react";
 import { BaseButton } from "react-native-gesture-handler";
 
+const date = new Date(); // Current date
+const dayOfMonth = date.getDate();
+
 type InnerPlayingCardProps = {
 	card: Card;
 	picked?: boolean;
@@ -19,17 +22,18 @@ const InnerPlayingCard = ({
 	picked = false,
 	size,
 }: InnerPlayingCardProps) => {
-	const { colors } = useColors();
+	const { currentColors: colors } = useColors();
 	const cardString = card.attributes
 		.map((attr) => `${attr + 1}`)
 		.reduce((a1, a2) => a1 + a2, "");
-	const color = colors[+cardString.charAt(3) - 1];
+	const color =
+		cardString.length >= 4
+			? colors[+cardString.charAt(3) - 1]
+			: colors[dayOfMonth % colors.length];
 	const imageCardString = cardString.slice(0, 3); // For the image, ignore the color attribute
 	const CardImage = cardsSvgs[imageCardString];
-	// const borderColor =
-	// 	cardString.length >= 5
-	// 		? colors[+cardString.charAt(4) - 1]
-	// 		: "transparent";
+	const borderColor =
+		cardString.length >= 5 ? colors[+cardString.charAt(4) - 1] : undefined;
 
 	return (
 		<ElevatedCard
@@ -39,8 +43,10 @@ const InnerPlayingCard = ({
 			}
 			style={{
 				...size,
-				// borderLeftColor: borderColor,
-				// borderBottomColor: borderColor,
+				...(borderColor && {
+					borderLeftColor: borderColor,
+					borderBottomColor: borderColor,
+				}),
 			}}
 		>
 			<Center

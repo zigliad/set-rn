@@ -1,29 +1,31 @@
-import { useSpeedMode } from "@/bl/modes/single/useSpeedMode";
+import { useSurvivalMode } from "@/bl/modes/single/useSurvivalMode";
 import { useInitGameParts } from "@/hooks/useInitGameParts";
 import { onGameEndCallback } from "@/modes/modes";
 
-export const createSpeedMode = (
+export const createSurvivalMode = (
 	x: number,
 	seconds: number,
 	timeBonus: number,
+	timePenalty: number,
 	attributesCount = 4,
 	storageKey?: string
 ) => {
-	const useSpeedModeX = (onGameEnd: onGameEndCallback) => {
+	const useSurvivalModeX = (onGameEnd: onGameEndCallback) => {
 		const { deckGenerator, replacer } = useInitGameParts({
 			deckGeneratorMinSets: x,
 			replacerMinSets: x,
 			attributesCount,
 		});
-		return useSpeedMode(
+		return useSurvivalMode(
 			onGameEnd,
 			deckGenerator,
 			replacer,
 			seconds,
 			timeBonus,
+			timePenalty,
 			storageKey
 		);
 	};
 
-	return useSpeedModeX;
+	return useSurvivalModeX;
 };

@@ -87,7 +87,7 @@ export const useDiscoMode = (
 		checkSet,
 		rules: `Find as many sets as you can in ${seconds} seconds while colors are changing every ${discoIntervalSeconds} seconds!`,
 		title: `${timeLeft} seconds left / ${score}`,
-		endgameTitle: "Time's up!",
+		endgameTitle: "Time's Up!",
 		endgameContent: `Your found ${score} sets`,
 	};
 };
