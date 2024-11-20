@@ -13,7 +13,7 @@ export enum StorageKey {
 	totalSetsFound = "totalSetsFound",
 	setsFound = "setsFound", // concrete sets values
 	colorIndex = "colorIndex",
-	currentColors = "currentColors",
+	currentPaletteId = "currentPaletteId",
 	muteSounds = "muteSounds",
 	gamesPlayedWithoutAds = "gamesPlayedWithoutAds",
 	seenOnboarding = "seenOnboarding",

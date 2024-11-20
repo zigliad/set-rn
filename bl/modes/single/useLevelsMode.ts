@@ -27,13 +27,20 @@ export const useLevelsMode = (
 	} = useSinglePlayerMode(onGameEnd, deckGenerator, storageKey);
 
 	const [time, { inc: incTime, set: setTime }] = useCounter(0);
+
+	const onLevelLoaded = useCallback(
+		(value: string | number) => {
+			setTime(+value * levelTime);
+		},
+		[levelTime]
+	);
+
 	const [level, setLevel] = useStorageState(
 		storageKey,
 		String(1),
-		(value) => {
-			setTime(+value * levelTime);
-		}
+		onLevelLoaded
 	);
+
 	const gameTime = +(level ?? 1) * levelTime;
 	const [score, { inc: incScore, reset: resetScore }] = useCounter(0);
 	const [winText, setWinText] = useState("");

@@ -20,12 +20,12 @@ export const useStorageState = (
 			}
 			onLoad?.(loadedValue);
 		})();
-	}, [storageKey, defaultValue]);
+	}, [storageKey, defaultValue, onLoad]);
 
 	const setValue = useCallback(
 		async (newValue: string) => {
-			await storeData(storageKey, newValue);
 			_setValue(newValue);
+			await storeData(storageKey, newValue);
 		},
 		[storageKey]
 	);

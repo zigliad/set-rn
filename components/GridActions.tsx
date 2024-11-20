@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
 });
 
 export const GridActions = ({ actions }: { actions: GridAction[] }) => {
-	const { currentColors: colors } = useColors();
+	const { currentPalette: palette } = useColors();
 	const currentScheme = useColorScheme();
 
 	return (
@@ -84,8 +84,10 @@ export const GridActions = ({ actions }: { actions: GridAction[] }) => {
 											style={{
 												overflow: "hidden",
 												borderColor:
-													colors[
-														index % colors.length
+													palette.colors[
+														index %
+															palette.colors
+																.length
 													],
 											}}
 										>

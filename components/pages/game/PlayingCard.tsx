@@ -22,7 +22,8 @@ const InnerPlayingCard = ({
 	picked = false,
 	size,
 }: InnerPlayingCardProps) => {
-	const { currentColors: colors } = useColors();
+	const { currentPalette: palette } = useColors();
+	const colors = palette.colors;
 	const cardString = card.attributes
 		.map((attr) => `${attr + 1}`)
 		.reduce((a1, a2) => a1 + a2, "");

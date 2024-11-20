@@ -3,7 +3,7 @@ import { AwesomeModal } from "@/components/awesome-modal/AwesomeModal";
 import { GridAction, GridActions } from "@/components/GridActions";
 import { Heading } from "@/components/ui/heading";
 import { HStack } from "@/components/ui/hstack";
-import { useColors } from "@/hooks/useInitColors";
+import { useColors, useInitColors } from "@/hooks/useInitColors";
 import { useStorageState } from "@/hooks/useStorageState";
 import { StorageKey } from "@/utils/storage";
 import { router } from "expo-router";
@@ -26,6 +26,8 @@ export default function MoreOptions() {
 		StorageKey.muteSounds,
 		"0"
 	);
+
+	const x = useColors();
 
 	const moreOptionsConfig: GridAction[] = [
 		{
