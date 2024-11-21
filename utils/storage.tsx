@@ -18,6 +18,7 @@ export enum StorageKey {
 	gamesPlayedWithoutAds = "gamesPlayedWithoutAds",
 	seenOnboarding = "seenOnboarding",
 	coins = "coins",
+	myPalettes = "myPalettes",
 }
 
 export const storeData = async (key: string, value: string | number) => {

@@ -1,7 +1,9 @@
-import { HStack } from "@/components/ui/hstack";
-import { Text } from "@/components/ui/text";
-import React from "react";
 import SetCurrency from "@/assets/images/other/set_currency.svg";
+import { HStack } from "@/components/ui/hstack";
+import { Icon } from "@/components/ui/icon";
+import { Text } from "@/components/ui/text";
+import { Coins } from "lucide-react-native";
+import React from "react";
 
 export const PriceTag = ({
 	price,
@@ -15,8 +17,12 @@ export const PriceTag = ({
 	reverseColors?: boolean;
 }) => {
 	return (
-		<HStack className="items-center">
-			<SetCurrency width={currencySize} height={currencySize} />
+		<HStack className="items-center" space="lg">
+			{/* <SetCurrency width={currencySize} height={currencySize} /> */}
+			<Icon
+				as={Coins}
+				style={{ height: currencySize, width: currencySize }}
+			/>
 			<Text
 				size="5xl"
 				className={reverseColors ? "text-typography-0" : ""}

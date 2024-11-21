@@ -5,7 +5,12 @@ import { toHumanCase } from "@/utils/stringUtils";
 import { createContext, useContext, useMemo } from "react";
 import { useColorScheme } from "react-native";
 
-export type Palette = { id: string; nickname?: string; colors: string[] };
+export type Palette = {
+	id: string;
+	nickname?: string;
+	colors: string[];
+	price?: number;
+};
 
 export type ColorContextType = {
 	currentPalette: Palette;
@@ -17,7 +22,9 @@ export const ColorsContext = createContext<ColorContextType>(
 	{} as ColorContextType
 );
 
-const CLASSIC_PALETTE_ID = "classic";
+export const CLASSIC_PALETTE_ID = "classic";
+export const DEFAULT_PALETTE_PRICE = 100;
+export const DEFAULT_MY_PALETTES = [CLASSIC_PALETTE_ID];
 
 export const useInitColors = () => {
 	const theme = useColorScheme();
@@ -71,11 +78,17 @@ export const useInitColors = () => {
 					superman: {
 						colors: ["#f11712", "#ffe539", "#0098f7"],
 					},
+					autumn: {
+						colors: ["#CD5C08", "#FFF5E4", "#78B3CE"],
+					},
+					nature: {
+						colors: ["#3B82F6", "#F97316", "#10B981"],
+					},
 					unicorn: {
-						colors: ["#a2edfe", "#c8b1ff", "#ffc9f2"],
-						unavailable: true,
+						colors: ["#FF99CC", "#a2edfe", "#B399FF"],
 					},
 					beach: {
+						price: 2000,
 						colors: [
 							"#92B4EC",
 							theme === "dark" ? "#fff2dd" : "#d2bfa3",

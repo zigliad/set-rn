@@ -41,7 +41,7 @@ export const modes: Record<Modes, Function<onGameEndCallback, Mode>> = {
 		5,
 		{
 			scorePenalty: 1,
-			timePenalty: 5,
+			timePenalty: 1,
 			maxMistakes: 3,
 		},
 		StorageKey.time60
