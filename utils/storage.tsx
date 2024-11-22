@@ -1,15 +1,16 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export enum StorageKey {
-	time60 = "time60",
-	static6 = "static6",
-	static8 = "static8",
-	race5 = "race5",
-	race3_12 = "race3_12",
-	disco60 = "disco60",
+	oneMinute = "oneMinute",
+	sixPack = "sixPack",
+	eightPack = "eightPack",
+	highFive = "highFive",
+	speed = "speed",
+	survival = "survival",
+	disco = "disco",
 	drain = "drain",
-	speed10_5 = "speed10_5",
 	levels = "levels",
+
 	totalSetsFound = "totalSetsFound",
 	setsFound = "setsFound", // concrete sets values
 	colorIndex = "colorIndex",

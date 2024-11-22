@@ -14,15 +14,14 @@ export const StatsModal = ({
 	visible: boolean;
 	onResolve: DispatchWithoutAction;
 }) => {
-	const [time60] = useStorageState(StorageKey.time60, String(0));
-	const [static6] = useStorageState(StorageKey.static6, String(0));
-	const [static8] = useStorageState(StorageKey.static8, String(0));
-	const [race5] = useStorageState(StorageKey.race5, String(Infinity));
-	const [race3_12] = useStorageState(StorageKey.race3_12, String(0));
+	const [oneMinute] = useStorageState(StorageKey.oneMinute, String(0));
+	const [sixPack] = useStorageState(StorageKey.sixPack, String(0));
+	const [eightPack] = useStorageState(StorageKey.eightPack, String(0));
+	const [highFive] = useStorageState(StorageKey.highFive, String(Infinity));
+	const [speed] = useStorageState(StorageKey.speed, String(0));
 	const [drain] = useStorageState(StorageKey.drain, String(0));
-	const [speed10_5] = useStorageState(StorageKey.speed10_5, String(0));
-	const [disco60] = useStorageState(StorageKey.disco60, String(0));
-	const [level] = useStorageState(StorageKey.levels, String(1));
+	const [disco] = useStorageState(StorageKey.disco, String(0));
+	const [levels] = useStorageState(StorageKey.levels, String(1));
 	const [totalSetsFound] = useStorageState(
 		StorageKey.totalSetsFound,
 		String(0)
@@ -39,7 +38,7 @@ export const StatsModal = ({
 				onResolve();
 			}}
 			header={"Statistics"}
-			content={`1-Minute best: ${time60}\n6-Pack wins: ${static6}\n8-Pack wins: ${static8}\nHigh-5 best: ${race5} seconds\nDrain wins: ${drain}\nSpeed best: ${speed10_5}\nDisco best: ${disco60}\nSprint wins: ${race3_12}\nCurrent level: ${level}\nTotal sets found: ${totalSetsFound}\n\n${setsFound?.length} unique sets found`}
+			content={`1-Minute best: ${oneMinute}\n6-Pack wins: ${sixPack}\n8-Pack wins: ${eightPack}\nHigh-5 best: ${highFive} seconds\nDrain wins: ${drain}\nSpeed best: ${speed}\nDisco best: ${disco}\nCurrent level: ${levels}\nTotal sets found: ${totalSetsFound}\n\n${setsFound?.length} unique sets found`}
 			tailwindColor="bg-purple-500"
 			icon={Award}
 			backdropOnResolve

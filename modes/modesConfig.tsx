@@ -15,15 +15,15 @@ export type ModeConfig = {
 export const modesConfig: ModeConfig[] = [
 	{
 		title: "FILLER",
-		mode: "time60",
+		mode: "oneMinute",
 		Icon: require("@/assets/images/mode-icons/relax.png"),
 	},
 	{
 		title: "1-Minute",
-		mode: "time60",
+		mode: "oneMinute",
 		Icon: require("@/assets/images/mode-icons/1-minute.png"),
 		getMedal: async () => {
-			const best = +(await getData(StorageKey.time60, "0"));
+			const best = +(await getData(StorageKey.oneMinute, "0"));
 			return best >= 16
 				? Medal.gold
 				: best >= 12
@@ -35,10 +35,10 @@ export const modesConfig: ModeConfig[] = [
 	},
 	{
 		title: "6-Pack",
-		mode: "static6",
+		mode: "sixPack",
 		Icon: require("@/assets/images/mode-icons/loupe.png"),
 		getMedal: async () => {
-			const wins = +(await getData(StorageKey.static6, String(0)));
+			const wins = +(await getData(StorageKey.sixPack, String(0)));
 			return wins >= 500
 				? Medal.gold
 				: wins >= 300
@@ -50,10 +50,10 @@ export const modesConfig: ModeConfig[] = [
 	},
 	{
 		title: "8-Pack",
-		mode: "static8",
+		mode: "eightPack",
 		Icon: require("@/assets/images/mode-icons/8-ball.png"),
 		getMedal: async () => {
-			const wins = +(await getData(StorageKey.static8, String(0)));
+			const wins = +(await getData(StorageKey.eightPack, String(0)));
 			return wins >= 500
 				? Medal.gold
 				: wins >= 300
@@ -65,10 +65,13 @@ export const modesConfig: ModeConfig[] = [
 	},
 	{
 		title: "High-5",
-		mode: "race5",
+		mode: "highFive",
 		Icon: require("@/assets/images/mode-icons/high-5.png"),
 		getMedal: async () => {
-			const best = +(await getData(StorageKey.race5, String(Infinity)));
+			const best = +(await getData(
+				StorageKey.highFive,
+				String(Infinity)
+			));
 			return best <= 8
 				? Medal.gold
 				: best <= 12
@@ -95,10 +98,10 @@ export const modesConfig: ModeConfig[] = [
 	},
 	{
 		title: "Survival",
-		mode: "speed10_5",
+		mode: "survival",
 		Icon: require("@/assets/images/mode-icons/survival.png"),
 		getMedal: async () => {
-			const best = +(await getData(StorageKey.speed10_5, "0"));
+			const best = +(await getData(StorageKey.survival, "0"));
 			return best >= 20
 				? Medal.gold
 				: best >= 10
@@ -110,10 +113,10 @@ export const modesConfig: ModeConfig[] = [
 	},
 	{
 		title: "Disco",
-		mode: "disco60",
+		mode: "disco",
 		Icon: require("@/assets/images/mode-icons/disco.png"),
 		getMedal: async () => {
-			const best = +(await getData(StorageKey.disco60, "0"));
+			const best = +(await getData(StorageKey.disco, "0"));
 			return best >= 16
 				? Medal.gold
 				: best >= 12
@@ -125,10 +128,10 @@ export const modesConfig: ModeConfig[] = [
 	},
 	{
 		title: "Speed",
-		mode: "race3_12",
+		mode: "speed",
 		Icon: require("@/assets/images/mode-icons/speed.png"),
 		getMedal: async () => {
-			const wins = +(await getData(StorageKey.race3_12, String(0)));
+			const wins = +(await getData(StorageKey.speed, String(0)));
 			return wins >= 300
 				? Medal.gold
 				: wins >= 150

@@ -1,13 +1,22 @@
 import { GridAction, GridActions } from "@/components/GridActions";
 import { OnboardingModal } from "@/components/pages/index/OnboardingModal";
 import { StatsModal } from "@/components/StatsModal";
+import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { HStack } from "@/components/ui/hstack";
+import { Icon } from "@/components/ui/icon";
+import { VStack } from "@/components/ui/vstack";
+import { PriceTag } from "@/components/utils/PriceTag";
+import { ShopButton } from "@/components/utils/ShopButton";
+import { sounds } from "@/constants/sounds";
+import { useCurrencies } from "@/hooks/useCurrencies";
 import { useShowOnboarding } from "@/hooks/useShowOnboarding";
 import { Modes } from "@/modes/modes";
 import { modesConfig } from "@/modes/modesConfig";
 import { medalConfig } from "@/types/medal";
+import { playSound } from "@/utils/soundPlayer";
 import { router } from "expo-router";
+import { ArrowLeft, Store } from "lucide-react-native";
 import { useEffect, useMemo, useState } from "react";
 import { ImageURISource, SafeAreaView, StyleSheet, View } from "react-native";
 
@@ -27,6 +36,8 @@ export default function Index() {
 	const { visibleModal: visibleOnboardingModal, finishOnboarding } =
 		useShowOnboarding();
 
+	const { gems } = useCurrencies();
+
 	const moreOptions: GridAction[] = useMemo(
 		() => [
 			{
@@ -36,6 +47,13 @@ export default function Index() {
 					setVisibleStatsModal(true);
 				},
 			},
+			// {
+			// 	title: "Shop",
+			// 	Icon: require("@/assets/images/grid-action-icons/shop.png"),
+			// 	onClick: () => {
+			// 		router.push("/shop");
+			// 	},
+			// },
 			{
 				title: "More",
 				Icon: require("@/assets/images/grid-action-icons/more.png"),
@@ -85,13 +103,18 @@ export default function Index() {
 	return (
 		<SafeAreaView className="bg-background-base">
 			<View className="relative">
-				<Heading
-					className="absolute top-8 left-8"
-					size="5xl"
-					style={titleStyles.pageTitle}
-				>
-					SET
-				</Heading>
+				<VStack className="absolute top-8 left-8">
+					<Heading size="5xl" style={titleStyles.pageTitle}>
+						SET
+					</Heading>
+					<PriceTag
+						price={gems}
+						currency="gem"
+						fontSize={24}
+						currencySize={32}
+						space="xs"
+					/>
+				</VStack>
 				<HStack className="w-5/6 self-end">
 					<GridActions actions={gridActions} />
 				</HStack>
@@ -101,6 +124,7 @@ export default function Index() {
 						onResolve={() => setVisibleStatsModal(false)}
 					/>
 				)}
+				<ShopButton />
 			</View>
 			<OnboardingModal
 				visible={visibleOnboardingModal}

@@ -1,9 +1,12 @@
 import { OffersGrid } from "@/components/pages/shop/OffersGrid";
 import { Box } from "@/components/ui/box";
+import { Button, ButtonText } from "@/components/ui/button";
+import { Divider } from "@/components/ui/divider";
 import { VStack } from "@/components/ui/vstack";
 import { BackButton } from "@/components/utils/BackButton";
 import { PriceTag } from "@/components/utils/PriceTag";
 import { useCurrencies } from "@/hooks/useCurrencies";
+import { fontWeightStyles } from "@/styles/commonStyles";
 import { SafeAreaView } from "react-native";
 
 export default function Shop() {
@@ -25,6 +28,12 @@ export default function Shop() {
 						fontSize={52}
 						currencySize={52}
 					/>
+					<Divider />
+					<Button>
+						<ButtonText style={fontWeightStyles.medium}>
+							Remove ads for 2.99$
+						</ButtonText>
+					</Button>
 				</VStack>
 				<OffersGrid />
 				<BackButton />
