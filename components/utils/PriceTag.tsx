@@ -1,8 +1,8 @@
-import SetCurrency from "@/assets/images/other/set_currency.svg";
+import SetCoin from "@/assets/images/currencies/coin.svg";
+import SetGem from "@/assets/images/currencies/gem.svg";
 import { HStack } from "@/components/ui/hstack";
-import { Icon } from "@/components/ui/icon";
 import { Text } from "@/components/ui/text";
-import { Coins } from "lucide-react-native";
+import { PropsOf } from "@/extra-types/utils/extra";
 import React from "react";
 
 export const PriceTag = ({
@@ -10,19 +10,26 @@ export const PriceTag = ({
 	fontSize = 20,
 	currencySize = 20,
 	reverseColors = false,
+	dir = "ltr",
+	space = "lg",
+	currency = "coin",
 }: {
 	price: number;
 	fontSize?: number;
 	currencySize?: number;
 	reverseColors?: boolean;
+	dir?: "ltr" | "rtl";
+	space?: PropsOf<typeof HStack>["space"];
+	currency?: "coin" | "gem";
 }) => {
 	return (
-		<HStack className="items-center" space="lg">
-			{/* <SetCurrency width={currencySize} height={currencySize} /> */}
-			<Icon
-				as={Coins}
-				style={{ height: currencySize, width: currencySize }}
-			/>
+		<HStack className="items-center" space={space}>
+			{dir === "ltr" &&
+				(currency === "coin" ? (
+					<SetCoin width={currencySize} height={currencySize} />
+				) : (
+					<SetGem width={currencySize} height={currencySize} />
+				))}
 			<Text
 				size="5xl"
 				className={reverseColors ? "text-typography-0" : ""}
@@ -33,6 +40,12 @@ export const PriceTag = ({
 			>
 				{price.toLocaleString()}
 			</Text>
+			{dir === "rtl" &&
+				(currency === "coin" ? (
+					<SetCoin width={currencySize} height={currencySize} />
+				) : (
+					<SetGem width={currencySize} height={currencySize} />
+				))}
 		</HStack>
 	);
 };

@@ -9,6 +9,7 @@ import { sounds } from "@/constants/sounds";
 import { useColors } from "@/hooks/useInitColors";
 import { fontWeightStyles } from "@/styles/commonStyles";
 import { playSound } from "@/utils/soundPlayer";
+import { router } from "expo-router";
 import { LucideIcon } from "lucide-react-native";
 import React, { DispatchWithoutAction } from "react";
 import {

@@ -7,7 +7,7 @@ import {
 	useColors,
 } from "@/hooks/useInitColors";
 import { playSound } from "@/utils/soundPlayer";
-import { Coins } from "lucide-react-native";
+import { Coins, Store } from "lucide-react-native";
 import React, { DispatchWithoutAction } from "react";
 
 export const BuyPaletteModal = ({
@@ -27,7 +27,7 @@ export const BuyPaletteModal = ({
 	return (
 		<AwesomeModal
 			visible={palette !== undefined}
-			icon={Coins}
+			icon={Store}
 			header={`${palette.nickname} Palette`}
 			buttonText="Buy"
 			secondaryButtonText="Not Now"

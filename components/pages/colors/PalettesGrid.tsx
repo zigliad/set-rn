@@ -4,10 +4,16 @@ import { HStack } from "@/components/ui/hstack";
 import { Icon } from "@/components/ui/icon";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
+import { PriceTag } from "@/components/utils/PriceTag";
 import { sounds } from "@/constants/sounds";
 import { Action1 } from "@/extra-types/utils/functions";
 import { useCurrencies } from "@/hooks/useCurrencies";
-import { CLASSIC_PALETTE_ID, DEFAULT_PALETTE_PRICE, Palette, useColors } from "@/hooks/useInitColors";
+import {
+	CLASSIC_PALETTE_ID,
+	DEFAULT_PALETTE_PRICE,
+	Palette,
+	useColors,
+} from "@/hooks/useInitColors";
 import { fontWeightStyles } from "@/styles/commonStyles";
 import { playSound } from "@/utils/soundPlayer";
 import { router } from "expo-router";
@@ -42,6 +48,7 @@ export const PalettesGrid = ({
 					x.currentPalette.colors.join() === palette.colors.join();
 				return (
 					<ElevatedCard
+						key={palette.id}
 						className={
 							"relative " + (!ownPalette ? "opacity-25" : "")
 						}
@@ -70,11 +77,7 @@ export const PalettesGrid = ({
 								}
 							}}
 						>
-							<VStack
-								space="sm"
-								className="p-2"
-								key={colors.join("-")}
-							>
+							<VStack space="sm" className="p-2">
 								<HStack className="justify-between items-center">
 									<Text
 										size="xl"
@@ -83,22 +86,16 @@ export const PalettesGrid = ({
 										{palette.nickname}
 									</Text>
 									{!ownPalette && (
-										<HStack
-											space="xs"
-											className="items-center"
-										>
-											<Text
-												size="xl"
-												style={fontWeightStyles.medium}
-											>
-												{palette.price ??
-													DEFAULT_PALETTE_PRICE}
-											</Text>
-											<Icon
-												as={Coins}
-												className={"w-4 h-4"}
-											/>
-										</HStack>
+										<PriceTag
+											space="sm"
+											price={
+												palette.price ??
+												DEFAULT_PALETTE_PRICE
+											}
+											fontSize={16}
+											currencySize={16}
+											dir="rtl"
+										/>
 									)}
 									{isCurrentPalette && (
 										<Icon
