@@ -14,7 +14,7 @@ export const OnboardingModal = ({
 	onResolve?: DispatchWithoutAction;
 }) => {
 	const [stage, setStage] = useState(0);
-	const { currentPalette: colors } = useColors();
+	const { currentPalette } = useColors();
 	const onboardingStages = useMemo(
 		() => [
 			{
@@ -22,7 +22,7 @@ export const OnboardingModal = ({
 				content: "Before we start, do you know the rules of 'SET'?",
 				buttonText: "I Don't",
 				secondaryButtonText: "I Do",
-				color: colors[1],
+				color: currentPalette.colors[1],
 				icon: Smile,
 				onResolve: () => setStage(1),
 				secondaryOnResolve: () => setStage(2),
@@ -32,7 +32,7 @@ export const OnboardingModal = ({
 				content: "Would you like to do a very, very quick tutorial?",
 				buttonText: "Yes Please!",
 				secondaryButtonText: "Nahh",
-				color: colors[1],
+				color: currentPalette.colors[1],
 				icon: GraduationCap,
 				onResolve: () => {
 					onResolve?.();
@@ -45,12 +45,12 @@ export const OnboardingModal = ({
 				content:
 					"Just know that you can access the tutorial at any point, by clicking: More -> Rules.",
 				buttonText: "Got It",
-				color: colors[1],
+				color: currentPalette.colors[1],
 				icon: HandMetal,
 				onResolve,
 			},
 		],
-		[colors, onResolve]
+		[currentPalette, onResolve]
 	);
 
 	const modalStage = onboardingStages[stage];

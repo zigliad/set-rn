@@ -18,6 +18,7 @@ export enum StorageKey {
 	gamesPlayedWithoutAds = "gamesPlayedWithoutAds",
 	seenOnboarding = "seenOnboarding",
 	coins = "coins",
+	gems = "gems",
 	myPalettes = "myPalettes",
 }
 

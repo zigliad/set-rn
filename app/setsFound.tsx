@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Center } from "@/components/ui/center";
 import { Icon } from "@/components/ui/icon";
 import { Text } from "@/components/ui/text";
+import { BackButton } from "@/components/utils/BackButton";
 import { sounds } from "@/constants/sounds";
 import { useStorageObjectState } from "@/hooks/useStorageState";
 import { fontWeightStyles } from "@/styles/commonStyles";
@@ -64,18 +65,7 @@ export default function SetsFound() {
 						);
 					}}
 				/>
-				<Button
-					className="absolute bottom-0 left-0 rounded-full bg-background-800 shadow-xl"
-					onPress={async () => {
-						playSound(sounds.click);
-						router.back();
-					}}
-				>
-					<Icon
-						as={ArrowLeft}
-						className={"w-6 h-6 text-typography-0"}
-					/>
-				</Button>
+				<BackButton />
 				<Center className="absolute bottom-0 right-0 py-2 px-4 bg-background-800 rounded-full shadow-xl">
 					<Text
 						size="lg"

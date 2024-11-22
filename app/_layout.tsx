@@ -1,6 +1,6 @@
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
+import { CurrenciesContext, useInitCurrencies } from "@/hooks/useCurrencies";
 import { ColorsContext, useInitColors } from "@/hooks/useInitColors";
-import { ThemeProvider } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -29,6 +29,7 @@ export default function RootLayout() {
 	}, [loaded]);
 
 	const colors = useInitColors();
+	const currencies = useInitCurrencies();
 
 	if (!loaded) return null;
 
@@ -36,18 +37,21 @@ export default function RootLayout() {
 		<GluestackUIProvider mode="system">
 			<GestureHandlerRootView>
 				<ColorsContext.Provider value={colors}>
-					<Stack
-						screenOptions={{
-							headerShown: false,
-						}}
-					>
-						<Stack.Screen name="index" />
-						<Stack.Screen name="game" />
-						<Stack.Screen name="more" />
-						<Stack.Screen name="setsFound" />
-						<Stack.Screen name="rules" />
-						<Stack.Screen name="colors" />
-					</Stack>
+					<CurrenciesContext.Provider value={currencies}>
+						<Stack
+							screenOptions={{
+								headerShown: false,
+							}}
+						>
+							<Stack.Screen name="index" />
+							<Stack.Screen name="game" />
+							<Stack.Screen name="more" />
+							<Stack.Screen name="shop" />
+							<Stack.Screen name="setsFound" />
+							<Stack.Screen name="rules" />
+							<Stack.Screen name="colors" />
+						</Stack>
+					</CurrenciesContext.Provider>
 				</ColorsContext.Provider>
 			</GestureHandlerRootView>
 		</GluestackUIProvider>

@@ -1,8 +1,8 @@
 import { Action1 } from "@/extra-types/utils/functions";
-import { useStorageState } from "@/hooks/useStorageState";
+import { useStorageObjectState, useStorageState } from "@/hooks/useStorageState";
 import { StorageKey } from "@/utils/storage";
 import { toHumanCase } from "@/utils/stringUtils";
-import { createContext, useContext, useMemo } from "react";
+import { createContext, useCallback, useContext, useMemo } from "react";
 import { useColorScheme } from "react-native";
 
 export type Palette = {
@@ -16,6 +16,8 @@ export type ColorContextType = {
 	currentPalette: Palette;
 	setCurrentPaletteId: Action1<string>;
 	allPalettes: Record<string, Palette & { unavailable?: boolean }>;
+	myPalettes: string[];
+	addPalette: Action1<Palette>;
 };
 
 export const ColorsContext = createContext<ColorContextType>(
@@ -31,6 +33,11 @@ export const useInitColors = () => {
 	const [currentPaletteId, setCurrentPaletteId] = useStorageState(
 		StorageKey.currentPaletteId,
 		CLASSIC_PALETTE_ID
+	);
+
+	const [myPalettes, setMyPalettes] = useStorageObjectState<string[]>(
+		StorageKey.myPalettes,
+		DEFAULT_MY_PALETTES
 	);
 
 	const allPalettes: ColorContextType["allPalettes"] = useMemo(
@@ -79,7 +86,11 @@ export const useInitColors = () => {
 						colors: ["#f11712", "#ffe539", "#0098f7"],
 					},
 					autumn: {
-						colors: ["#CD5C08", "#FFF5E4", "#78B3CE"],
+						colors: [
+							"#CD5C08",
+							theme === "dark" ? "#FFE8C5" : "#d2bfa3",
+							"#78B3CE",
+						],
 					},
 					nature: {
 						colors: ["#3B82F6", "#F97316", "#10B981"],
@@ -103,11 +114,20 @@ export const useInitColors = () => {
 		[theme]
 	);
 
+	const addPalette = useCallback(
+		(palette: Palette) => {
+			setMyPalettes([...myPalettes, palette.id]);
+		},
+		[myPalettes]
+	);
+
 	return {
 		currentPalette:
 			allPalettes[currentPaletteId] ?? allPalettes[CLASSIC_PALETTE_ID],
 		setCurrentPaletteId,
 		allPalettes,
+		myPalettes,
+		addPalette,
 	};
 };
 
