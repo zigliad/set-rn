@@ -12,6 +12,33 @@ export type ModeConfig = {
 	getMedal?: Supplier<Promise<Nullable<Medal>>>;
 };
 
+export const getMedalByWinsAmount =
+	(key: StorageKey, thresholds: number[]) => async () => {
+		const wins = +(await getData(key, String(0)));
+		return wins >= thresholds[2]
+			? Medal.gold
+			: wins >= thresholds[1]
+				? Medal.silver
+				: wins >= thresholds[0]
+					? Medal.bronze
+					: null;
+	};
+
+// These are actually the same, but it feels right.
+export const getMedalByHighScore = getMedalByWinsAmount;
+
+export const getMedalByLowScore =
+	(key: StorageKey, thresholds: number[]) => async () => {
+		const best = +(await getData(key, String(Infinity)));
+		return best <= thresholds[2]
+			? Medal.gold
+			: best <= thresholds[1]
+				? Medal.silver
+				: best <= thresholds[0]
+					? Medal.bronze
+					: null;
+	};
+
 export const modesConfig: ModeConfig[] = [
 	{
 		title: "FILLER",
@@ -22,31 +49,13 @@ export const modesConfig: ModeConfig[] = [
 		title: "1-Minute",
 		mode: "oneMinute",
 		Icon: require("@/assets/images/mode-icons/1-minute.png"),
-		getMedal: async () => {
-			const best = +(await getData(StorageKey.oneMinute, "0"));
-			return best >= 16
-				? Medal.gold
-				: best >= 12
-					? Medal.silver
-					: best >= 8
-						? Medal.bronze
-						: null;
-		},
+		getMedal: getMedalByHighScore(StorageKey.oneMinute, [8, 12, 16]),
 	},
 	{
 		title: "6-Pack",
 		mode: "sixPack",
 		Icon: require("@/assets/images/mode-icons/loupe.png"),
-		getMedal: async () => {
-			const wins = +(await getData(StorageKey.sixPack, String(0)));
-			return wins >= 500
-				? Medal.gold
-				: wins >= 300
-					? Medal.silver
-					: wins >= 100
-						? Medal.bronze
-						: null;
-		},
+		getMedal: getMedalByWinsAmount(StorageKey.sixPack, [100, 300, 500]),
 	},
 	{
 		title: "8-Pack",
@@ -67,119 +76,58 @@ export const modesConfig: ModeConfig[] = [
 		title: "High-5",
 		mode: "highFive",
 		Icon: require("@/assets/images/mode-icons/high-5.png"),
-		getMedal: async () => {
-			const best = +(await getData(
-				StorageKey.highFive,
-				String(Infinity)
-			));
-			return best <= 8
-				? Medal.gold
-				: best <= 12
-					? Medal.silver
-					: best <= 16
-						? Medal.bronze
-						: null;
-		},
+		getMedal: getMedalByLowScore(StorageKey.highFive, [16, 12, 8]),
 	},
 	{
 		title: "Drain",
 		mode: "drain",
 		Icon: require("@/assets/images/mode-icons/drain.png"),
-		getMedal: async () => {
-			const wins = +(await getData(StorageKey.drain, String(0)));
-			return wins >= 500
-				? Medal.gold
-				: wins >= 300
-					? Medal.silver
-					: wins >= 100
-						? Medal.bronze
-						: null;
-		},
+		getMedal: getMedalByWinsAmount(StorageKey.drain, [100, 300, 500]),
 	},
 	{
 		title: "Survival",
 		mode: "survival",
 		Icon: require("@/assets/images/mode-icons/survival.png"),
-		getMedal: async () => {
-			const best = +(await getData(StorageKey.survival, "0"));
-			return best >= 20
-				? Medal.gold
-				: best >= 10
-					? Medal.silver
-					: best >= 5
-						? Medal.bronze
-						: null;
-		},
+		getMedal: getMedalByHighScore(StorageKey.survival, [10, 20, 30]),
 	},
 	{
 		title: "Disco",
 		mode: "disco",
 		Icon: require("@/assets/images/mode-icons/disco.png"),
-		getMedal: async () => {
-			const best = +(await getData(StorageKey.disco, "0"));
-			return best >= 16
-				? Medal.gold
-				: best >= 12
-					? Medal.silver
-					: best >= 8
-						? Medal.bronze
-						: null;
-		},
+		getMedal: getMedalByHighScore(StorageKey.disco, [8, 12, 16]),
 	},
 	{
 		title: "Speed",
 		mode: "speed",
 		Icon: require("@/assets/images/mode-icons/speed.png"),
-		getMedal: async () => {
-			const wins = +(await getData(StorageKey.speed, String(0)));
-			return wins >= 300
-				? Medal.gold
-				: wins >= 150
-					? Medal.silver
-					: wins >= 50
-						? Medal.bronze
-						: null;
-		},
+		getMedal: getMedalByWinsAmount(StorageKey.speed, [50, 150, 300]),
 	},
 	{
 		title: "Levels",
 		mode: "levels",
 		Icon: require("@/assets/images/mode-icons/levels.png"),
-		getMedal: async () => {
-			const level = +(await getData(StorageKey.levels, String(0)));
-			return level >= 30
-				? Medal.gold
-				: level >= 15
-					? Medal.silver
-					: level >= 5
-						? Medal.bronze
-						: null;
-		},
+		getMedal: getMedalByWinsAmount(StorageKey.levels, [10, 20, 30]),
 	},
 
 	{
 		title: "Mania",
 		mode: "mania",
 		Icon: require("@/assets/images/mode-icons/mania.png"),
+		getMedal: getMedalByWinsAmount(StorageKey.mania, [50, 150, 300]),
 	},
 	{
 		title: "Expert",
 		mode: "expert",
 		Icon: require("@/assets/images/mode-icons/expert.png"),
+		getMedal: getMedalByHighScore(StorageKey.expert, [5, 8, 10]),
 	},
 	{
 		title: "Relax",
 		mode: "relax",
 		Icon: require("@/assets/images/mode-icons/ying-yang.png"),
-		getMedal: async () => {
-			const best = +(await getData(StorageKey.totalSetsFound, "0"));
-			return best >= 5000
-				? Medal.gold
-				: best >= 900
-					? Medal.silver
-					: best >= 500
-						? Medal.bronze
-						: null;
-		},
+		getMedal: getMedalByWinsAmount(
+			StorageKey.totalSetsFound,
+			[1000, 2500, 5000]
+		),
 	},
 ];

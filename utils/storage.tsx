@@ -5,22 +5,26 @@ export enum StorageKey {
 	sixPack = "sixPack",
 	eightPack = "eightPack",
 	highFive = "highFive",
-	speed = "speed",
+	drain = "drain",
 	survival = "survival",
 	disco = "disco",
-	drain = "drain",
+	speed = "speed",
 	levels = "levels",
+	mania = "mania",
+	expert = "expert",
 
 	totalSetsFound = "totalSetsFound",
 	setsFound = "setsFound", // concrete sets values
-	colorIndex = "colorIndex",
-	currentPaletteId = "currentPaletteId",
+
+	seenOnboarding = "seenOnboarding",
 	muteSounds = "muteSounds",
 	gamesPlayedWithoutAds = "gamesPlayedWithoutAds",
-	seenOnboarding = "seenOnboarding",
+
+	currentPaletteId = "currentPaletteId",
+	myPalettes = "myPalettes",
+	
 	coins = "coins",
 	gems = "gems",
-	myPalettes = "myPalettes",
 }
 
 export const storeData = async (key: string, value: string | number) => {

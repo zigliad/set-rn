@@ -17,27 +17,26 @@ export type Modes =
 	| "sixPack"
 	| "eightPack"
 	| "highFive"
-	| "speed"
+	| "drain"
 	| "survival"
 	| "disco"
-	| "relax"
-	| "expert"
+	| "speed"
+	| "levels"
 	| "mania"
-	| "drain"
-	| "levels";
+	| "expert"
+	| "relax";
 
 export const modes: Record<Modes, Function<onGameEndCallback, Mode>> = {
 	oneMinute: createTimeMode(4, 60, 4, undefined, StorageKey.oneMinute),
 	sixPack: createStaticMode(6, 8, 4, 3, StorageKey.sixPack),
 	eightPack: createStaticMode(8, 8, 4, 3, StorageKey.eightPack),
 	highFive: createRaceMode(5, 300, false, 4, 4, StorageKey.highFive),
-	disco: createDiscoMode(4, 60, 5, 4, StorageKey.disco),
-	relax: createRelaxMode(6),
-	mania: createRaceMode(10, 25, true, 10, 3, StorageKey.speed),
 	drain: createDrainMode(4, 6, 4, 3, StorageKey.drain),
-	speed: createRaceMode(3, 12, true, 4, 4, StorageKey.speed),
 	survival: createSurvivalMode(4, 10, 5, 3, 4, StorageKey.survival),
+	disco: createDiscoMode(4, 60, 5, 4, StorageKey.disco),
+	speed: createRaceMode(3, 12, true, 4, 4, StorageKey.speed),
 	levels: createLevelsMode(5, StorageKey.levels),
+	mania: createRaceMode(10, 25, true, 10, 3, StorageKey.mania),
 	expert: createTimeMode(
 		2,
 		60,
@@ -47,6 +46,7 @@ export const modes: Record<Modes, Function<onGameEndCallback, Mode>> = {
 			timePenalty: 1,
 			maxMistakes: 2,
 		},
-		StorageKey.oneMinute
+		StorageKey.expert
 	),
+	relax: createRelaxMode(6),
 };
