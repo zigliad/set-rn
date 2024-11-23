@@ -43,7 +43,7 @@ export const modesConfig: ModeConfig[] = [
 	{
 		title: "FILLER",
 		mode: "oneMinute",
-		Icon: require("@/assets/images/mode-icons/relax.png"),
+		Icon: require("@/assets/images/mode-icons/1-minute.png"),
 	},
 	{
 		title: "1-Minute",
@@ -61,16 +61,7 @@ export const modesConfig: ModeConfig[] = [
 		title: "8-Pack",
 		mode: "eightPack",
 		Icon: require("@/assets/images/mode-icons/8-ball.png"),
-		getMedal: async () => {
-			const wins = +(await getData(StorageKey.eightPack, String(0)));
-			return wins >= 500
-				? Medal.gold
-				: wins >= 300
-					? Medal.silver
-					: wins >= 100
-						? Medal.bronze
-						: null;
-		},
+		getMedal: getMedalByWinsAmount(StorageKey.eightPack, [100, 300, 500]),
 	},
 	{
 		title: "High-5",
