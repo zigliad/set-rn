@@ -5,12 +5,25 @@ import { Divider } from "@/components/ui/divider";
 import { VStack } from "@/components/ui/vstack";
 import { BackButton } from "@/components/utils/BackButton";
 import { PriceTag } from "@/components/utils/PriceTag";
+import { rewarded, rewardedAdUnitId } from "@/constants/ads";
 import { useCurrencies } from "@/hooks/useCurrencies";
 import { fontWeightStyles } from "@/styles/commonStyles";
+import { useEffect } from "react";
 import { SafeAreaView } from "react-native";
+import { useRewardedAd } from "react-native-google-mobile-ads";
 
 export default function Shop() {
 	const { coins, gems } = useCurrencies();
+	const { isLoaded, isClosed, load, show, reward, isEarnedReward } =
+		useRewardedAd(rewardedAdUnitId);
+	// const loaded = useRewardedAd(rewarded, (reward) => console.log(reward));
+
+	useEffect(load, [load]);
+
+	useEffect(() => {
+		console.log(isEarnedReward, reward, isLoaded);
+		if (isEarnedReward) load();
+	}, [isEarnedReward, reward, isLoaded, load]);
 
 	return (
 		<SafeAreaView className="bg-background-base">
@@ -28,6 +41,23 @@ export default function Shop() {
 						fontSize={52}
 						currencySize={52}
 					/>
+					<Divider />
+					<Button
+						// disabled={!loaded}
+						// onPress={() => {
+						// 	if (loaded) rewarded.show();
+						// }}
+						isDisabled={!isLoaded}
+						onPress={() => {
+							if (isLoaded) {
+								show();
+							}
+						}}
+					>
+						<ButtonText style={fontWeightStyles.medium}>
+							Watch ad for 10 coins
+						</ButtonText>
+					</Button>
 					<Divider />
 					<Button>
 						<ButtonText style={fontWeightStyles.medium}>
