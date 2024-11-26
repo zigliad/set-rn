@@ -3,6 +3,7 @@ import { AwesomeModal } from "@/components/awesome-modal/AwesomeModal";
 import { GridAction, GridActions } from "@/components/GridActions";
 import { Heading } from "@/components/ui/heading";
 import { HStack } from "@/components/ui/hstack";
+import { BackButton } from "@/components/utils/BackButton";
 import { useStorageState } from "@/hooks/useStorageState";
 import { StorageKey } from "@/utils/storage";
 import { router } from "expo-router";
@@ -33,18 +34,6 @@ export default function MoreOptions() {
 			onClick: () => {},
 		},
 		{
-			title: "Back",
-			Icon: require("@/assets/images/grid-action-icons/back.png"),
-			onClick: router.back,
-		},
-		{
-			title: "Rules",
-			Icon: require("@/assets/images/grid-action-icons/rules.png"),
-			onClick: () => {
-				router.push({ pathname: "/rules" });
-			},
-		},
-		{
 			title: "Colors",
 			Icon: require("@/assets/images/grid-action-icons/colors.png"),
 			onClick: () => {
@@ -56,6 +45,18 @@ export default function MoreOptions() {
 			Icon: require("@/assets/images/grid-action-icons/deck.png"),
 			onClick: () => {
 				router.push({ pathname: "/setsFound" });
+			},
+		},
+		{
+			title: "Shop",
+			Icon: require("@/assets/images/grid-action-icons/shop.png"),
+			onClick: () => router.push("/shop"),
+		},
+		{
+			title: "Rules",
+			Icon: require("@/assets/images/grid-action-icons/rules.png"),
+			onClick: () => {
+				router.push({ pathname: "/rules" });
 			},
 		},
 		{
@@ -121,6 +122,7 @@ export default function MoreOptions() {
 					icon={Candy}
 					backdropOnResolve
 				/>
+				<BackButton />
 			</View>
 		</SafeAreaView>
 	);
