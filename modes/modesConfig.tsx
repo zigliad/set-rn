@@ -13,7 +13,6 @@ export type ModeConfig = {
 	mode: Modes;
 	Icon: ImageURISource;
 	getMedal?: Supplier<Promise<Nullable<Medal>>>;
-	disabled?: boolean;
 	price?: { gems: number; coins: number };
 };
 
@@ -73,7 +72,6 @@ export const modesConfig: ModeConfig[] = [
 		mode: "eightPack",
 		Icon: require("@/assets/images/mode-icons/8-ball.png"),
 		getMedal: getMedalByWinsAmount(StorageKey.eightPack, [100, 300, 500]),
-		disabled: true,
 	},
 	{
 		title: "Drain",

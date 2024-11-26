@@ -22,7 +22,9 @@ export enum StorageKey {
 
 	currentPaletteId = "currentPaletteId",
 	myPalettes = "myPalettes",
-	
+
+	myModes = "myModes",
+
 	coins = "coins",
 	gems = "gems",
 }

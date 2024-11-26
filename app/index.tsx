@@ -12,14 +12,17 @@ import { ShopButton } from "@/components/utils/ShopButton";
 import { sounds } from "@/constants/sounds";
 import { useCurrencies } from "@/hooks/useCurrencies";
 import { useShowOnboarding } from "@/hooks/useShowOnboarding";
+import { useStorageObjectState } from "@/hooks/useStorageState";
 import { Modes } from "@/modes/modes";
 import {
 	DEFAULT_MODE_PRICE,
 	ModeConfig,
 	modesConfig,
 } from "@/modes/modesConfig";
+import { Mode } from "@/modes/modeTypes";
 import { medalConfig } from "@/types/medal";
 import { playSound } from "@/utils/soundPlayer";
+import { StorageKey } from "@/utils/storage";
 import { router } from "expo-router";
 import { ArrowLeft, Lock, Store } from "lucide-react-native";
 import { useEffect, useMemo, useState } from "react";
@@ -36,6 +39,8 @@ export const titleStyles = StyleSheet.create({
 	},
 });
 
+const DEFAULT_MY_MODES: Modes[] = ["oneMinute", "sixPack", "highFive"];
+
 export default function Index() {
 	const [visibleStatsModal, setVisibleStatsModal] = useState(false);
 	const { visibleModal: visibleOnboardingModal, finishOnboarding } =
@@ -43,6 +48,11 @@ export default function Index() {
 
 	const [modeClicked, setModeClicked] = useState<ModeConfig>();
 	const { gems, coins } = useCurrencies();
+
+	const [myModes, setMyModes] = useStorageObjectState<Modes[]>(
+		StorageKey.myModes,
+		DEFAULT_MY_MODES
+	);
 
 	const moreOptions: GridAction[] = useMemo(
 		() => [
@@ -87,13 +97,15 @@ export default function Index() {
 					let medalConf;
 					const medal = await modeConf.getMedal?.();
 					if (medal) medalConf = medalConfig[medal];
+					const hasMode = myModes.includes(modeConf.mode);
 
 					return {
 						...conf,
+						disabled: !hasMode,
 						leftIcon: medalConf,
-						rightIcon: modeConf.disabled
-							? { icon: Lock, color: "#aaaaaa" }
-							: undefined,
+						rightIcon: hasMode
+							? undefined
+							: { icon: Lock, color: "#aaaaaa" },
 						onClick: () => {
 							router.push({
 								pathname: "/game",
@@ -124,7 +136,7 @@ export default function Index() {
 			);
 			setGridActions([...(await Promise.all(_promises)), ...moreOptions]);
 		})();
-	}, [moreOptions]);
+	}, [moreOptions, myModes]);
 
 	return (
 		<SafeAreaView className="bg-background-base">
@@ -133,13 +145,13 @@ export default function Index() {
 					<Heading size="5xl" style={titleStyles.pageTitle}>
 						SET
 					</Heading>
-					<PriceTag
+					{/* <PriceTag
 						price={gems}
 						currency="gem"
 						fontSize={24}
 						currencySize={32}
 						space="xs"
-					/>
+					/> */}
 				</VStack>
 				<HStack className="w-5/6 self-end">
 					<GridActions actions={gridActions} />
@@ -150,7 +162,7 @@ export default function Index() {
 						onResolve={() => setVisibleStatsModal(false)}
 					/>
 				)}
-				<ShopButton />
+				{/* <ShopButton /> */}
 			</View>
 			<BuyModeModal
 				mode={modeClicked}
