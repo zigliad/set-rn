@@ -1,4 +1,4 @@
-import { Badge } from "@/components/GridActions";
+import { GridItemIcon } from "@/components/GridActions";
 import { Award } from "lucide-react-native";
 
 export enum Medal {
@@ -7,7 +7,7 @@ export enum Medal {
 	gold,
 }
 
-export const medalConfig: Record<Medal, Badge> = {
+export const medalConfig: Record<Medal, GridItemIcon> = {
 	[Medal.gold]: {
 		icon: Award,
 		color: "#eab308",

@@ -88,7 +88,7 @@ export const useRaceMode = (
 		newGame,
 		checkSet,
 		rules: reverse
-			? `Simply find ${goal} sets ${maxTime} seconds!`
+			? `Simply find ${goal} sets in ${maxTime} seconds!`
 			: `Find ${goal} sets as fast as you can!`,
 		title: `${score} / ${goal} sets, ${time.toFixed(0)}`,
 		endgameTitle: gameResult === GameResult.win ? "You Won" : "You Lose",

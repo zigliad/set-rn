@@ -1,4 +1,5 @@
 import { GridAction, GridActions } from "@/components/GridActions";
+import { BuyModeModal } from "@/components/pages/colors/BuyModeModal";
 import { OnboardingModal } from "@/components/pages/index/OnboardingModal";
 import { StatsModal } from "@/components/StatsModal";
 import { Button } from "@/components/ui/button";
@@ -12,11 +13,15 @@ import { sounds } from "@/constants/sounds";
 import { useCurrencies } from "@/hooks/useCurrencies";
 import { useShowOnboarding } from "@/hooks/useShowOnboarding";
 import { Modes } from "@/modes/modes";
-import { modesConfig } from "@/modes/modesConfig";
+import {
+	DEFAULT_MODE_PRICE,
+	ModeConfig,
+	modesConfig,
+} from "@/modes/modesConfig";
 import { medalConfig } from "@/types/medal";
 import { playSound } from "@/utils/soundPlayer";
 import { router } from "expo-router";
-import { ArrowLeft, Store } from "lucide-react-native";
+import { ArrowLeft, Lock, Store } from "lucide-react-native";
 import { useEffect, useMemo, useState } from "react";
 import { ImageURISource, SafeAreaView, StyleSheet, View } from "react-native";
 
@@ -36,7 +41,8 @@ export default function Index() {
 	const { visibleModal: visibleOnboardingModal, finishOnboarding } =
 		useShowOnboarding();
 
-	const { gems } = useCurrencies();
+	const [modeClicked, setModeClicked] = useState<ModeConfig>();
+	const { gems, coins } = useCurrencies();
 
 	const moreOptions: GridAction[] = useMemo(
 		() => [
@@ -84,7 +90,10 @@ export default function Index() {
 
 					return {
 						...conf,
-						badge: medalConf,
+						leftIcon: medalConf,
+						rightIcon: modeConf.disabled
+							? { icon: Lock, color: "#aaaaaa" }
+							: undefined,
 						onClick: () => {
 							router.push({
 								pathname: "/game",
@@ -92,6 +101,23 @@ export default function Index() {
 									mode: modeConf.mode,
 								},
 							});
+						},
+						onDisabledClick: () => {
+							if (
+								gems >=
+									(modeConf.price?.gems ??
+										DEFAULT_MODE_PRICE.gems ??
+										0) &&
+								coins >=
+									(modeConf.price?.coins ??
+										DEFAULT_MODE_PRICE.coins ??
+										0)
+							) {
+								setModeClicked(modeConf);
+							} else {
+								playSound(sounds.error);
+								router.push("/shop");
+							}
 						},
 					};
 				}
@@ -126,6 +152,12 @@ export default function Index() {
 				)}
 				<ShopButton />
 			</View>
+			<BuyModeModal
+				mode={modeClicked}
+				onResolve={() => {
+					setModeClicked(undefined);
+				}}
+			/>
 			<OnboardingModal
 				visible={visibleOnboardingModal}
 				onResolve={finishOnboarding}

@@ -67,7 +67,9 @@ export const PalettesGrid = ({
 								} else {
 									if (
 										coins >=
-										(palette.price ?? DEFAULT_PALETTE_PRICE)
+										(palette.price?.coins ??
+											DEFAULT_PALETTE_PRICE.coins ??
+											0)
 									) {
 										onPaletteClick(palette);
 									} else {
@@ -89,8 +91,9 @@ export const PalettesGrid = ({
 										<PriceTag
 											space="sm"
 											price={
-												palette.price ??
-												DEFAULT_PALETTE_PRICE
+												palette.price?.coins ??
+												DEFAULT_PALETTE_PRICE.coins ??
+												0
 											}
 											fontSize={16}
 											currencySize={16}

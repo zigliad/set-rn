@@ -9,7 +9,6 @@ import { sounds } from "@/constants/sounds";
 import { useColors } from "@/hooks/useInitColors";
 import { fontWeightStyles } from "@/styles/commonStyles";
 import { playSound } from "@/utils/soundPlayer";
-import { router } from "expo-router";
 import { LucideIcon } from "lucide-react-native";
 import React, { DispatchWithoutAction } from "react";
 import {
@@ -20,14 +19,17 @@ import {
 } from "react-native";
 import { FlatGrid } from "react-native-super-grid";
 
-export type Badge = { icon: LucideIcon; color: string };
+export type GridItemIcon = { icon: LucideIcon; color: string };
 
 export type GridAction = {
 	title: string;
 	Icon: ImageURISource;
 	onClick: DispatchWithoutAction;
 	key?: string;
-	badge?: Badge;
+	leftIcon?: GridItemIcon;
+	rightIcon?: GridItemIcon;
+	disabled?: boolean;
+	onDisabledClick?: DispatchWithoutAction;
 };
 
 const styles = StyleSheet.create({
@@ -56,24 +58,41 @@ export const GridActions = ({ actions }: { actions: GridAction[] }) => {
 				if (index === 0) return <Box />;
 				return (
 					<Box
-						className="bg-background-card rounded-2xl h-48 border-2 border-background-card-shadow opacity-95"
+						className={
+							"bg-background-card rounded-2xl h-48 border-2 border-background-card-shadow " +
+							(item.disabled ? "opacity-25" : "opacity-95")
+						}
 						style={styles.box}
 						key={item.key ?? item.title}
 					>
-						<Box className="w-full h-full absolute">
-							{item.badge && (
+						<Box className="w-full h-full relative">
+							{item.leftIcon && (
 								<Icon
-									as={item.badge.icon}
+									as={item.leftIcon.icon}
 									size={24}
-									className={"relative left-2 top-2"}
-									style={{ color: item.badge.color }}
+									className={"absolute left-2 top-2"}
+									style={{ color: item.leftIcon.color }}
+								/>
+							)}
+							{item.rightIcon && (
+								<Icon
+									as={item.rightIcon.icon}
+									size={24}
+									className={"absolute right-2 top-2"}
+									style={{
+										color: item.rightIcon.color,
+									}}
 								/>
 							)}
 							<Center className="h-full w-full absolute">
 								<Pressable
 									onPress={async () => {
-										item.onClick();
-										playSound(sounds.click);
+										if (!item.disabled) {
+											item.onClick();
+											playSound(sounds.click);
+										} else {
+											item.onDisabledClick?.();
+										}
 									}}
 								>
 									<VStack

@@ -1,4 +1,4 @@
-import { BuyPaletteModal } from "@/components/pages/colors/BuyPaletteModel";
+import { BuyPaletteModal } from "@/components/pages/colors/BuyPaletteModal";
 import { PalettesGrid } from "@/components/pages/colors/PalettesGrid";
 import { Box } from "@/components/ui/box";
 import { VStack } from "@/components/ui/vstack";

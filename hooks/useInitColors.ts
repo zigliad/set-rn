@@ -1,5 +1,9 @@
 import { Action1 } from "@/extra-types/utils/functions";
-import { useStorageObjectState, useStorageState } from "@/hooks/useStorageState";
+import {
+	useStorageObjectState,
+	useStorageState,
+} from "@/hooks/useStorageState";
+import { Price } from "@/types/price";
 import { StorageKey } from "@/utils/storage";
 import { toHumanCase } from "@/utils/stringUtils";
 import { createContext, useCallback, useContext, useMemo } from "react";
@@ -9,7 +13,7 @@ export type Palette = {
 	id: string;
 	nickname?: string;
 	colors: string[];
-	price?: number;
+	price?: Price;
 };
 
 export type ColorContextType = {
@@ -25,7 +29,7 @@ export const ColorsContext = createContext<ColorContextType>(
 );
 
 export const CLASSIC_PALETTE_ID = "classic";
-export const DEFAULT_PALETTE_PRICE = 100;
+export const DEFAULT_PALETTE_PRICE: Price = { coins: 100 };
 export const DEFAULT_MY_PALETTES = [CLASSIC_PALETTE_ID];
 
 export const useInitColors = () => {
@@ -77,13 +81,17 @@ export const useInitColors = () => {
 					},
 					batman: {
 						colors: [
-							theme === "dark" ? "#141414" : "#141414",
-							"#fff400",
-							"#a0a0a0",
+							theme === "dark" ? "#000000" : "#141414",
+							theme === "dark" ? "#fff400" : "#eae100",
+							theme === "dark" ? "#a0a0a0" : "#bcbcbc",
 						],
 					},
 					superman: {
-						colors: ["#f11712", "#ffe539", "#0098f7"],
+						colors: [
+							"#f11712",
+							theme === "dark" ? "#ffe539" : "#f7db1f",
+							"#0098f7",
+						],
 					},
 					autumn: {
 						colors: [
@@ -99,7 +107,7 @@ export const useInitColors = () => {
 						colors: ["#FF99CC", "#a2edfe", "#B399FF"],
 					},
 					beach: {
-						price: 2000,
+						price: { coins: 2000 },
 						colors: [
 							"#92B4EC",
 							theme === "dark" ? "#fff2dd" : "#d2bfa3",

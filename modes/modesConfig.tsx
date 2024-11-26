@@ -2,14 +2,19 @@ import { Nullable } from "@/extra-types/utils/extra";
 import { Supplier } from "@/extra-types/utils/functions";
 import { Modes } from "@/modes/modes";
 import { Medal } from "@/types/medal";
+import { Price } from "@/types/price";
 import { getData, StorageKey } from "@/utils/storage";
 import { ImageURISource } from "react-native";
+
+export const DEFAULT_MODE_PRICE: Price = { gems: 2 };
 
 export type ModeConfig = {
 	title: string;
 	mode: Modes;
 	Icon: ImageURISource;
 	getMedal?: Supplier<Promise<Nullable<Medal>>>;
+	disabled?: boolean;
+	price?: { gems: number; coins: number };
 };
 
 export const getMedalByWinsAmount =
@@ -58,16 +63,17 @@ export const modesConfig: ModeConfig[] = [
 		getMedal: getMedalByWinsAmount(StorageKey.sixPack, [100, 300, 500]),
 	},
 	{
-		title: "8-Pack",
-		mode: "eightPack",
-		Icon: require("@/assets/images/mode-icons/8-ball.png"),
-		getMedal: getMedalByWinsAmount(StorageKey.eightPack, [100, 300, 500]),
-	},
-	{
 		title: "High-5",
 		mode: "highFive",
 		Icon: require("@/assets/images/mode-icons/high-5.png"),
 		getMedal: getMedalByLowScore(StorageKey.highFive, [16, 12, 8]),
+	},
+	{
+		title: "8-Pack",
+		mode: "eightPack",
+		Icon: require("@/assets/images/mode-icons/8-ball.png"),
+		getMedal: getMedalByWinsAmount(StorageKey.eightPack, [100, 300, 500]),
+		disabled: true,
 	},
 	{
 		title: "Drain",

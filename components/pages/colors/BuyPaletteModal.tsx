@@ -7,20 +7,18 @@ import {
 	useColors,
 } from "@/hooks/useInitColors";
 import { playSound } from "@/utils/soundPlayer";
-import { Coins, Store } from "lucide-react-native";
+import { Store } from "lucide-react-native";
 import React, { DispatchWithoutAction } from "react";
 
 export const BuyPaletteModal = ({
-	visible = false,
 	onResolve,
 	palette,
 }: {
-	visible?: boolean;
 	onResolve: DispatchWithoutAction;
 	palette?: Palette;
 }) => {
 	const { addPalette, setCurrentPaletteId } = useColors();
-	const { incCoins } = useCurrencies();
+	const { incCoins, incGems } = useCurrencies();
 
 	if (!palette) return;
 
@@ -31,12 +29,17 @@ export const BuyPaletteModal = ({
 			header={`${palette.nickname} Palette`}
 			buttonText="Buy"
 			secondaryButtonText="Not Now"
-			content={`Are you sure you want to buy ${palette.nickname} palette for ${palette.price ?? DEFAULT_PALETTE_PRICE} coins?`}
+			content={`Are you sure you want to buy ${palette.nickname} palette for ${palette.price?.coins ?? DEFAULT_PALETTE_PRICE.coins} coins?`}
 			onResolve={() => {
 				playSound(sounds.buy);
 				addPalette(palette);
 				setCurrentPaletteId(palette.id);
-				incCoins(-(palette.price ?? DEFAULT_PALETTE_PRICE));
+				incCoins(
+					-(palette.price?.coins ?? DEFAULT_PALETTE_PRICE.coins ?? 0)
+				);
+				incGems(
+					-(palette.price?.gems ?? DEFAULT_PALETTE_PRICE.gems ?? 0)
+				);
 				onResolve();
 			}}
 			secondaryOnResolve={() => {
