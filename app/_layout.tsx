@@ -10,6 +10,7 @@ import mobileAds from "react-native-google-mobile-ads";
 
 import "@/global.css";
 import "react-native-reanimated";
+import { MyModesContext, useInitMyModes } from "@/hooks/ads/useMyModes";
 
 mobileAds().initialize();
 
@@ -30,29 +31,32 @@ export default function RootLayout() {
 
 	const colors = useInitColors();
 	const currencies = useInitCurrencies();
+	const myModes = useInitMyModes();
 
 	if (!loaded) return null;
 
 	return (
 		<GluestackUIProvider mode="system">
 			<GestureHandlerRootView>
-				<ColorsContext.Provider value={colors}>
-					<CurrenciesContext.Provider value={currencies}>
-						<Stack
-							screenOptions={{
-								headerShown: false,
-							}}
-						>
-							<Stack.Screen name="index" />
-							<Stack.Screen name="game" />
-							<Stack.Screen name="more" />
-							<Stack.Screen name="shop" />
-							<Stack.Screen name="setsFound" />
-							<Stack.Screen name="rules" />
-							<Stack.Screen name="colors" />
-						</Stack>
-					</CurrenciesContext.Provider>
-				</ColorsContext.Provider>
+				<MyModesContext.Provider value={myModes}>
+					<ColorsContext.Provider value={colors}>
+						<CurrenciesContext.Provider value={currencies}>
+							<Stack
+								screenOptions={{
+									headerShown: false,
+								}}
+							>
+								<Stack.Screen name="index" />
+								<Stack.Screen name="game" />
+								<Stack.Screen name="more" />
+								<Stack.Screen name="shop" />
+								<Stack.Screen name="setsFound" />
+								<Stack.Screen name="rules" />
+								<Stack.Screen name="colors" />
+							</Stack>
+						</CurrenciesContext.Provider>
+					</ColorsContext.Provider>
+				</MyModesContext.Provider>
 			</GestureHandlerRootView>
 		</GluestackUIProvider>
 	);

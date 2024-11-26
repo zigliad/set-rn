@@ -1,13 +1,12 @@
 import { AwesomeModal } from "@/components/awesome-modal/AwesomeModal";
 import { sounds } from "@/constants/sounds";
+import { useMyModes } from "@/hooks/ads/useMyModes";
 import { useCurrencies } from "@/hooks/useCurrencies";
-import {
-	DEFAULT_PALETTE_PRICE,
-	Palette,
-	useColors,
-} from "@/hooks/useInitColors";
+import { useStorageObjectState } from "@/hooks/useStorageState";
+import { Modes } from "@/modes/modes";
 import { DEFAULT_MODE_PRICE, ModeConfig } from "@/modes/modesConfig";
 import { playSound } from "@/utils/soundPlayer";
+import { StorageKey } from "@/utils/storage";
 import { Store } from "lucide-react-native";
 import React, { DispatchWithoutAction } from "react";
 
@@ -18,7 +17,7 @@ export const BuyModeModal = ({
 	onResolve: DispatchWithoutAction;
 	mode?: ModeConfig;
 }) => {
-	// const { addPalette, setCurrentPaletteId } = useColors();
+	const { myModes, setMyModes } = useMyModes();
 	const { incGems, incCoins } = useCurrencies();
 
 	if (!mode) return;
@@ -33,8 +32,7 @@ export const BuyModeModal = ({
 			content={`Are you sure you want to buy ${mode.title} mode for ${mode.price?.gems ?? DEFAULT_MODE_PRICE.gems} gems?`}
 			onResolve={() => {
 				playSound(sounds.buy);
-				// addPalette(palette);
-				// setCurrentPaletteId(palette.id);
+				setMyModes([...myModes, mode.mode]);
 				incGems(-(mode.price?.gems ?? DEFAULT_MODE_PRICE.gems ?? 0));
 				incCoins(-(mode.price?.coins ?? DEFAULT_MODE_PRICE.coins ?? 0));
 				onResolve();

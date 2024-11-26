@@ -10,6 +10,7 @@ import { VStack } from "@/components/ui/vstack";
 import { PriceTag } from "@/components/utils/PriceTag";
 import { ShopButton } from "@/components/utils/ShopButton";
 import { sounds } from "@/constants/sounds";
+import { useMyModes } from "@/hooks/ads/useMyModes";
 import { useCurrencies } from "@/hooks/useCurrencies";
 import { useShowOnboarding } from "@/hooks/useShowOnboarding";
 import { useStorageObjectState } from "@/hooks/useStorageState";
@@ -39,8 +40,6 @@ export const titleStyles = StyleSheet.create({
 	},
 });
 
-const DEFAULT_MY_MODES: Modes[] = ["oneMinute", "sixPack", "highFive"];
-
 export default function Index() {
 	const [visibleStatsModal, setVisibleStatsModal] = useState(false);
 	const { visibleModal: visibleOnboardingModal, finishOnboarding } =
@@ -49,10 +48,7 @@ export default function Index() {
 	const [modeClicked, setModeClicked] = useState<ModeConfig>();
 	const { gems, coins } = useCurrencies();
 
-	const [myModes, setMyModes] = useStorageObjectState<Modes[]>(
-		StorageKey.myModes,
-		DEFAULT_MY_MODES
-	);
+	const { myModes } = useMyModes();
 
 	const moreOptions: GridAction[] = useMemo(
 		() => [
@@ -136,7 +132,7 @@ export default function Index() {
 			);
 			setGridActions([...(await Promise.all(_promises)), ...moreOptions]);
 		})();
-	}, [moreOptions, myModes]);
+	}, [moreOptions, myModes, gems, coins]);
 
 	return (
 		<SafeAreaView className="bg-background-base">
@@ -145,13 +141,13 @@ export default function Index() {
 					<Heading size="5xl" style={titleStyles.pageTitle}>
 						SET
 					</Heading>
-					{/* <PriceTag
+					<PriceTag
 						price={gems}
 						currency="gem"
 						fontSize={24}
 						currencySize={32}
 						space="xs"
-					/> */}
+					/>
 				</VStack>
 				<HStack className="w-5/6 self-end">
 					<GridActions actions={gridActions} />
