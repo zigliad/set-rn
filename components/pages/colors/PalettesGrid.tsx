@@ -22,6 +22,7 @@ import { Check, Coins } from "lucide-react-native";
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import { FlatGrid } from "react-native-super-grid";
+import { Lock } from "lucide-react-native";
 
 export const PalettesGrid = ({
 	onPaletteClick,
@@ -88,17 +89,7 @@ export const PalettesGrid = ({
 										{palette.nickname}
 									</Text>
 									{!ownPalette && (
-										<PriceTag
-											space="sm"
-											price={
-												palette.price?.coins ??
-												DEFAULT_PALETTE_PRICE.coins ??
-												0
-											}
-											fontSize={16}
-											currencySize={16}
-											dir="rtl"
-										/>
+										<Icon as={Lock} className={"w-6 h-6"} />
 									)}
 									{isCurrentPalette && (
 										<Icon

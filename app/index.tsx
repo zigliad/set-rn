@@ -53,13 +53,6 @@ export default function Index() {
 					setVisibleStatsModal(true);
 				},
 			},
-			// {
-			// 	title: "Shop",
-			// 	Icon: require("@/assets/images/grid-action-icons/shop.png"),
-			// 	onClick: () => {
-			// 		router.push("/shop");
-			// 	},
-			// },
 			{
 				title: "More",
 				Icon: require("@/assets/images/grid-action-icons/more.png"),
