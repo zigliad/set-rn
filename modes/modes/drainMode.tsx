@@ -15,6 +15,7 @@ export const createDrainMode = (
 	minSets: number = 6,
 	attributesCount: number = 4,
 	optionsCount: number = 3,
+	seconds: number = 5,
 	storageKey?: string
 ) => {
 	const useDrainModeX = (onGameEnd: onGameEndCallback) => {
@@ -55,7 +56,13 @@ export const createDrainMode = (
 			};
 		}, []);
 
-		return useDrainMode(onGameEnd, deckGenerator, replacer, storageKey);
+		return useDrainMode(
+			onGameEnd,
+			deckGenerator,
+			replacer,
+			seconds,
+			storageKey
+		);
 	};
 
 	return useDrainModeX;

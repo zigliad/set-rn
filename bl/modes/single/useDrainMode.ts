@@ -5,11 +5,13 @@ import { onGameEndCallback } from "@/modes/modes";
 import { GameResult } from "@/modes/modeTypes";
 import { getData } from "@/utils/storage";
 import { useCallback, useMemo, useState } from "react";
+import useInterval from "react-use/lib/useInterval";
 
 export const useDrainMode = (
 	onGameEnd: onGameEndCallback,
 	deckGenerator: DeckGenerator,
 	replacer: Replacer,
+	seconds: number,
 	storageKey?: string
 ) => {
 	const {
@@ -23,12 +25,28 @@ export const useDrainMode = (
 	} = useSinglePlayerMode(onGameEnd, deckGenerator, storageKey);
 
 	const [score, setScore] = useState(0);
+	const [timeLeft, setTimeLeft] = useState(seconds);
+	const [startTimer, setStartTimer] = useState(false);
 
 	const goal = useMemo(() => deck.size / deck.brain.options, [deck]);
+
+	useInterval(
+		async () => {
+			if (timeLeft <= 1) {
+				await endGame(GameResult.lose);
+				setTimeLeft(0);
+			} else {
+				setTimeLeft((t) => t - 1);
+			}
+		},
+		!gameEnded && startTimer ? 1000 : null
+	);
 
 	const newGame = () => {
 		baseNewGame();
 		setScore(0);
+		setTimeLeft(seconds);
+		setStartTimer(false);
 	};
 
 	const endGame = useCallback(
@@ -46,6 +64,7 @@ export const useDrainMode = (
 	const checkSet = async (indexes: number[]) => {
 		const result = baseCheckSet(indexes);
 		if (result.isSet) {
+			setStartTimer(true);
 			replacer.replace(indexes, deck);
 			const newScore = score + 1;
 			setScore(newScore);
@@ -67,12 +86,19 @@ export const useDrainMode = (
 		brain,
 		newGame,
 		checkSet,
-		rules: `With the right moves, ${goal} sets can be formed. Find them, but be careful and choose wisely.`,
-		title: `${score} / ${goal} sets found`,
-		endgameTitle: gameResult === GameResult.win ? "You Won" : "You Lose",
+		rules: `With the right moves, ${goal} sets can be formed. Once you find the first set, you'll have ${seconds} seconds to find the rest. Plan carefully!`,
+		title: `${score} / ${goal} sets, ${timeLeft}`,
+		endgameTitle:
+			gameResult === GameResult.win
+				? "You Won"
+				: timeLeft === 0
+					? "Time's Up!"
+					: "You Lose",
 		endgameContent:
 			gameResult === GameResult.win
 				? `You drained the cards!`
-				: `No more sets`,
+				: timeLeft === 0
+					? `Better luck next time!`
+					: `No more sets`,
 	};
 };

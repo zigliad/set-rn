@@ -31,7 +31,7 @@ export const modes: Record<Modes, Function<onGameEndCallback, Mode>> = {
 	sixPack: createStaticMode(6, 8, 4, 3, StorageKey.sixPack),
 	eightPack: createStaticMode(8, 8, 4, 3, StorageKey.eightPack),
 	highFive: createRaceMode(5, 300, false, 4, 4, StorageKey.highFive),
-	drain: createDrainMode(4, 6, 4, 3, StorageKey.drain),
+	drain: createDrainMode(4, 6, 4, 3, 3, StorageKey.drain),
 	survival: createSurvivalMode(4, 10, 5, 3, 4, StorageKey.survival),
 	disco: createDiscoMode(4, 60, 5, 4, StorageKey.disco),
 	speed: createRaceMode(3, 12, true, 4, 4, StorageKey.speed),
