@@ -41,7 +41,6 @@ export const PalettesGrid = ({
 				(p) => !p.unavailable || (x.myPalettes ?? []).includes(p.id)
 			)}
 			renderItem={({ item: palette }) => {
-				const colors = palette.colors;
 				const ownPalette = (
 					x.myPalettes ?? [CLASSIC_PALETTE_ID]
 				).includes(palette.id);

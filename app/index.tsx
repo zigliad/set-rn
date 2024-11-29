@@ -115,6 +115,7 @@ export default function Index() {
 										DEFAULT_MODE_PRICE.coins ??
 										0)
 							) {
+								playSound(sounds.click);
 								setModeClicked(modeConf);
 							} else {
 								playSound(sounds.error);

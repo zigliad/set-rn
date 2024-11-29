@@ -36,7 +36,7 @@ export const modes: Record<Modes, Function<onGameEndCallback, Mode>> = {
 	disco: createDiscoMode(4, 60, 5, 4, StorageKey.disco),
 	speed: createRaceMode(3, 12, true, 4, 4, StorageKey.speed),
 	levels: createLevelsMode(5, StorageKey.levels),
-	mania: createRaceMode(10, 25, true, 10, 3, StorageKey.mania),
+	mania: createRaceMode(10, 20, true, 10, 3, StorageKey.mania),
 	expert: createTimeMode(
 		2,
 		60,
