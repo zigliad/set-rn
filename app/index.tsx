@@ -2,9 +2,9 @@ import { GridAction, GridActions } from "@/components/GridActions";
 import { BuyModeModal } from "@/components/pages/index/BuyModeModal";
 import { OnboardingModal } from "@/components/pages/index/OnboardingModal";
 import { StatsModal } from "@/components/StatsModal";
+import { Box } from "@/components/ui/box";
 import { Heading } from "@/components/ui/heading";
 import { HStack } from "@/components/ui/hstack";
-import { VStack } from "@/components/ui/vstack";
 import { PriceTag } from "@/components/utils/PriceTag";
 import { sounds } from "@/constants/sounds";
 import { useMyModes } from "@/hooks/ads/useMyModes";
@@ -125,18 +125,18 @@ export default function Index() {
 	return (
 		<SafeAreaView className="bg-background-base">
 			<View className="relative">
-				<VStack className="absolute top-8 left-8">
+				<Box className="absolute top-8 left-8">
 					<Heading size="5xl" style={titleStyles.pageTitle}>
 						SET
 					</Heading>
 					<PriceTag
 						price={gems}
 						currency="gem"
-						fontSize={24}
-						currencySize={32}
+						fontSize={36}
+						currencySize={56}
 						space="md"
 					/>
-				</VStack>
+				</Box>
 				<HStack className="w-5/6 self-end">
 					<GridActions actions={gridActions} />
 				</HStack>

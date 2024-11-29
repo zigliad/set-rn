@@ -109,7 +109,7 @@ export const OffersGrid = ({}: {}) => {
 										)}
 										{offer.gems > 0 && (
 											<PriceTag
-												space="xs"
+												space="sm"
 												currency="gem"
 												price={offer.gems}
 												fontSize={24}

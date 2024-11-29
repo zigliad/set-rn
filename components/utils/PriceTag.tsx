@@ -28,7 +28,11 @@ export const PriceTag = ({
 				(currency === "coin" ? (
 					<SetCoin width={currencySize} height={currencySize} />
 				) : (
-					<SetGem width={currencySize / 2} height={currencySize} />
+					<SetGem
+						width={currencySize / 2}
+						height={currencySize}
+						style={{ transform: [{ rotate: "20deg" }] }}
+					/>
 				))}
 			<Text
 				size="5xl"
@@ -44,7 +48,11 @@ export const PriceTag = ({
 				(currency === "coin" ? (
 					<SetCoin width={currencySize} height={currencySize} />
 				) : (
-					<SetGem width={currencySize} height={currencySize} />
+					<SetGem
+						width={currencySize / 2}
+						height={currencySize}
+						style={{ transform: [{ rotate: "20deg" }] }}
+					/>
 				))}
 		</HStack>
 	);

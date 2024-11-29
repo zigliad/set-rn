@@ -69,7 +69,7 @@ export const useInitColors = () => {
 						colors: [
 							"#7E30E1",
 							"#E26EE5",
-							theme === "dark" ? "#F3F8FF" : "#3f3f3f",
+							theme === "dark" ? "#F3F8FF" : "#dfcdb1",
 						],
 					},
 					irish: {
