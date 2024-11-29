@@ -1,4 +1,5 @@
 import { ElevatedCard } from "@/components/ElevatedCard";
+import { PaletteDisplay } from "@/components/pages/colors/PaletteDisplay";
 import { Box } from "@/components/ui/box";
 import { HStack } from "@/components/ui/hstack";
 import { Icon } from "@/components/ui/icon";
@@ -107,24 +108,7 @@ export const PalettesGrid = ({
 										/>
 									)}
 								</HStack>
-								<HStack>
-									{colors.map((color, i) => (
-										<Box
-											key={color}
-											className={
-												"w-1/3 h-12 " +
-												(i === 0
-													? "rounded-l-xl"
-													: i === colors.length - 1
-														? "rounded-r-xl"
-														: "")
-											}
-											style={{
-												backgroundColor: color,
-											}}
-										/>
-									))}
-								</HStack>
+								<PaletteDisplay {...{ palette }} />
 							</VStack>
 						</TouchableOpacity>
 					</ElevatedCard>

@@ -28,7 +28,7 @@ export const PriceTag = ({
 				(currency === "coin" ? (
 					<SetCoin width={currencySize} height={currencySize} />
 				) : (
-					<SetGem width={currencySize} height={currencySize} />
+					<SetGem width={currencySize / 2} height={currencySize} />
 				))}
 			<Text
 				size="5xl"

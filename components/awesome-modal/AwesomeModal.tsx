@@ -1,8 +1,7 @@
+import { AwesomeModalActions } from "@/components/awesome-modal/AwesomeModalActions";
 import { Box } from "@/components/ui/box";
-import { Button, ButtonText } from "@/components/ui/button";
 import { Center } from "@/components/ui/center";
 import { Heading } from "@/components/ui/heading";
-import { HStack } from "@/components/ui/hstack";
 import { Icon } from "@/components/ui/icon";
 import { Modal, ModalBackdrop, ModalContent } from "@/components/ui/modal";
 import { Text } from "@/components/ui/text";
@@ -127,47 +126,18 @@ export const AwesomeModal = ({
 								{content}
 							</Text>
 						</ScrollView>
-						<HStack space="sm" className="mt-6">
-							{secondaryOnResolve && secondaryButtonText && (
-								<Button
-									size="md"
-									variant="outline"
-									className={"flex-1 rounded-lg"}
-									onPress={secondaryOnResolve}
-								>
-									<ButtonText
-										style={{
-											fontFamily: "PlayfairDisplay_Black",
-										}}
-									>
-										{secondaryButtonText}
-									</ButtonText>
-								</Button>
-							)}
-							<Button
-								size="md"
-								variant="solid"
-								className={
-									"flex-1 rounded-lg " +
-									(computedTailwindColor ?? "")
-								}
-								onPress={onResolve}
-								style={{
-									...(computedColor && {
-										backgroundColor: computedColor,
-									}),
-								}}
-							>
-								<ButtonText
-									className="text-white"
-									style={{
-										fontFamily: "PlayfairDisplay_Black",
-									}}
-								>
-									{buttonText}
-								</ButtonText>
-							</Button>
-						</HStack>
+						<AwesomeModalActions
+							className="mt-6"
+							{...{
+								onResolve,
+								type,
+								buttonText,
+								color,
+								tailwindColor,
+								secondaryOnResolve,
+								secondaryButtonText,
+							}}
+						/>
 					</Center>
 				</Center>
 			</ModalContent>

@@ -1,4 +1,11 @@
-import { AwesomeModal } from "@/components/awesome-modal/AwesomeModal";
+import { AwesomeModalActions } from "@/components/awesome-modal/AwesomeModalActions";
+import { PaletteDisplay } from "@/components/pages/colors/PaletteDisplay";
+import { Divider } from "@/components/ui/divider";
+import { Heading } from "@/components/ui/heading";
+import { Modal, ModalBackdrop, ModalContent } from "@/components/ui/modal";
+import { Text } from "@/components/ui/text";
+import { VStack } from "@/components/ui/vstack";
+import { PriceTag } from "@/components/utils/PriceTag";
 import { sounds } from "@/constants/sounds";
 import { useCurrencies } from "@/hooks/useCurrencies";
 import {
@@ -6,8 +13,8 @@ import {
 	Palette,
 	useColors,
 } from "@/hooks/useInitColors";
+import { fontWeightStyles } from "@/styles/commonStyles";
 import { playSound } from "@/utils/soundPlayer";
-import { Store } from "lucide-react-native";
 import React, { DispatchWithoutAction } from "react";
 
 export const BuyPaletteModal = ({
@@ -22,30 +29,59 @@ export const BuyPaletteModal = ({
 
 	if (!palette) return;
 
+	const coinsPrice = palette.price?.coins ?? DEFAULT_PALETTE_PRICE.coins ?? 0;
+	const gemsPrice = palette.price?.gems ?? DEFAULT_PALETTE_PRICE.gems ?? 0;
+
 	return (
-		<AwesomeModal
-			visible={palette !== undefined}
-			icon={Store}
-			header={`${palette.nickname} Palette`}
-			buttonText="Buy"
-			secondaryButtonText="Not Now"
-			content={`Are you sure you want to buy ${palette.nickname} palette for ${palette.price?.coins ?? DEFAULT_PALETTE_PRICE.coins} coins?`}
-			onResolve={() => {
-				playSound(sounds.buy);
-				addPalette(palette);
-				setCurrentPaletteId(palette.id);
-				incCoins(
-					-(palette.price?.coins ?? DEFAULT_PALETTE_PRICE.coins ?? 0)
-				);
-				incGems(
-					-(palette.price?.gems ?? DEFAULT_PALETTE_PRICE.gems ?? 0)
-				);
-				onResolve();
-			}}
-			secondaryOnResolve={() => {
-				playSound(sounds.click);
-				onResolve();
-			}}
-		/>
+		<Modal isOpen={palette !== undefined}>
+			<ModalBackdrop onPress={onResolve} />
+			<ModalContent
+				className="relative overflow-visible bg-background-card p-2 rounded-xl"
+				style={{ borderWidth: 0, maxWidth: 280 }}
+			>
+				<Heading
+					size="2xl"
+					className="text-center"
+					style={fontWeightStyles.black}
+				>
+					{palette.nickname} Palette
+				</Heading>
+				<Divider className="my-2" />
+				<VStack className="w-full items-center" space="lg">
+					<Text
+						className="text-center"
+						style={fontWeightStyles.medium}
+					>
+						Are you sure you want to buy?
+					</Text>
+					<PriceTag
+						currency="coin"
+						price={coinsPrice}
+						space="sm"
+						fontSize={26}
+						currencySize={20}
+					/>
+					<PaletteDisplay {...{ palette }} />
+
+					<AwesomeModalActions
+						type="info"
+						buttonText="Buy"
+						onResolve={() => {
+							playSound(sounds.buy);
+							addPalette(palette);
+							setCurrentPaletteId(palette.id);
+							incCoins(-coinsPrice);
+							incGems(-gemsPrice);
+							onResolve();
+						}}
+						secondaryButtonText="Not Now"
+						secondaryOnResolve={() => {
+							playSound(sounds.click);
+							onResolve();
+						}}
+					/>
+				</VStack>
+			</ModalContent>
+		</Modal>
 	);
 };

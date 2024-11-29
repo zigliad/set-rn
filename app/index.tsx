@@ -1,31 +1,25 @@
 import { GridAction, GridActions } from "@/components/GridActions";
-import { BuyModeModal } from "@/components/pages/colors/BuyModeModal";
+import { BuyModeModal } from "@/components/pages/index/BuyModeModal";
 import { OnboardingModal } from "@/components/pages/index/OnboardingModal";
 import { StatsModal } from "@/components/StatsModal";
-import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { HStack } from "@/components/ui/hstack";
-import { Icon } from "@/components/ui/icon";
 import { VStack } from "@/components/ui/vstack";
 import { PriceTag } from "@/components/utils/PriceTag";
-import { ShopButton } from "@/components/utils/ShopButton";
 import { sounds } from "@/constants/sounds";
 import { useMyModes } from "@/hooks/ads/useMyModes";
 import { useCurrencies } from "@/hooks/useCurrencies";
 import { useShowOnboarding } from "@/hooks/useShowOnboarding";
-import { useStorageObjectState } from "@/hooks/useStorageState";
 import { Modes } from "@/modes/modes";
 import {
 	DEFAULT_MODE_PRICE,
 	ModeConfig,
 	modesConfig,
 } from "@/modes/modesConfig";
-import { Mode } from "@/modes/modeTypes";
 import { medalConfig } from "@/types/medal";
 import { playSound } from "@/utils/soundPlayer";
-import { StorageKey } from "@/utils/storage";
 import { router } from "expo-router";
-import { ArrowLeft, Lock, Store } from "lucide-react-native";
+import { Lock } from "lucide-react-native";
 import { useEffect, useMemo, useState } from "react";
 import { ImageURISource, SafeAreaView, StyleSheet, View } from "react-native";
 
@@ -146,7 +140,7 @@ export default function Index() {
 						currency="gem"
 						fontSize={24}
 						currencySize={32}
-						space="xs"
+						space="md"
 					/>
 				</VStack>
 				<HStack className="w-5/6 self-end">
@@ -158,7 +152,6 @@ export default function Index() {
 						onResolve={() => setVisibleStatsModal(false)}
 					/>
 				)}
-				{/* <ShopButton /> */}
 			</View>
 			<BuyModeModal
 				mode={modeClicked}
