@@ -1,7 +1,7 @@
 import { ElevatedCard } from "@/components/ElevatedCard";
 import { Divider } from "@/components/ui/divider";
 import { HStack } from "@/components/ui/hstack";
-import { Spinner } from "@/components/ui/spinner";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
 import { PriceTag } from "@/components/utils/PriceTag";
@@ -9,12 +9,11 @@ import { sounds } from "@/constants/sounds";
 import {
 	CONSUMABLE_PRODUCTS,
 	useConsumableProducts,
-	useProducts,
 } from "@/hooks/shop/useProducts";
 import { useCurrencies } from "@/hooks/useCurrencies";
 import { fontWeightStyles } from "@/styles/commonStyles";
 import { playSound } from "@/utils/soundPlayer";
-import React, { useEffect } from "react";
+import React from "react";
 import { TouchableOpacity } from "react-native";
 import Purchases from "react-native-purchases";
 import { FlatGrid } from "react-native-super-grid";
@@ -24,7 +23,25 @@ export const ProductsGrid = ({}: {}) => {
 
 	const { products } = useConsumableProducts();
 
-	if (!products) return <Spinner />;
+	if (!products)
+		return (
+			<FlatGrid
+				className="w-2/3"
+				maxItemsPerRow={2}
+				spacing={12}
+				data={[1, 2, 3, 4, 5, 6, 7, 8]}
+				renderItem={({ item }) => {
+					return (
+						<Skeleton
+							key={item}
+							speed={4}
+							variant="sharp"
+							className="w-full h-[150px] rounded-2xl"
+						/>
+					);
+				}}
+			/>
+		);
 
 	return (
 		<FlatGrid
@@ -46,13 +63,12 @@ export const ProductsGrid = ({}: {}) => {
 								playSound(sounds.click);
 
 								try {
-									const result =
-										await Purchases.purchaseStoreProduct(
-											product
-										);
+									await Purchases.purchaseStoreProduct(
+										product
+									);
 									incGems(gems);
 									incCoins(coins);
-									console.log(result);
+									playSound(sounds.buy);
 								} catch (e) {
 									console.error(e);
 								}

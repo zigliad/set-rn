@@ -1,22 +1,23 @@
 import { ProductsGrid } from "@/components/pages/shop/ProductsGrid";
 import { Box } from "@/components/ui/box";
 import { Button, ButtonText } from "@/components/ui/button";
-import { Center } from "@/components/ui/center";
 import { Divider } from "@/components/ui/divider";
-import { Spinner } from "@/components/ui/spinner";
 import { VStack } from "@/components/ui/vstack";
 import { BackButton } from "@/components/utils/BackButton";
 import { PriceTag } from "@/components/utils/PriceTag";
 import { rewardedAdUnitId } from "@/constants/ads";
+import { sounds } from "@/constants/sounds";
 import {
-	LEGACY_PREMIUM_PRODUCT_ID,
 	NON_CONSUMABLE_PRODUCT_IDS,
 	REMOVE_ADS_PRODUCT_ID,
 	useProducts,
 } from "@/hooks/shop/useProducts";
 import { useCurrencies } from "@/hooks/useCurrencies";
 import { purchasedRemoveAds, useCustomerInfo } from "@/hooks/useCustomerInfo";
+import { useStorageState } from "@/hooks/useStorageState";
 import { fontWeightStyles } from "@/styles/commonStyles";
+import { playSound } from "@/utils/soundPlayer";
+import { StorageKey, storeData } from "@/utils/storage";
 import { useEffect, useMemo } from "react";
 import { SafeAreaView } from "react-native";
 import { useRewardedAd } from "react-native-google-mobile-ads";
@@ -26,7 +27,6 @@ export default function Shop() {
 	const { coins, gems } = useCurrencies();
 	const { isLoaded, isClosed, load, show, reward, isEarnedReward } =
 		useRewardedAd(rewardedAdUnitId);
-	// const loaded = useRewardedAd(rewarded, (reward) => console.log(reward));
 
 	const { customerInfo } = useCustomerInfo();
 	const { products } = useProducts(NON_CONSUMABLE_PRODUCT_IDS);
@@ -34,27 +34,25 @@ export default function Shop() {
 
 	useEffect(load, [load]);
 
-	// useEffect(() => {
-	// 	console.log(isEarnedReward, reward, isLoaded);
-	// 	if (isEarnedReward) load();
-	// }, [isEarnedReward, reward, isLoaded, load]);
-
-	const hideRemoveAdsButton = useMemo(
-		() => (customerInfo ? purchasedRemoveAds(customerInfo) : true),
-		[customerInfo]
+	const removeAdsProduct = useMemo(
+		() =>
+			products
+				? products.find(
+						(product) =>
+							product.identifier === REMOVE_ADS_PRODUCT_ID
+					)
+				: undefined,
+		[products]
 	);
 
-	if (!customerInfo || !products)
-		return (
-			<SafeAreaView>
-				<Center>
-					<Spinner />
-				</Center>
-			</SafeAreaView>
-		);
+	const [adsRemoved, setAdsRemoved] = useStorageState(
+		StorageKey.adsRemoved,
+		String(0)
+	);
 
-	const removeAdsProduct = products.find(
-		(product) => product.identifier === REMOVE_ADS_PRODUCT_ID
+	const didPurchaseRemoveAds = useMemo(
+		() => (customerInfo ? purchasedRemoveAds(customerInfo) : true),
+		[customerInfo]
 	);
 
 	return (
@@ -75,10 +73,6 @@ export default function Shop() {
 					/>
 					<Divider />
 					<Button
-						// disabled={!loaded}
-						// onPress={() => {
-						// 	if (loaded) rewarded.show();
-						// }}
 						isDisabled={!isLoaded}
 						onPress={() => {
 							if (isLoaded) {
@@ -90,17 +84,32 @@ export default function Shop() {
 							Watch ad for 10 coins
 						</ButtonText>
 					</Button>
-					{!hideRemoveAdsButton && (
-						<>
-							<Divider />
-							<Button>
-								<ButtonText style={fontWeightStyles.medium}>
-									Remove ads for{" "}
-									{removeAdsProduct?.priceString}
-								</ButtonText>
-							</Button>
-						</>
-					)}
+					{!didPurchaseRemoveAds &&
+						!adsRemoved &&
+						removeAdsProduct && (
+							<>
+								<Divider />
+								<Button
+									onPress={async () => {
+										playSound(sounds.click);
+										try {
+											await Purchases.purchaseStoreProduct(
+												removeAdsProduct
+											);
+											setAdsRemoved(String(1));
+											playSound(sounds.buy);
+										} catch (e) {
+											console.error(e);
+										}
+									}}
+								>
+									<ButtonText style={fontWeightStyles.medium}>
+										Remove ads for{" "}
+										{removeAdsProduct.priceString}
+									</ButtonText>
+								</Button>
+							</>
+						)}
 				</VStack>
 				<ProductsGrid />
 				<BackButton />
