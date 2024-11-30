@@ -9,6 +9,7 @@ import { PriceTag } from "@/components/utils/PriceTag";
 import { sounds } from "@/constants/sounds";
 import { useMyModes } from "@/hooks/ads/useMyModes";
 import { useCurrencies } from "@/hooks/useCurrencies";
+import { useCustomerInfo } from "@/hooks/useCustomerInfo";
 import { useShowOnboarding } from "@/hooks/useShowOnboarding";
 import { Modes } from "@/modes/modes";
 import {
@@ -41,8 +42,10 @@ export default function Index() {
 
 	const [modeClicked, setModeClicked] = useState<ModeConfig>();
 	const { gems, coins } = useCurrencies();
-
 	const { myModes } = useMyModes();
+
+	const { customerInfo } = useCustomerInfo();
+	useEffect(() => console.log(customerInfo), [customerInfo]);
 
 	const moreOptions: GridAction[] = useMemo(
 		() => [

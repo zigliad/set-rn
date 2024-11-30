@@ -6,14 +6,14 @@ import { Price } from "@/types/price";
 import { getData, StorageKey } from "@/utils/storage";
 import { ImageURISource } from "react-native";
 
-export const DEFAULT_MODE_PRICE: Price = { gems: 2 };
+export const DEFAULT_MODE_PRICE: Price = { gems: 5 };
 
 export type ModeConfig = {
 	title: string;
 	mode: Modes;
 	Icon: ImageURISource;
 	getMedal?: Supplier<Promise<Nullable<Medal>>>;
-	price?: { gems: number; coins: number };
+	price?: Price;
 };
 
 export const getMedalByWinsAmount =
@@ -78,6 +78,7 @@ export const modesConfig: ModeConfig[] = [
 		mode: "drain",
 		Icon: require("@/assets/images/mode-icons/drain.png"),
 		getMedal: getMedalByWinsAmount(StorageKey.drain, [100, 300, 500]),
+		price: { gems: 7 },
 	},
 	{
 		title: "Survival",
@@ -90,6 +91,7 @@ export const modesConfig: ModeConfig[] = [
 		mode: "disco",
 		Icon: require("@/assets/images/mode-icons/disco.png"),
 		getMedal: getMedalByHighScore(StorageKey.disco, [8, 12, 16]),
+		price: { gems: 7 },
 	},
 	{
 		title: "Speed",
@@ -109,20 +111,23 @@ export const modesConfig: ModeConfig[] = [
 		mode: "mania",
 		Icon: require("@/assets/images/mode-icons/mania.png"),
 		getMedal: getMedalByWinsAmount(StorageKey.mania, [50, 150, 300]),
+		price: { gems: 10 },
 	},
 	{
 		title: "Expert",
 		mode: "expert",
 		Icon: require("@/assets/images/mode-icons/expert.png"),
 		getMedal: getMedalByHighScore(StorageKey.expert, [5, 8, 10]),
+		price: { gems: 10 },
 	},
 	{
-		title: "Relax",
-		mode: "relax",
+		title: "Zen",
+		mode: "zen",
 		Icon: require("@/assets/images/mode-icons/ying-yang.png"),
 		getMedal: getMedalByWinsAmount(
 			StorageKey.totalSetsFound,
 			[1000, 2500, 5000]
 		),
+		price: { gems: 3 },
 	},
 ];

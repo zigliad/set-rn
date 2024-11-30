@@ -23,16 +23,19 @@ export default function Game() {
 		async (gameResult?: GameResult) => {
 			const gamesPlayedWithoutAds = await getData(
 				StorageKey.gamesPlayedWithoutAds,
-				"0"
+				String(0)
 			);
 			let newGamesPlayWithoutAds =
 				(+gamesPlayedWithoutAds + 1) % GAMES_UNTIL_AD;
-			await storeData(
+
+			storeData(
 				StorageKey.gamesPlayedWithoutAds,
 				String(newGamesPlayWithoutAds)
 			);
 
-			if (newGamesPlayWithoutAds === 0) {
+			const adsRemoved = await getData(StorageKey.adsRemoved, String(0));
+
+			if (!adsRemoved && newGamesPlayWithoutAds === 0) {
 				setTimeout(showAdIfLoaded, 500);
 			}
 

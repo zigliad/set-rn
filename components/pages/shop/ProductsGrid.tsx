@@ -1,71 +1,61 @@
 import { ElevatedCard } from "@/components/ElevatedCard";
 import { Divider } from "@/components/ui/divider";
 import { HStack } from "@/components/ui/hstack";
+import { Spinner } from "@/components/ui/spinner";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
 import { PriceTag } from "@/components/utils/PriceTag";
 import { sounds } from "@/constants/sounds";
+import {
+	CONSUMABLE_PRODUCTS,
+	useConsumableProducts,
+	useProducts,
+} from "@/hooks/shop/useProducts";
 import { useCurrencies } from "@/hooks/useCurrencies";
 import { fontWeightStyles } from "@/styles/commonStyles";
 import { playSound } from "@/utils/soundPlayer";
-import React from "react";
+import React, { useEffect } from "react";
 import { TouchableOpacity } from "react-native";
+import Purchases from "react-native-purchases";
 import { FlatGrid } from "react-native-super-grid";
 
-const offers = [
-	{
-		name: "Starter Pack",
-		coins: 100,
-		gems: 0,
-		price: "0.99$",
-	},
-	{
-		name: "Gem Duo",
-		coins: 0,
-		gems: 2,
-		price: "0.99$",
-	},
-	{
-		name: "Shiny Boost",
-		coins: 350,
-		gems: 1,
-		price: "2.99$",
-	},
-	{
-		name: "Gem Hoarder",
-		coins: 50,
-		gems: 7,
-		price: "2.99$",
-	},
-	{
-		name: "Coin Craze",
-		coins: 600,
-		gems: 2,
-		price: "4.99$",
-	},
-	{
-		name: "Treasure Trove",
-		coins: 100,
-		gems: 12,
-		price: "4.99$",
-	},
-];
+export const ProductsGrid = ({}: {}) => {
+	const { incCoins, incGems } = useCurrencies();
 
-export const OffersGrid = ({}: {}) => {
-	const { coins, gems } = useCurrencies();
+	const { products } = useConsumableProducts();
+
+	if (!products) return <Spinner />;
 
 	return (
 		<FlatGrid
 			className="w-2/3"
 			maxItemsPerRow={2}
 			spacing={12}
-			data={offers}
-			renderItem={({ item: offer }) => {
+			data={products}
+			renderItem={({ item: product }) => {
+				const coins =
+					CONSUMABLE_PRODUCTS[product.identifier].coins ?? 0;
+				const gems = CONSUMABLE_PRODUCTS[product.identifier].gems ?? 0;
 				return (
-					<ElevatedCard key={offer.name} className={"relative"}>
+					<ElevatedCard
+						key={product.identifier}
+						className={"relative"}
+					>
 						<TouchableOpacity
-							onPress={() => {
+							onPress={async () => {
 								playSound(sounds.click);
+
+								try {
+									const result =
+										await Purchases.purchaseStoreProduct(
+											product
+										);
+									incGems(gems);
+									incCoins(coins);
+									console.log(result);
+								} catch (e) {
+									console.error(e);
+								}
 							}}
 						>
 							<HStack className="justify-between items-center w-full">
@@ -79,39 +69,39 @@ export const OffersGrid = ({}: {}) => {
 											className="text-secondary-600"
 											style={fontWeightStyles.regular}
 										>
-											{offer.price}
+											{product.priceString}
 										</Text>
 										<Text
-											size="3xl"
+											size="2xl"
 											style={fontWeightStyles.medium}
 										>
-											{offer.name}
+											{product.title}
 										</Text>
 									</VStack>
 									<Divider className="my-0.5 w-1/3" />
 									<HStack
 										className={
 											"w-full " +
-											(offer.coins > 0
+											(coins > 0
 												? "justify-between"
 												: "justify-end")
 										}
 									>
-										{offer.coins > 0 && (
+										{coins > 0 && (
 											<PriceTag
 												space="sm"
 												currency="coin"
-												price={offer.coins}
+												price={coins}
 												fontSize={24}
 												currencySize={32}
 												dir="ltr"
 											/>
 										)}
-										{offer.gems > 0 && (
+										{gems > 0 && (
 											<PriceTag
 												space="sm"
 												currency="gem"
-												price={offer.gems}
+												price={gems}
 												fontSize={24}
 												currencySize={42}
 												dir={"rtl"}

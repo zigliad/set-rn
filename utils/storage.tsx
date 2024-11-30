@@ -14,7 +14,7 @@ export enum StorageKey {
 	expert = "expert",
 
 	totalSetsFound = "totalSetsFound",
-	setsFound = "setsFound", // concrete sets values
+	setsFound = "setsFound", // concrete (unique) sets values
 
 	seenOnboarding = "seenOnboarding",
 	muteSounds = "muteSounds",
@@ -27,6 +27,8 @@ export enum StorageKey {
 
 	coins = "coins",
 	gems = "gems",
+
+	adsRemoved = "adsRemoved",
 }
 
 export const storeData = async (key: string, value: string | number) => {

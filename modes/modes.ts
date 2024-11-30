@@ -24,7 +24,7 @@ export type Modes =
 	| "levels"
 	| "mania"
 	| "expert"
-	| "relax";
+	| "zen";
 
 export const modes: Record<Modes, Function<onGameEndCallback, Mode>> = {
 	oneMinute: createTimeMode(4, 60, 4, undefined, StorageKey.oneMinute),
@@ -48,5 +48,5 @@ export const modes: Record<Modes, Function<onGameEndCallback, Mode>> = {
 		},
 		StorageKey.expert
 	),
-	relax: createRelaxMode(6),
+	zen: createRelaxMode(6),
 };
