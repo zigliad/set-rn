@@ -1,3 +1,4 @@
+import { DailyRewardModal } from "@/components/daily-reward-modal/DailyRewardModal";
 import { GridAction, GridActions } from "@/components/GridActions";
 import { BuyModeModal } from "@/components/pages/index/BuyModeModal";
 import { OnboardingModal } from "@/components/pages/index/OnboardingModal";
@@ -160,6 +161,7 @@ export default function Index() {
 				visible={visibleOnboardingModal}
 				onResolve={finishOnboarding}
 			/>
+			<DailyRewardModal />
 		</SafeAreaView>
 	);
 }

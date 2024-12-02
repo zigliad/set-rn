@@ -1,0 +1,1 @@
+export const DAILY_COINS_REWARDS = [2, 5, 8, 10, 15, 25, 35]

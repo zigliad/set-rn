@@ -13,6 +13,7 @@ export const PriceTag = ({
 	dir = "ltr",
 	space = "lg",
 	currency = "coin",
+	spinAnimation = false,
 }: {
 	price: number;
 	fontSize?: number;
@@ -21,9 +22,13 @@ export const PriceTag = ({
 	dir?: "ltr" | "rtl";
 	space?: PropsOf<typeof HStack>["space"];
 	currency?: "coin" | "gem";
+	spinAnimation?: boolean;
 }) => {
 	return (
-		<HStack className="items-center" space={space}>
+		<HStack
+			className="items-center" //  animate-spin transform transition-all
+			space={space}
+		>
 			{dir === "ltr" &&
 				(currency === "coin" ? (
 					<SetCoin width={currencySize} height={currencySize} />

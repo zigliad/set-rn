@@ -29,6 +29,9 @@ export enum StorageKey {
 	gems = "gems",
 
 	adsRemoved = "adsRemoved",
+
+	lastRewardDate = "lastRewardDate",
+	rewardStreak = "rewardStreak",
 }
 
 export const storeData = async (key: string, value: string | number) => {
