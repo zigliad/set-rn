@@ -11,11 +11,13 @@ import { PriceTag } from "@/components/utils/PriceTag";
 import { sounds } from "@/constants/sounds";
 import { useMyModes } from "@/hooks/ads/useMyModes";
 import { useCurrencies } from "@/hooks/useCurrencies";
-import { useColors } from "@/hooks/useInitColors";
 import { DEFAULT_MODE_PRICE, ModeConfig } from "@/modes/modesConfig";
 import { fontWeightStyles } from "@/styles/commonStyles";
 import { playSound } from "@/utils/soundPlayer";
+import { router } from "expo-router";
 import React, { DispatchWithoutAction } from "react";
+
+const color = "#ff5364";
 
 export const BuyModeModal = ({
 	onResolve,
@@ -25,13 +27,12 @@ export const BuyModeModal = ({
 	mode?: ModeConfig;
 }) => {
 	const { myModes, setMyModes } = useMyModes();
-	const { incGems, incCoins } = useCurrencies();
+	const { incGems, incCoins, coins, gems } = useCurrencies();
 
 	if (!mode) return;
 
 	const coinsPrice = mode.price?.coins ?? DEFAULT_MODE_PRICE.coins ?? 0;
 	const gemsPrice = mode.price?.gems ?? DEFAULT_MODE_PRICE.gems ?? 0;
-	const color = "#ff5364";
 
 	return (
 		<Modal isOpen={mode !== undefined}>
@@ -75,15 +76,19 @@ export const BuyModeModal = ({
 						</VStack>
 					</HStack>
 					<AwesomeModalActions
-						// type="info"
 						color={color}
 						buttonText="Buy"
 						onResolve={() => {
-							playSound(sounds.buy);
-							setMyModes([...myModes, mode.mode]);
-							incGems(-gemsPrice);
-							incCoins(-coinsPrice);
 							onResolve();
+							if (gems >= gemsPrice && coins >= coinsPrice) {
+								playSound(sounds.buy);
+								setMyModes([...myModes, mode.mode]);
+								incGems(-gemsPrice);
+								incCoins(-coinsPrice);
+							} else {
+								playSound(sounds.error);
+								router.push("/shop");
+							}
 						}}
 						secondaryButtonText="Not Now"
 						secondaryOnResolve={() => {
@@ -95,26 +100,4 @@ export const BuyModeModal = ({
 			</ModalContent>
 		</Modal>
 	);
-
-	// return (
-	// 	<AwesomeModal
-	// 		visible={mode !== undefined}
-	// 		icon={Store}
-	// 		header={`${mode.title} Mode`}
-	// 		buttonText="Buy"
-	// 		secondaryButtonText="Not Now"
-	// 		content={`Are you sure you want to buy ${mode.title} mode for ${mode.price?.gems ?? DEFAULT_MODE_PRICE.gems} gems?`}
-	// 		onResolve={() => {
-	// 			playSound(sounds.buy);
-	// 			setMyModes([...myModes, mode.mode]);
-	// 			incGems(-(mode.price?.gems ?? DEFAULT_MODE_PRICE.gems ?? 0));
-	// 			incCoins(-(mode.price?.coins ?? DEFAULT_MODE_PRICE.coins ?? 0));
-	// 			onResolve();
-	// 		}}
-	// 		secondaryOnResolve={() => {
-	// 			playSound(sounds.click);
-	// 			onResolve();
-	// 		}}
-	// 	/>
-	// );
 };

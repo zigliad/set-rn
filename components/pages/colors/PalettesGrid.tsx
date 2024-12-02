@@ -66,17 +66,7 @@ export const PalettesGrid = ({
 								if (ownPalette) {
 									x.setCurrentPaletteId(palette.id);
 								} else {
-									if (
-										coins >=
-										(palette.price?.coins ??
-											DEFAULT_PALETTE_PRICE.coins ??
-											0)
-									) {
-										onPaletteClick(palette);
-									} else {
-										playSound(sounds.error);
-										router.push("/shop");
-									}
+									onPaletteClick(palette);
 								}
 							}}
 						>

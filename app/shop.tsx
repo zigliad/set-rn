@@ -76,6 +76,7 @@ export default function Shop() {
 						isDisabled={!isLoaded}
 						onPress={() => {
 							if (isLoaded) {
+								playSound(sounds.click);
 								show();
 							}
 						}}

@@ -15,6 +15,7 @@ import {
 } from "@/hooks/useInitColors";
 import { fontWeightStyles } from "@/styles/commonStyles";
 import { playSound } from "@/utils/soundPlayer";
+import { router } from "expo-router";
 import React, { DispatchWithoutAction } from "react";
 
 export const BuyPaletteModal = ({
@@ -25,7 +26,7 @@ export const BuyPaletteModal = ({
 	palette?: Palette;
 }) => {
 	const { addPalette, setCurrentPaletteId } = useColors();
-	const { incCoins, incGems } = useCurrencies();
+	const { incCoins, incGems, coins, gems } = useCurrencies();
 
 	if (!palette) return;
 
@@ -67,12 +68,17 @@ export const BuyPaletteModal = ({
 						type="info"
 						buttonText="Buy"
 						onResolve={() => {
-							playSound(sounds.buy);
-							addPalette(palette);
-							setCurrentPaletteId(palette.id);
-							incCoins(-coinsPrice);
-							incGems(-gemsPrice);
 							onResolve();
+							if (gems >= gemsPrice && coins >= coinsPrice) {
+								playSound(sounds.buy);
+								addPalette(palette);
+								setCurrentPaletteId(palette.id);
+								incCoins(-coinsPrice);
+								incGems(-gemsPrice);
+							} else {
+								playSound(sounds.error);
+								router.push("/shop");
+							}
 						}}
 						secondaryButtonText="Not Now"
 						secondaryOnResolve={() => {

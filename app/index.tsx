@@ -102,22 +102,8 @@ export default function Index() {
 							});
 						},
 						onDisabledClick: () => {
-							if (
-								gems >=
-									(modeConf.price?.gems ??
-										DEFAULT_MODE_PRICE.gems ??
-										0) &&
-								coins >=
-									(modeConf.price?.coins ??
-										DEFAULT_MODE_PRICE.coins ??
-										0)
-							) {
-								playSound(sounds.click);
-								setModeClicked(modeConf);
-							} else {
-								playSound(sounds.error);
-								router.push("/shop");
-							}
+							playSound(sounds.click);
+							setModeClicked(modeConf);
 						},
 					};
 				}
