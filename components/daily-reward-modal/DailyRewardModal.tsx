@@ -38,7 +38,7 @@ export const DailyRewardModal = ({}: {}) => {
 	);
 
 	useEffect(() => {
-		if (lastRewardDate && seenOnboarding) {
+		if (lastRewardDate && +seenOnboarding) {
 			const now = new Date();
 			const lastReward = new Date(lastRewardDate);
 
