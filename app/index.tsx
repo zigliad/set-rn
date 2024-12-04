@@ -10,7 +10,7 @@ import { PriceTag } from "@/components/utils/PriceTag";
 import { sounds } from "@/constants/sounds";
 import { useMyModes } from "@/hooks/ads/useMyModes";
 import { useCurrencies } from "@/hooks/useCurrencies";
-import { useCustomerInfo } from "@/hooks/useCustomerInfo";
+// import { useCustomerInfo } from "@/hooks/useCustomerInfo";
 import { useShowOnboarding } from "@/hooks/useShowOnboarding";
 import { Modes } from "@/modes/modes";
 import { ModeConfig, modesConfig } from "@/modes/modesConfig";

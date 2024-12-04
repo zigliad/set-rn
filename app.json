@@ -7,6 +7,7 @@
 		"icon": "./assets/images/icon.png",
 		"scheme": "myapp",
 		"userInterfaceStyle": "automatic",
+		"newArchEnabled": false,
 		"splash": {
 			"image": "./assets/images/splash.png",
 			"resizeMode": "contain",
@@ -15,13 +16,14 @@
 		"ios": {
 			"supportsTablet": true,
 			"requireFullScreen": true,
-			"bundleIdentifier": "com.zigdonliad.Sets" // "com.zigliad.setrn"
+			"bundleIdentifier": "com.zigdonliad.Sets"
 		},
 		"android": {
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/images/adaptive-icon.png",
 				"backgroundColor": "#ffffff"
-			}
+			},
+			"package": "com.zigdonliad.Sets"
 		},
 		"web": {
 			"bundler": "metro",

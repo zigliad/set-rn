@@ -6,13 +6,14 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import mobileAds from "react-native-google-mobile-ads";
+// import mobileAds from "react-native-google-mobile-ads";
 
 import "@/global.css";
 import "react-native-reanimated";
 import { MyModesContext, useInitMyModes } from "@/hooks/ads/useMyModes";
+import { NavigationContainer } from "@react-navigation/native";
 
-mobileAds().initialize();
+// mobileAds().initialize();
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -41,6 +42,7 @@ export default function RootLayout() {
 				<MyModesContext.Provider value={myModes}>
 					<ColorsContext.Provider value={colors}>
 						<CurrenciesContext.Provider value={currencies}>
+							{/* <NavigationContainer> */}
 							<Stack
 								screenOptions={{
 									headerShown: false,
@@ -49,11 +51,12 @@ export default function RootLayout() {
 								<Stack.Screen name="index" />
 								<Stack.Screen name="game" />
 								<Stack.Screen name="more" />
-								<Stack.Screen name="shop" />
+								{/* <Stack.Screen name="shop" /> */}
 								<Stack.Screen name="setsFound" />
 								<Stack.Screen name="rules" />
 								<Stack.Screen name="colors" />
 							</Stack>
+							{/* </NavigationContainer> */}
 						</CurrenciesContext.Provider>
 					</ColorsContext.Provider>
 				</MyModesContext.Provider>
