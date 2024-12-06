@@ -59,13 +59,13 @@ export const DailyRewardModal = ({}: {}) => {
 				className="relative overflow-visible bg-background-card p-2 rounded-xl"
 				style={{ borderWidth: 0 }}
 			>
-				<Heading
+				<Text
 					size="2xl"
 					className="text-center"
 					style={fontWeightStyles.black}
 				>
 					Welcome Back!
-				</Heading>
+				</Text>
 				<VStack className="w-full items-center" space="lg">
 					<VStack>
 						<Text

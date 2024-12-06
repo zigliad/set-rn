@@ -4,6 +4,7 @@ import { Center } from "@/components/ui/center";
 import { Heading } from "@/components/ui/heading";
 import { Icon } from "@/components/ui/icon";
 import { Image } from "@/components/ui/image";
+import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
 import { sounds } from "@/constants/sounds";
 import { useColors } from "@/hooks/useInitColors";
@@ -123,12 +124,12 @@ export const GridActions = ({ actions }: { actions: GridAction[] }) => {
 											/>
 										</Avatar>
 										<Center>
-											<Heading
+											<Text
 												size="xl"
-												style={fontWeightStyles.bold}
+												style={fontWeightStyles.black}
 											>
 												{item.title}
-											</Heading>
+											</Text>
 										</Center>
 									</VStack>
 								</Pressable>

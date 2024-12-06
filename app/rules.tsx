@@ -153,9 +153,9 @@ export default function Rules() {
 			<HStack className="justify-between pt-4 h-full" space={"md"}>
 				<VStack className="flex-1 p-4 h-full justify-between">
 					<VStack space={"md"}>
-						<Heading size="5xl" style={styles.title}>
+						<Text size="5xl" style={styles.title}>
 							{rule.title}
-						</Heading>
+						</Text>
 						<VStack className="pl-4" space="md">
 							{rule.explanation.map((txt) => (
 								<Text style={styles.explanation} key={txt}>

@@ -106,14 +106,14 @@ export const AwesomeModal = ({
 						</Center>
 					</Box>
 					<Center className="mt-12 w-full">
-						<Heading
+						<Text
 							size="2xl"
 							style={{
 								fontFamily: fontWeightStyles.black.fontFamily,
 							}}
 						>
 							{header}
-						</Heading>
+						</Text>
 						<ScrollView
 							style={{ maxHeight: 120 }}
 							className="px-4 w-full"

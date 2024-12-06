@@ -40,13 +40,13 @@ export const BuyPaletteModal = ({
 				className="relative overflow-visible bg-background-card p-2 rounded-xl"
 				style={{ borderWidth: 0, maxWidth: 280 }}
 			>
-				<Heading
+				<Text
 					size="2xl"
 					className="text-center"
 					style={fontWeightStyles.black}
 				>
 					{palette.nickname} Palette
-				</Heading>
+				</Text>
 				<Divider className="my-2" />
 				<VStack className="w-full items-center" space="lg">
 					<Text

@@ -3,6 +3,7 @@ import { AwesomeModal } from "@/components/awesome-modal/AwesomeModal";
 import { GridAction, GridActions } from "@/components/GridActions";
 import { Heading } from "@/components/ui/heading";
 import { HStack } from "@/components/ui/hstack";
+import { Text } from "@/components/ui/text";
 import { BackButton } from "@/components/utils/BackButton";
 import { useStorageState } from "@/hooks/useStorageState";
 import { StorageKey } from "@/utils/storage";
@@ -104,13 +105,13 @@ export default function MoreOptions() {
 	return (
 		<SafeAreaView className="bg-background-base">
 			<View className="relative">
-				<Heading
+				<Text
 					className="absolute top-8 left-8"
 					size="5xl"
 					style={titleStyles.pageTitle}
 				>
 					More
-				</Heading>
+				</Text>
 				<HStack className="w-5/6 self-end">
 					<GridActions actions={moreOptionsConfig} />
 				</HStack>

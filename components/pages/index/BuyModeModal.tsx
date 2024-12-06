@@ -55,9 +55,9 @@ export const BuyModeModal = ({
 							/>
 						</Center>
 						<VStack>
-							<Heading size="2xl" style={fontWeightStyles.black}>
+							<Text size="2xl" style={fontWeightStyles.black}>
 								{mode.title} Mode
-							</Heading>
+							</Text>
 							<Text
 								className="text-center"
 								style={fontWeightStyles.medium}

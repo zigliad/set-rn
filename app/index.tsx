@@ -6,6 +6,7 @@ import { StatsModal } from "@/components/StatsModal";
 import { Box } from "@/components/ui/box";
 import { Heading } from "@/components/ui/heading";
 import { HStack } from "@/components/ui/hstack";
+import { Text } from "@/components/ui/text";
 import { PriceTag } from "@/components/utils/PriceTag";
 import { sounds } from "@/constants/sounds";
 import { useMyModes } from "@/hooks/ads/useMyModes";
@@ -111,9 +112,9 @@ export default function Index() {
 		<SafeAreaView className="bg-background-base">
 			<View className="relative">
 				<Box className="absolute top-8 left-8">
-					<Heading size="5xl" style={titleStyles.pageTitle}>
+					<Text size="5xl" style={titleStyles.pageTitle}>
 						SET
-					</Heading>
+					</Text>
 					<PriceTag
 						price={gems}
 						currency="gem"
