@@ -125,13 +125,13 @@ export default function Index() {
 				<HStack className="w-5/6 self-end">
 					<GridActions actions={gridActions} />
 				</HStack>
-				{visibleStatsModal && (
-					<StatsModal
-						visible={visibleStatsModal}
-						onResolve={() => setVisibleStatsModal(false)}
-					/>
-				)}
 			</View>
+			{visibleStatsModal && (
+				<StatsModal
+					visible={visibleStatsModal}
+					onResolve={() => setVisibleStatsModal(false)}
+				/>
+			)}
 			<BuyModeModal
 				mode={modeClicked}
 				onResolve={() => {

@@ -1,4 +1,5 @@
 import { AwesomeModal } from "@/components/awesome-modal/AwesomeModal";
+import { Text } from "@/components/ui/text";
 import {
 	useStorageObjectState,
 	useStorageState,
@@ -6,6 +7,9 @@ import {
 import { StorageKey } from "@/utils/storage";
 import { Award } from "lucide-react-native";
 import React, { DispatchWithoutAction } from "react";
+import { View } from "react-native";
+
+const setsFound = undefined;
 
 export const StatsModal = ({
 	visible,
@@ -29,10 +33,10 @@ export const StatsModal = ({
 		StorageKey.totalSetsFound,
 		String(0)
 	);
-	const [setsFound] = useStorageObjectState<string[]>(
-		StorageKey.setsFound,
-		[]
-	);
+	// const [setsFound] = useStorageObjectState<string[]>(
+	// 	StorageKey.setsFound,
+	// 	[]
+	// );
 
 	return (
 		<AwesomeModal
@@ -41,7 +45,7 @@ export const StatsModal = ({
 				onResolve();
 			}}
 			header={"Statistics"}
-			content={`1-Minute best: ${oneMinute}\n6-Pack wins: ${sixPack}\nHigh-5 best: ${highFive} seconds\n8-Pack wins: ${eightPack}\nDrain wins: ${drain}\nSurvival best: ${survival}\nDisco best: ${disco}\nSpeed best: ${speed}\nCurrent level: ${levels}\nMania wins: ${mania}\nExpert best: ${expert}\nTotal sets found: ${(+totalSetsFound).toLocaleString()}\n\n${setsFound?.length.toLocaleString()} unique sets found`}
+			content={`1-Minute best: ${oneMinute}\n6-Pack wins: ${sixPack}\nHigh-5 best: ${+highFive === Infinity ? "N/A" : `${highFive} seconds`}\n8-Pack wins: ${eightPack}\nDrain wins: ${drain}\nSurvival best: ${survival}\nDisco best: ${disco}\nSpeed best: ${speed}\nCurrent level: ${levels}\nMania wins: ${mania}\nExpert best: ${expert}\nTotal sets found: ${(+totalSetsFound).toLocaleString()}\n\n${setsFound?.length.toLocaleString()} unique sets found`}
 			tailwindColor="bg-purple-500"
 			icon={Award}
 			backdropOnResolve
