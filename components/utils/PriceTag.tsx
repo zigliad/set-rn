@@ -62,7 +62,7 @@ export const PriceTag = ({
 			},
 		],
 	};
-	//ffb109
+
 	return (
 		<HStack className="items-center" space={space}>
 			{dir === "ltr" &&
@@ -93,7 +93,7 @@ export const PriceTag = ({
 					fontFamily: fontWeightStyles.black.fontFamily,
 				}}
 			>
-				{price.toLocaleString()}
+				{price?.toLocaleString() ?? ""}
 			</Text>
 			{dir === "rtl" &&
 				(currency === "coin" ? (

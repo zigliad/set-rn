@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
 export const GridActions = ({ actions }: { actions: GridAction[] }) => {
 	const { currentPalette: palette } = useColors();
 	const currentScheme = useColorScheme();
-	console.log(currentScheme);
+
 	return (
 		<FlatGrid
 			style={styles.grid}

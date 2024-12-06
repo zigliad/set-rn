@@ -53,7 +53,7 @@ export const DailyRewardModal = ({}: {}) => {
 	if (!streak || !lastRewardDate) return null;
 
 	return (
-		<Modal isOpen={true}>
+		<Modal isOpen={visible}>
 			<ModalBackdrop />
 			<ModalContent
 				className="relative overflow-visible bg-background-card p-2 rounded-xl"

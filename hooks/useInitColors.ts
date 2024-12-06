@@ -31,6 +31,10 @@ export const ColorsContext = createContext<ColorContextType>(
 export const CLASSIC_PALETTE_ID = "classic";
 export const DEFAULT_PALETTE_PRICE: Price = { coins: 100 };
 export const DEFAULT_MY_PALETTES = [CLASSIC_PALETTE_ID];
+export const CLASSIC_PALETTE = {
+	nickname: toHumanCase(CLASSIC_PALETTE_ID),
+	colors: ["#52D95D", "#FF0188", "#A2A0DF"],
+};
 
 export const useInitColors = () => {
 	const theme = useColorScheme();

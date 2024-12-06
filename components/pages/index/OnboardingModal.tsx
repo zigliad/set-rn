@@ -1,6 +1,6 @@
 import { AwesomeModal } from "@/components/awesome-modal/AwesomeModal";
 import { sounds } from "@/constants/sounds";
-import { useColors } from "@/hooks/useInitColors";
+import { CLASSIC_PALETTE, useColors } from "@/hooks/useInitColors";
 import { playSound } from "@/utils/soundPlayer";
 import { router } from "expo-router";
 import { GraduationCap, HandMetal, Smile } from "lucide-react-native";
@@ -15,6 +15,7 @@ export const OnboardingModal = ({
 }) => {
 	const [stage, setStage] = useState(0);
 	const { currentPalette } = useColors();
+	const colors = currentPalette?.colors ?? CLASSIC_PALETTE.colors;
 	const onboardingStages = useMemo(
 		() => [
 			{
@@ -22,7 +23,7 @@ export const OnboardingModal = ({
 				content: "Before we start, do you know the rules of 'SET'?",
 				buttonText: "I Don't",
 				secondaryButtonText: "I Do",
-				color: currentPalette.colors[1],
+				color: colors[1],
 				icon: Smile,
 				onResolve: () => setStage(1),
 				secondaryOnResolve: () => setStage(2),
@@ -32,7 +33,7 @@ export const OnboardingModal = ({
 				content: "Would you like to do a very, very quick tutorial?",
 				buttonText: "Yes Please!",
 				secondaryButtonText: "Nahh",
-				color: currentPalette.colors[1],
+				color: colors[1],
 				icon: GraduationCap,
 				onResolve: () => {
 					onResolve?.();
@@ -45,7 +46,7 @@ export const OnboardingModal = ({
 				content:
 					"Just know that you can access the tutorial at any point, by clicking: More -> Rules.",
 				buttonText: "Got It",
-				color: currentPalette.colors[1],
+				color: colors[1],
 				icon: HandMetal,
 				onResolve,
 			},
