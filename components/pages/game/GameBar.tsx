@@ -7,6 +7,7 @@ import { Icon } from "@/components/ui/icon";
 import { Text } from "@/components/ui/text";
 import { sounds } from "@/constants/sounds";
 import { useMode } from "@/modes/modesContext";
+import { fontWeightStyles } from "@/styles/commonStyles";
 import { playSound } from "@/utils/soundPlayer";
 import { router } from "expo-router";
 import {
@@ -66,15 +67,14 @@ export const GameBar = ({
 					});
 				}}
 			>
-				<View>
+				<View style={{ transform: [{ rotate: "-90deg" }] }}>
 					<Text
 						className="text-primary-500 text-center"
 						size="lg"
 						style={{
-							transform: [{ rotate: "-90deg" }],
 							width: textBoxSize?.height,
 							height: "auto",
-							fontFamily: "PlayfairDisplay_Medium",
+							fontFamily: fontWeightStyles.medium.fontFamily,
 						}}
 					>
 						{modeData.title}

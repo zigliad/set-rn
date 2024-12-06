@@ -1,5 +1,8 @@
 import { AwesomeModal } from "@/components/awesome-modal/AwesomeModal";
-import { useStorageObjectState, useStorageState } from "@/hooks/useStorageState";
+import {
+	useStorageObjectState,
+	useStorageState,
+} from "@/hooks/useStorageState";
 import { StorageKey } from "@/utils/storage";
 import { Award } from "lucide-react-native";
 import React, { DispatchWithoutAction } from "react";

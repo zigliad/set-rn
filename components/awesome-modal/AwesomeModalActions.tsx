@@ -1,5 +1,6 @@
 import { Button, ButtonText } from "@/components/ui/button";
 import { HStack } from "@/components/ui/hstack";
+import { fontWeightStyles } from "@/styles/commonStyles";
 import {
 	BadgeInfo,
 	Check,
@@ -69,7 +70,7 @@ export const AwesomeModalActions = ({
 				>
 					<ButtonText
 						style={{
-							fontFamily: "PlayfairDisplay_Black",
+							fontFamily: fontWeightStyles.black.fontFamily,
 						}}
 					>
 						{secondaryButtonText}
@@ -90,7 +91,7 @@ export const AwesomeModalActions = ({
 				<ButtonText
 					className="text-white"
 					style={{
-						fontFamily: "PlayfairDisplay_Black",
+						fontFamily: fontWeightStyles.black.fontFamily,
 					}}
 				>
 					{buttonText}

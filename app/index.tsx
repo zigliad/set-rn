@@ -13,6 +13,7 @@ import { useCurrencies } from "@/hooks/useCurrencies";
 import { useShowOnboarding } from "@/hooks/useShowOnboarding";
 import { Modes } from "@/modes/modes";
 import { ModeConfig, modesConfig } from "@/modes/modesConfig";
+import { fontWeightStyles } from "@/styles/commonStyles";
 import { medalConfig } from "@/types/medal";
 import { playSound } from "@/utils/soundPlayer";
 import { router } from "expo-router";
@@ -25,7 +26,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export const titleStyles = StyleSheet.create({
 	pageTitle: {
 		zIndex: 0,
-		fontFamily: "PlayfairDisplay_Black",
+		fontFamily: fontWeightStyles.black.fontFamily,
 		fontSize: 130,
 		textShadowColor: "#aaa",
 		textShadowOffset: { width: 5, height: 5 },

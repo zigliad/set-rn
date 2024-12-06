@@ -3,6 +3,7 @@ import SetGem from "@/assets/images/currencies/gem.svg";
 import { HStack } from "@/components/ui/hstack";
 import { Text } from "@/components/ui/text";
 import { PropsOf } from "@/extra-types/utils/extra";
+import { fontWeightStyles } from "@/styles/commonStyles";
 import React from "react";
 
 export const PriceTag = ({
@@ -44,7 +45,7 @@ export const PriceTag = ({
 				className={reverseColors ? "text-typography-0" : ""}
 				style={{
 					fontSize: fontSize,
-					fontFamily: "PlayfairDisplay_Black",
+					fontFamily: fontWeightStyles.black.fontFamily,
 				}}
 			>
 				{price.toLocaleString()}

@@ -8,6 +8,7 @@ import { Icon } from "@/components/ui/icon";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
 import { sounds } from "@/constants/sounds";
+import { fontWeightStyles } from "@/styles/commonStyles";
 import { playSound } from "@/utils/soundPlayer";
 import { router } from "expo-router";
 import { ArrowLeft, ArrowRight, X } from "lucide-react-native";
@@ -17,14 +18,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const styles = StyleSheet.create({
 	title: {
-		fontFamily: "PlayfairDisplay_Bold",
+		fontFamily: fontWeightStyles.bold.fontFamily,
 		fontSize: 80,
 		textShadowColor: "#aaa",
 		textShadowOffset: { width: 5, height: 5 },
 		textShadowRadius: 0,
 	},
 	explanation: {
-		fontFamily: "PlayfairDisplay_Medium",
+		fontFamily: fontWeightStyles.medium.fontFamily,
 		fontSize: 22,
 		lineHeight: 24,
 	},

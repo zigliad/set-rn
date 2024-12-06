@@ -5,6 +5,7 @@ import { Heading } from "@/components/ui/heading";
 import { Icon } from "@/components/ui/icon";
 import { Modal, ModalBackdrop, ModalContent } from "@/components/ui/modal";
 import { Text } from "@/components/ui/text";
+import { fontWeightStyles } from "@/styles/commonStyles";
 import {
 	BadgeInfo,
 	Check,
@@ -108,7 +109,7 @@ export const AwesomeModal = ({
 						<Heading
 							size="2xl"
 							style={{
-								fontFamily: "PlayfairDisplay_Black",
+								fontFamily: fontWeightStyles.black.fontFamily,
 							}}
 						>
 							{header}
@@ -120,7 +121,8 @@ export const AwesomeModal = ({
 							<Text
 								className="text-center mt-2"
 								style={{
-									fontFamily: "PlayfairDisplay_Medium",
+									fontFamily:
+										fontWeightStyles.medium.fontFamily,
 								}}
 							>
 								{content}

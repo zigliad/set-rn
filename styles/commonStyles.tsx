@@ -1,10 +1,10 @@
 import { StyleSheet } from "react-native";
 
 export const fontWeightStyles = StyleSheet.create({
-	regular: { fontFamily: "PlayfairDisplay_Regular" },
-	medium: { fontFamily: "PlayfairDisplay_Medium" },
-	bold: { fontFamily: "PlayfairDisplay_Bold" },
+	regular: { fontFamily: "PlayfairDisplay-Regular" },
+	medium: { fontFamily: "PlayfairDisplay-Medium" },
+	bold: { fontFamily: "PlayfairDisplay-Bold" },
 	black: {
-		fontFamily: "PlayfairDisplay_Black",
+		fontFamily: "PlayfairDisplay-Black",
 	},
 });
