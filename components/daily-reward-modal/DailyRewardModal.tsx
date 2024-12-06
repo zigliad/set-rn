@@ -53,7 +53,7 @@ export const DailyRewardModal = ({}: {}) => {
 	if (!streak || !lastRewardDate) return null;
 
 	return (
-		<Modal isOpen={visible}>
+		<Modal isOpen={true}>
 			<ModalBackdrop />
 			<ModalContent
 				className="relative overflow-visible bg-background-card p-2 rounded-xl"
@@ -90,13 +90,10 @@ export const DailyRewardModal = ({}: {}) => {
 									key={index}
 									style={{}}
 									className={
-										"p-2 px-4 min-w-16 border-typography-500 border border-r-0 " +
-										(index === 0 ? " rounded-l-xl" : "") +
-										(index ===
-										DAILY_COINS_REWARDS.length - 1
-											? " rounded-r-xl border-r"
-											: "") +
-										(current ? " bg-[#ffe57f]" : "")
+										"p-2 px-4 min-w-16 border-typography-500 " +
+										(current
+											? "bg-[#ffe57f] rounded-xl"
+											: "")
 									}
 								>
 									{current ? (
@@ -104,8 +101,9 @@ export const DailyRewardModal = ({}: {}) => {
 											price={amount}
 											currencySize={28}
 											fontSize={28}
-											reverseColors
 											space="sm"
+											spinAnimation
+											forceTailwindColor="text-[#f59e0b]"
 										/>
 									) : prev ? (
 										<Icon as={Check} />
