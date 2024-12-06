@@ -9,8 +9,6 @@ import "@/global.css";
 import { MyModesContext, useInitMyModes } from "@/hooks/ads/useMyModes";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
-import * as Font from "expo-font";
-import { useEffect } from "react";
 
 mobileAds().initialize();
 
@@ -18,14 +16,6 @@ export default function RootLayout() {
 	const colors = useInitColors();
 	const currencies = useInitCurrencies();
 	const myModes = useInitMyModes();
-
-	useEffect(() => {
-		const checkFonts = async () => {
-			const loadedFonts = await Font.getLoadedFonts();
-			console.log("Loaded Fonts:", loadedFonts);
-		};
-		checkFonts();
-	}, []);
 
 	return (
 		<GluestackUIProvider mode="system">

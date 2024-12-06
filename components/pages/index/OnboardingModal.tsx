@@ -44,7 +44,7 @@ export const OnboardingModal = ({
 			{
 				header: "Have Fun!",
 				content:
-					"Just know that you can access the tutorial at any point, by clicking: More -> Rules.",
+					"You can access the tutorial anytime by navigating to More → Rules",
 				buttonText: "Got It",
 				color: colors[1],
 				icon: HandMetal,
