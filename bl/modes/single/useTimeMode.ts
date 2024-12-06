@@ -46,7 +46,7 @@ export const useTimeMode = (
 		async (result?: GameResult) => {
 			let newBest;
 			if (storageKey) {
-				const best = await getData(storageKey, "0");
+				const best = await getData(storageKey, String(0));
 				newBest = score > +best ? score : undefined;
 			}
 			baseEndGame(result, newBest);
@@ -58,7 +58,7 @@ export const useTimeMode = (
 	useInterval(
 		useCallback(async () => {
 			if (timeLeft === 1) {
-				await endGame(GameResult.lose);
+				await endGame();
 				setTimeLeft(0);
 			} else {
 				setTimeLeft((t) => t - 1);
