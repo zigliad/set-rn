@@ -10,16 +10,17 @@ import { PriceTag } from "@/components/utils/PriceTag";
 import { sounds } from "@/constants/sounds";
 import { useMyModes } from "@/hooks/ads/useMyModes";
 import { useCurrencies } from "@/hooks/useCurrencies";
-// import { useCustomerInfo } from "@/hooks/useCustomerInfo";
 import { useShowOnboarding } from "@/hooks/useShowOnboarding";
 import { Modes } from "@/modes/modes";
 import { ModeConfig, modesConfig } from "@/modes/modesConfig";
 import { medalConfig } from "@/types/medal";
 import { playSound } from "@/utils/soundPlayer";
-import { router, useFocusEffect } from "expo-router";
+import { router } from "expo-router";
 import { Lock } from "lucide-react-native";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { ImageURISource, SafeAreaView, StyleSheet, View } from "react-native";
+import { useEffect, useMemo, useState } from "react";
+import { ImageURISource, StyleSheet, View } from "react-native";
+
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export const titleStyles = StyleSheet.create({
 	pageTitle: {

@@ -2,7 +2,7 @@ import { AwesomeModal } from "@/components/awesome-modal/AwesomeModal";
 import { GameBar } from "@/components/pages/game/GameBar";
 import { GameGrid } from "@/components/pages/game/GameGrid";
 import { HStack } from "@/components/ui/hstack";
-// import { GAMES_UNTIL_AD, interstitial } from "@/constants/ads";
+import { GAMES_UNTIL_AD, interstitial } from "@/constants/ads";
 import { sounds } from "@/constants/sounds";
 import { useInterstitialAd } from "@/hooks/ads/useInterstitialAd";
 import { modes, Modes } from "@/modes/modes";
@@ -12,39 +12,39 @@ import { playSound } from "@/utils/soundPlayer";
 import { getData, StorageKey, storeData } from "@/utils/storage";
 import { useLocalSearchParams } from "expo-router";
 import React, { useCallback, useState } from "react";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import useList from "react-use/lib/useList";
 import useMount from "react-use/lib/useMount";
 
 export default function Game() {
-	// const { showAdIfLoaded } = useInterstitialAd(interstitial);
+	const { showAdIfLoaded } = useInterstitialAd(interstitial);
 
 	const onGameEnd = useCallback(
 		async (gameResult?: GameResult) => {
-			// const gamesPlayedWithoutAds = await getData(
-			// 	StorageKey.gamesPlayedWithoutAds,
-			// 	String(0)
-			// );
-			// let newGamesPlayWithoutAds =
-			// 	(+gamesPlayedWithoutAds + 1) % GAMES_UNTIL_AD;
+			const gamesPlayedWithoutAds = await getData(
+				StorageKey.gamesPlayedWithoutAds,
+				String(0)
+			);
+			let newGamesPlayWithoutAds =
+				(+gamesPlayedWithoutAds + 1) % GAMES_UNTIL_AD;
 
-			// storeData(
-			// 	StorageKey.gamesPlayedWithoutAds,
-			// 	String(newGamesPlayWithoutAds)
-			// );
+			storeData(
+				StorageKey.gamesPlayedWithoutAds,
+				String(newGamesPlayWithoutAds)
+			);
 
-			// const adsRemoved = await getData(StorageKey.adsRemoved, String(0));
+			const adsRemoved = await getData(StorageKey.adsRemoved, String(0));
 
-			// if (!adsRemoved && newGamesPlayWithoutAds === 0) {
-			// 	setTimeout(showAdIfLoaded, 500);
-			// }
+			if (!adsRemoved && newGamesPlayWithoutAds === 0) {
+				setTimeout(showAdIfLoaded, 500);
+			}
 
 			setVisibleModal(true);
 			await playSound(
 				gameResult === GameResult.lose ? sounds.lose : sounds.win
 			);
 		},
-		[] //[showAdIfLoaded]
+		[showAdIfLoaded]
 	);
 
 	const { mode } = useLocalSearchParams<{ mode: Modes }>();

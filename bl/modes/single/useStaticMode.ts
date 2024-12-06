@@ -22,13 +22,15 @@ export const useStaticMode = (
 		checkSet: baseCheckSet,
 	} = useSinglePlayerMode(onGameEnd, deckGenerator, storageKey);
 
-	const [sets, { add, has, reset }] = useSet(new Set<string>([]));
+	const [sets, { add, has, reset }] = useSet(new Set<string>());
 
-	const newGame = () => {
+	// Start a new game
+	const newGame = useCallback(() => {
 		baseNewGame();
 		reset();
-	};
+	}, [baseNewGame, reset]);
 
+	// End the game
 	const endGame = useCallback(
 		async (result?: GameResult) => {
 			let wins;
@@ -41,23 +43,28 @@ export const useStaticMode = (
 		[baseEndGame, storageKey]
 	);
 
-	const checkSet = async (indexes: number[]) => {
-		const result = baseCheckSet(indexes);
-		if (result.set) {
-			const setString = result.set
-				.sort((a, b) => a.toString().localeCompare(b.toString()))
-				.toString();
-			if (!has(setString)) {
-				if (sets.size + 1 === totalSets) {
-					await endGame(GameResult.win);
+	// Check if a set is valid
+	const checkSet = useCallback(
+		async (indexes: number[]) => {
+			const result = baseCheckSet(indexes);
+			if (result.set) {
+				const setString = result.set
+					.sort((a, b) => a.toString().localeCompare(b.toString()))
+					.toString();
+
+				if (!has(setString)) {
+					add(setString);
+
+					if (sets.size + 1 === totalSets) {
+						await endGame(GameResult.win);
+					}
 				}
-
-				add(setString);
 			}
-		}
 
-		return result;
-	};
+			return result;
+		},
+		[baseCheckSet, add, has, sets.size, totalSets, endGame]
+	);
 
 	return {
 		gameEnded,

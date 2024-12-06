@@ -9,7 +9,8 @@ import { StorageKey } from "@/utils/storage";
 import { router } from "expo-router";
 import { Candy } from "lucide-react-native";
 import { useState } from "react";
-import { Linking, Platform, SafeAreaView, View } from "react-native";
+import { Linking, Platform, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const creditsText = `
 App developed and designed by Liad Zigdon, all rights reserved.\n

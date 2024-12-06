@@ -13,8 +13,9 @@ import { playSound } from "@/utils/soundPlayer";
 import { StorageKey } from "@/utils/storage";
 import { router } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
-import { SafeAreaView, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { FlatGrid } from "react-native-super-grid";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const styles = StyleSheet.create({
 	itemContainer: { height: "100%" },

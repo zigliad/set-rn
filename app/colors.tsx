@@ -7,7 +7,7 @@ import { PriceTag } from "@/components/utils/PriceTag";
 import { useCurrencies } from "@/hooks/useCurrencies";
 import { Palette } from "@/hooks/useInitColors";
 import { useState } from "react";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Colors() {
 	const { coins } = useCurrencies();

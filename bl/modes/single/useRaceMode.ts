@@ -32,11 +32,11 @@ export const useRaceMode = (
 	);
 	const [score, { inc: incScore, reset: resetScore }] = useCounter(0);
 
-	const newGame = () => {
+	const newGame = useCallback(() => {
 		baseNewGame();
 		resetTime();
 		resetScore();
-	};
+	}, [baseNewGame, resetTime, resetScore]);
 
 	const endGame = useCallback(
 		async (result?: GameResult) => {
@@ -52,7 +52,7 @@ export const useRaceMode = (
 			}
 			baseEndGame(result, newBest);
 		},
-		[baseEndGame, storageKey, time]
+		[baseEndGame, storageKey, time, reverse]
 	);
 
 	useInterval(
@@ -67,18 +67,21 @@ export const useRaceMode = (
 		gameEnded ? null : 1000
 	);
 
-	const checkSet = async (indexes: number[]) => {
-		const result = baseCheckSet(indexes);
-		if (result.isSet) {
-			if (score + 1 === goal) {
-				await endGame(GameResult.win);
+	const checkSet = useCallback(
+		async (indexes: number[]) => {
+			const result = baseCheckSet(indexes);
+			if (result.isSet) {
+				if (score + 1 === goal) {
+					await endGame(GameResult.win);
+				}
+				incScore();
+				replacer.replace(indexes, deck);
 			}
-			incScore();
-			replacer.replace(indexes, deck);
-		}
 
-		return result;
-	};
+			return result;
+		},
+		[baseCheckSet, endGame, score, goal, incScore, replacer, deck]
+	);
 
 	return {
 		gameEnded,

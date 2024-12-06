@@ -30,24 +30,12 @@ export const useDrainMode = (
 
 	const goal = useMemo(() => deck.size / deck.brain.options, [deck]);
 
-	useInterval(
-		async () => {
-			if (timeLeft <= 1) {
-				await endGame(GameResult.lose);
-				setTimeLeft(0);
-			} else {
-				setTimeLeft((t) => t - 1);
-			}
-		},
-		!gameEnded && startTimer ? 1000 : null
-	);
-
-	const newGame = () => {
+	const newGame = useCallback(() => {
 		baseNewGame();
 		setScore(0);
 		setTimeLeft(seconds);
 		setStartTimer(false);
-	};
+	}, [baseNewGame, seconds]);
 
 	const endGame = useCallback(
 		async (result?: GameResult) => {
@@ -61,23 +49,41 @@ export const useDrainMode = (
 		[baseEndGame, storageKey]
 	);
 
-	const checkSet = async (indexes: number[]) => {
-		const result = baseCheckSet(indexes);
-		if (result.isSet) {
-			setStartTimer(true);
-			replacer.replace(indexes, deck);
-			const newScore = score + 1;
-			setScore(newScore);
-			if (newScore === goal) await endGame(GameResult.win);
-			else {
-				replacer.replace(indexes, deck);
-				const newSetsCount = deck.countSets();
-				if (newSetsCount === 0) await endGame(GameResult.lose);
+	useInterval(
+		useCallback(async () => {
+			if (timeLeft <= 1) {
+				await endGame(GameResult.lose);
+				setTimeLeft(0);
+			} else {
+				setTimeLeft((t) => t - 1);
 			}
-		}
+		}, [timeLeft, endGame]),
+		!gameEnded && startTimer ? 1000 : null
+	);
 
-		return result;
-	};
+	const checkSet = useCallback(
+		async (indexes: number[]) => {
+			const result = baseCheckSet(indexes);
+			if (result.isSet) {
+				setStartTimer(true);
+				replacer.replace(indexes, deck);
+				const newScore = score + 1;
+				setScore(newScore);
+
+				if (newScore === goal) {
+					await endGame(GameResult.win);
+				} else {
+					const newSetsCount = deck.countSets();
+					if (newSetsCount === 0) {
+						await endGame(GameResult.lose);
+					}
+				}
+			}
+
+			return result;
+		},
+		[baseCheckSet, deck, endGame, goal, replacer, score]
+	);
 
 	return {
 		gameEnded,

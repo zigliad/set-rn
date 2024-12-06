@@ -12,7 +12,8 @@ import { playSound } from "@/utils/soundPlayer";
 import { router } from "expo-router";
 import { ArrowLeft, ArrowRight, X } from "lucide-react-native";
 import { useState } from "react";
-import { SafeAreaView, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const styles = StyleSheet.create({
 	title: {

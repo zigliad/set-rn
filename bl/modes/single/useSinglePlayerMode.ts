@@ -13,24 +13,29 @@ export const useSinglePlayerMode = (
 	const [gameResult, setGameResult] = useState<GameResult>();
 	const [deck, setDeck] = useState(deckGenerator.generate());
 
-	const newGame = () => {
+	const newGame = useCallback(() => {
 		setGameEnded(false);
 		setGameResult(undefined);
 		setDeck(deckGenerator.generate());
-	};
+	}, [deckGenerator]);
 
-	const checkSet = (indexes: number[]) => {
-		const falsyResult = { isSet: false, set: undefined };
+	const checkSet = useCallback(
+		(indexes: number[]) => {
+			const falsyResult = { isSet: false, set: undefined };
 
-		if (gameEnded) return falsyResult;
+			if (gameEnded) return falsyResult;
 
-		let cards = indexes.map((i) => deck.cards[i]).filter((c) => c !== null);
-		if (deck.brain.isSet(cards)) {
-			return { isSet: true, set: cards };
-		}
+			let cards = indexes
+				.map((i) => deck.cards[i])
+				.filter((c) => c !== null);
+			if (deck.brain.isSet(cards)) {
+				return { isSet: true, set: cards };
+			}
 
-		return falsyResult;
-	};
+			return falsyResult;
+		},
+		[gameEnded, deck]
+	);
 
 	const endGame = useCallback(
 		async (result?: GameResult, scoreToSave?: string | number) => {

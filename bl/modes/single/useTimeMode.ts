@@ -33,13 +33,15 @@ export const useTimeMode = (
 	const [score, setScore] = useState(0);
 	const [mistakes, setMistakes] = useState(0);
 
-	const newGame = () => {
+	// Start a new game
+	const newGame = useCallback(() => {
 		baseNewGame();
 		setTimeLeft(seconds);
 		setScore(0);
 		setMistakes(0);
-	};
+	}, [baseNewGame, seconds]);
 
+	// End the game
 	const endGame = useCallback(
 		async (result?: GameResult) => {
 			let newBest;
@@ -52,33 +54,39 @@ export const useTimeMode = (
 		[baseEndGame, storageKey, score]
 	);
 
+	// Timer logic
 	useInterval(
-		async () => {
+		useCallback(async () => {
 			if (timeLeft === 1) {
-				await endGame();
+				await endGame(GameResult.lose);
 				setTimeLeft(0);
-			} else setTimeLeft((t) => t - 1);
-		},
+			} else {
+				setTimeLeft((t) => t - 1);
+			}
+		}, [timeLeft, endGame]),
 		gameEnded ? null : 1000
 	);
 
-	const checkSet = async (indexes: number[]) => {
-		const result = baseCheckSet(indexes);
-		if (result.isSet) {
-			setScore((s) => s + 1);
-			replacer.replace(indexes, deck);
-		} else if (harder) {
-			if (mistakes + 1 === harder.maxMistakes) {
-				await endGame(GameResult.lose);
-			} else {
-				setScore((s) => s - harder.scorePenalty);
-				setMistakes((m) => m + 1);
-				setTimeLeft((t) => t - harder.timePenalty);
+	// Check if a set is valid
+	const checkSet = useCallback(
+		async (indexes: number[]) => {
+			const result = baseCheckSet(indexes);
+			if (result.isSet) {
+				setScore((s) => s + 1);
+				replacer.replace(indexes, deck);
+			} else if (harder) {
+				if (mistakes + 1 === harder.maxMistakes) {
+					await endGame(GameResult.lose);
+				} else {
+					setScore((s) => Math.max(0, s - harder.scorePenalty));
+					setMistakes((m) => m + 1);
+					setTimeLeft((t) => Math.max(0, t - harder.timePenalty));
+				}
 			}
-		}
-
-		return result;
-	};
+			return result;
+		},
+		[baseCheckSet, deck, replacer, harder, mistakes, endGame]
+	);
 
 	return {
 		gameEnded,

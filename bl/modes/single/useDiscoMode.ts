@@ -30,22 +30,25 @@ export const useDiscoMode = (
 	const [timeLeft, { dec: decTime, reset: resetTime }] = useCounter(seconds);
 	const [score, { inc: incScore, reset: resetScore }] = useCounter(0);
 
+	// Disco effect: replace properties on interval
 	useInterval(
-		() => {
+		useCallback(() => {
 			propertyReplacer.replace(
 				Array.from({ length: deck.size }, (_, index) => index),
 				deck
 			);
-		},
+		}, [deck, propertyReplacer]),
 		gameEnded ? null : discoIntervalSeconds * 1000
 	);
 
-	const newGame = () => {
+	// Start a new game
+	const newGame = useCallback(() => {
 		baseNewGame();
 		resetTime();
 		resetScore();
-	};
+	}, [baseNewGame, resetTime, resetScore]);
 
+	// End the game
 	const endGame = useCallback(
 		async (result?: GameResult) => {
 			let newBest;
@@ -58,25 +61,30 @@ export const useDiscoMode = (
 		[baseEndGame, storageKey, score]
 	);
 
+	// Countdown timer
 	useInterval(
-		async () => {
+		useCallback(async () => {
 			if (timeLeft === 1) {
 				await endGame();
 			}
 			decTime();
-		},
+		}, [timeLeft, endGame, decTime]),
 		gameEnded ? null : 1000
 	);
 
-	const checkSet = async (indexes: number[]) => {
-		const result = baseCheckSet(indexes);
-		if (result.isSet) {
-			incScore();
-			replacer.replace(indexes, deck);
-		}
+	// Check if a set is valid
+	const checkSet = useCallback(
+		async (indexes: number[]) => {
+			const result = baseCheckSet(indexes);
+			if (result.isSet) {
+				incScore();
+				replacer.replace(indexes, deck);
+			}
 
-		return result;
-	};
+			return result;
+		},
+		[baseCheckSet, deck, incScore, replacer]
+	);
 
 	return {
 		gameEnded,

@@ -32,7 +32,7 @@ export const useLevelsMode = (
 		(value: string | number) => {
 			setTime(+value * levelTime);
 		},
-		[levelTime]
+		[levelTime, setTime]
 	);
 
 	const [level, setLevel] = useStorageState(
@@ -41,15 +41,18 @@ export const useLevelsMode = (
 		onLevelLoaded
 	);
 
-	const gameTime = +(level ?? 1) * levelTime;
+	const gameTime = useCallback(
+		() => +(level ?? 1) * levelTime,
+		[level, levelTime]
+	)();
 	const [score, { inc: incScore, reset: resetScore }] = useCounter(0);
 	const [winText, setWinText] = useState("");
 
-	const newGame = async () => {
+	const newGame = useCallback(async () => {
 		baseNewGame();
 		setTime(gameTime);
 		resetScore();
-	};
+	}, [baseNewGame, gameTime, setTime, resetScore]);
 
 	const endGame = useCallback(
 		async (result?: GameResult) => {
@@ -63,32 +66,35 @@ export const useLevelsMode = (
 			}
 			baseEndGame(result, newLevel);
 		},
-		[baseEndGame, level, time, gameTime]
+		[baseEndGame, level, time, gameTime, setLevel]
 	);
 
 	useInterval(
-		async () => {
+		useCallback(async () => {
 			if (time <= 1) {
 				await endGame(GameResult.lose);
 			} else {
 				incTime(-1);
 			}
-		},
+		}, [time, endGame, incTime]),
 		gameEnded ? null : 1000
 	);
 
-	const checkSet = async (indexes: number[]) => {
-		const result = baseCheckSet(indexes);
-		if (result.isSet) {
-			if (score + 1 === +level) {
-				await endGame(GameResult.win);
+	const checkSet = useCallback(
+		async (indexes: number[]) => {
+			const result = baseCheckSet(indexes);
+			if (result.isSet) {
+				if (score + 1 === +level) {
+					await endGame(GameResult.win);
+				}
+				incScore();
+				replacer.replace(indexes, deck);
 			}
-			incScore();
-			replacer.replace(indexes, deck);
-		}
 
-		return result;
-	};
+			return result;
+		},
+		[baseCheckSet, endGame, score, level, incScore, replacer, deck]
+	);
 
 	return {
 		gameEnded,

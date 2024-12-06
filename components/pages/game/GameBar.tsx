@@ -16,6 +16,7 @@ import {
 	RotateCcw,
 } from "lucide-react-native";
 import React, { DispatchWithoutAction, useState } from "react";
+import { View } from "react-native";
 
 const iconClassName = "w-7 h-7";
 
@@ -65,18 +66,20 @@ export const GameBar = ({
 					});
 				}}
 			>
-				<Text
-					className="text-primary-500 text-center"
-					size="lg"
-					style={{
-						transform: [{ rotate: "-90deg" }],
-						width: textBoxSize?.height,
-						height: "auto",
-						fontFamily: "PlayfairDisplay_Medium",
-					}}
-				>
-					{modeData.title}
-				</Text>
+				<View>
+					<Text
+						className="text-primary-500 text-center"
+						size="lg"
+						style={{
+							transform: [{ rotate: "-90deg" }],
+							width: textBoxSize?.height,
+							height: "auto",
+							fontFamily: "PlayfairDisplay_Medium",
+						}}
+					>
+						{modeData.title}
+					</Text>
+				</View>
 			</Center>
 			<Button
 				variant="link"
