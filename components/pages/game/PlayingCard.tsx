@@ -6,6 +6,7 @@ import { useColors } from "@/hooks/useInitColors";
 import { playSound } from "@/utils/soundPlayer";
 import cardsSvgs from "@/utils/svgsLoader";
 import React, { DispatchWithoutAction } from "react";
+import { Platform } from "react-native";
 import { BaseButton } from "react-native-gesture-handler";
 
 const date = new Date(); // Current date
@@ -39,8 +40,9 @@ const InnerPlayingCard = ({
 	return (
 		<ElevatedCard
 			className={
-				"flex items-center justify-center rounded-xl transform transition-all scale-100 " +
-				(picked ? "scale-75" : "")
+				"flex items-center justify-center rounded-xl transform scale-100 " +
+				(picked ? " scale-75" : "") +
+				(Platform.OS === "ios" ? " transition-all" : "")
 			}
 			style={{
 				...size,
@@ -73,6 +75,7 @@ export const PlayingCard = ({
 }) =>
 	onPress ? (
 		<BaseButton
+			rippleColor={"#00000000"}
 			exclusive={false}
 			onPress={async () => {
 				if (onPress) {
