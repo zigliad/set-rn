@@ -76,9 +76,7 @@ export const ProductsGrid = ({
 									incGems(gems);
 									incCoins(coins);
 									playSound(sounds.buy);
-								} catch (e) {
-									console.error(e);
-								}
+								} catch (e) {}
 								setLoading(false);
 							}}
 						>

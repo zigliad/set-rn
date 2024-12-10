@@ -102,9 +102,7 @@ export default function Shop() {
 											);
 											setAdsRemoved(String(1));
 											playSound(sounds.buy);
-										} catch (e) {
-											console.error(e);
-										}
+										} catch (e) {}
 										setLoading(false);
 									}}
 								>
