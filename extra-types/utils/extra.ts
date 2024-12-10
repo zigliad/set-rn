@@ -17,3 +17,5 @@ export type ArgumentTypes<F extends Function> = F extends (
 ) => any
 	? A
 	: never;
+
+export type SetState<T> = React.Dispatch<React.SetStateAction<T>>;

@@ -1,4 +1,5 @@
 import { ElevatedCard } from "@/components/ElevatedCard";
+import { Box } from "@/components/ui/box";
 import { Divider } from "@/components/ui/divider";
 import { HStack } from "@/components/ui/hstack";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -6,6 +7,7 @@ import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
 import { PriceTag } from "@/components/utils/PriceTag";
 import { sounds } from "@/constants/sounds";
+import { SetState } from "@/extra-types/utils/extra";
 import {
 	CONSUMABLE_PRODUCTS,
 	useConsumableProducts,
@@ -18,7 +20,11 @@ import { TouchableOpacity } from "react-native";
 import Purchases from "react-native-purchases";
 import { FlatGrid } from "react-native-super-grid";
 
-export const ProductsGrid = ({}: {}) => {
+export const ProductsGrid = ({
+	setLoading,
+}: {
+	setLoading: SetState<boolean>;
+}) => {
 	const { incCoins, incGems } = useCurrencies();
 
 	const { products } = useConsumableProducts();
@@ -53,6 +59,7 @@ export const ProductsGrid = ({}: {}) => {
 				const coins =
 					CONSUMABLE_PRODUCTS[product.identifier].coins ?? 0;
 				const gems = CONSUMABLE_PRODUCTS[product.identifier].gems ?? 0;
+				const badge = CONSUMABLE_PRODUCTS[product.identifier].badge;
 				return (
 					<ElevatedCard
 						key={product.identifier}
@@ -61,7 +68,7 @@ export const ProductsGrid = ({}: {}) => {
 						<TouchableOpacity
 							onPress={async () => {
 								playSound(sounds.click);
-
+								setLoading(true);
 								try {
 									await Purchases.purchaseStoreProduct(
 										product
@@ -72,6 +79,7 @@ export const ProductsGrid = ({}: {}) => {
 								} catch (e) {
 									console.error(e);
 								}
+								setLoading(false);
 							}}
 						>
 							<HStack className="justify-between items-center w-full">
@@ -80,13 +88,28 @@ export const ProductsGrid = ({}: {}) => {
 										className="justify-between"
 										space="xs"
 									>
-										<Text
-											size="md"
-											className="text-secondary-600"
-											style={fontWeightStyles.regular}
-										>
-											{product.priceString}
-										</Text>
+										<HStack className="justify-between">
+											<Text
+												size="md"
+												className="text-secondary-600"
+												style={fontWeightStyles.regular}
+											>
+												{product.priceString}
+											</Text>
+											{badge && (
+												<Box className="bg-green-500 rounded-md px-2">
+													<Text
+														size="md"
+														className="color-typography-0"
+														style={
+															fontWeightStyles.regular
+														}
+													>
+														{badge}
+													</Text>
+												</Box>
+											)}
+										</HStack>
 										<Text
 											size="2xl"
 											style={fontWeightStyles.medium}

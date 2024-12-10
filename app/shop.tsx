@@ -2,6 +2,8 @@ import { ProductsGrid } from "@/components/pages/shop/ProductsGrid";
 import { Box } from "@/components/ui/box";
 import { Button, ButtonText } from "@/components/ui/button";
 import { Divider } from "@/components/ui/divider";
+import { HStack } from "@/components/ui/hstack";
+import { Spinner } from "@/components/ui/spinner";
 import { VStack } from "@/components/ui/vstack";
 import { BackButton } from "@/components/utils/BackButton";
 import { PriceTag } from "@/components/utils/PriceTag";
@@ -17,11 +19,11 @@ import { purchasedRemoveAds, useCustomerInfo } from "@/hooks/useCustomerInfo";
 import { useStorageState } from "@/hooks/useStorageState";
 import { fontWeightStyles } from "@/styles/commonStyles";
 import { playSound } from "@/utils/soundPlayer";
-import { StorageKey, storeData } from "@/utils/storage";
-import { useEffect, useMemo } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { StorageKey } from "@/utils/storage";
+import { useEffect, useMemo, useState } from "react";
 import { useRewardedAd } from "react-native-google-mobile-ads";
 import Purchases from "react-native-purchases";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Shop() {
 	const { coins, gems } = useCurrencies();
@@ -30,7 +32,7 @@ export default function Shop() {
 
 	const { customerInfo } = useCustomerInfo();
 	const { products } = useProducts(NON_CONSUMABLE_PRODUCT_IDS);
-	useEffect(() => console.log(products), [products]);
+	const [loading, setLoading] = useState(false);
 
 	useEffect(load, [load]);
 
@@ -93,6 +95,7 @@ export default function Shop() {
 								<Button
 									onPress={async () => {
 										playSound(sounds.click);
+										setLoading(true);
 										try {
 											await Purchases.purchaseStoreProduct(
 												removeAdsProduct
@@ -102,6 +105,7 @@ export default function Shop() {
 										} catch (e) {
 											console.error(e);
 										}
+										setLoading(false);
 									}}
 								>
 									<ButtonText style={fontWeightStyles.medium}>
@@ -111,8 +115,13 @@ export default function Shop() {
 								</Button>
 							</>
 						)}
+					{loading && (
+						<HStack className="px-1">
+							<Spinner />
+						</HStack>
+					)}
 				</VStack>
-				<ProductsGrid />
+				<ProductsGrid {...{ setLoading }} />
 				<BackButton />
 			</Box>
 		</SafeAreaView>
