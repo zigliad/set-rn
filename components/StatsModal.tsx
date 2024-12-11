@@ -1,5 +1,5 @@
+import { DEFAULT_SETS_FOUND } from "@/app/setsFound";
 import { AwesomeModal } from "@/components/awesome-modal/AwesomeModal";
-import { Text } from "@/components/ui/text";
 import {
 	useStorageObjectState,
 	useStorageState,
@@ -7,9 +7,6 @@ import {
 import { StorageKey } from "@/utils/storage";
 import { Award } from "lucide-react-native";
 import React, { DispatchWithoutAction } from "react";
-import { View } from "react-native";
-
-const setsFound = undefined;
 
 export const StatsModal = ({
 	visible,
@@ -33,10 +30,10 @@ export const StatsModal = ({
 		StorageKey.totalSetsFound,
 		String(0)
 	);
-	// const [setsFound] = useStorageObjectState<string[]>(
-	// 	StorageKey.setsFound,
-	// 	[]
-	// );
+	const [setsFound] = useStorageObjectState<string[]>(
+		StorageKey.setsFound,
+		DEFAULT_SETS_FOUND
+	);
 
 	return (
 		<AwesomeModal

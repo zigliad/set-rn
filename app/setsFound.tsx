@@ -1,21 +1,17 @@
 import Card from "@/bl/card/Card";
 import { PlayingCard } from "@/components/pages/game/PlayingCard";
 import { Box } from "@/components/ui/box";
-import { Button } from "@/components/ui/button";
 import { Center } from "@/components/ui/center";
-import { Icon } from "@/components/ui/icon";
 import { Text } from "@/components/ui/text";
 import { BackButton } from "@/components/utils/BackButton";
-import { sounds } from "@/constants/sounds";
 import { useStorageObjectState } from "@/hooks/useStorageState";
 import { fontWeightStyles } from "@/styles/commonStyles";
-import { playSound } from "@/utils/soundPlayer";
 import { StorageKey } from "@/utils/storage";
-import { router } from "expo-router";
-import { ArrowLeft } from "lucide-react-native";
 import { StyleSheet } from "react-native";
-import { FlatGrid } from "react-native-super-grid";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { FlatGrid } from "react-native-super-grid";
+
+export const DEFAULT_SETS_FOUND: string[] = [];
 
 const styles = StyleSheet.create({
 	itemContainer: { height: "100%" },
@@ -29,7 +25,7 @@ const styles = StyleSheet.create({
 export default function SetsFound() {
 	const [setsFound] = useStorageObjectState<string[]>(
 		StorageKey.setsFound,
-		[]
+		DEFAULT_SETS_FOUND
 	);
 
 	return (

@@ -20,7 +20,7 @@ Icons are from www.flaticon.com and were made by Freepik, Good Ware, Those Icons
 `;
 
 const androidPackageName = "host.exp.exponent";
-const itunesItemId = 982107779;
+const itunesItemId = 1506464825;
 
 export default function MoreOptions() {
 	const [visibleModal, setVisibleModal] = useState(false);
