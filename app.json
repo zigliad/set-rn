@@ -23,7 +23,11 @@
 				"foregroundImage": "./assets/images/adaptive-icon.png",
 				"backgroundColor": "#F2F2F7"
 			},
-			"package": "com.zigdonliad.Sets"
+			"package": "com.zigdonliad.Sets",
+			"permissions": ["com.android.vending.BILLING"]
+		},
+		"androidStatusBar": {
+			"translucent": true
 		},
 		"web": {
 			"bundler": "metro",

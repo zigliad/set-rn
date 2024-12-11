@@ -35,7 +35,7 @@ export default function Game() {
 
 			const adsRemoved = await getData(StorageKey.adsRemoved, String(0));
 
-			if (!adsRemoved && newGamesPlayWithoutAds === 0) {
+			if (!+adsRemoved && newGamesPlayWithoutAds === 0) {
 				setTimeout(showAdIfLoaded, 500);
 			}
 
