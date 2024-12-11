@@ -36,9 +36,7 @@ export const useCustomerInfo = () => {
 			updateAdsRemoved(info);
 		};
 
-		Purchases.setDebugLogsEnabled(true);
-
-		setup().catch(console.log);
+		setup().catch(console.error);
 	}, []);
 
 	return { customerInfo };

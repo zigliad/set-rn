@@ -54,9 +54,7 @@ export const useProducts = (identifiers: string[]) => {
 			setProducts(products);
 		};
 
-		Purchases.setDebugLogsEnabled(true);
-
-		setup().catch(console.log);
+		setup().catch(console.error);
 	}, [identifiers]);
 
 	return { products };
@@ -70,11 +68,11 @@ export const useConsumableProducts = () => {
 			Purchases.configure({
 				apiKey: Platform.OS === "ios" ? APIKeys.apple : APIKeys.google,
 			});
-			const products = await Purchases.getProducts(
+			const _products = await Purchases.getProducts(
 				Object.keys(CONSUMABLE_PRODUCTS)
 			);
 			setProducts(
-				[...products].sort(
+				[..._products].sort(
 					(p1, p2) =>
 						CONSUMABLE_PRODUCTS[p1.identifier].index -
 						CONSUMABLE_PRODUCTS[p2.identifier].index
@@ -82,9 +80,7 @@ export const useConsumableProducts = () => {
 			);
 		};
 
-		Purchases.setDebugLogsEnabled(true);
-
-		setup().catch(console.log);
+		setup().catch(console.error);
 	}, []);
 
 	return { products };
