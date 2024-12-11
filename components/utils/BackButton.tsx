@@ -9,7 +9,7 @@ import React from "react";
 export const BackButton = () => {
 	return (
 		<Button
-			className="absolute bottom-0 left-0 rounded-full bg-background-800 shadow-xl"
+			className="absolute bottom-4 left-4 rounded-full bg-background-800 shadow-xl"
 			onPress={async () => {
 				playSound(sounds.click);
 				router.back();

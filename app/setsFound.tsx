@@ -63,7 +63,7 @@ export default function SetsFound() {
 					}}
 				/>
 				<BackButton />
-				<Center className="absolute bottom-0 right-0 py-2 px-4 bg-background-800 rounded-full shadow-xl">
+				<Center className="absolute bottom-4 right-4 py-2 px-4 bg-background-800 rounded-full shadow-xl">
 					<Text
 						size="lg"
 						className="text-typography-0"

@@ -42,7 +42,7 @@ export const GameBar = ({
 					variant="link"
 					onPress={async () => {
 						setVisibleModal(true);
-						await playSound(sounds.click);
+						playSound(sounds.click);
 					}}
 				>
 					<Icon as={Info} className={iconClassName} />
@@ -53,7 +53,7 @@ export const GameBar = ({
 						resetPicked();
 						dummyReset();
 						modeData.newGame();
-						await playSound(sounds.restart);
+						playSound(sounds.restart);
 					}}
 				>
 					<Icon as={RotateCcw} className={iconClassName} />
@@ -84,7 +84,7 @@ export const GameBar = ({
 			<Button
 				variant="link"
 				onPress={async () => {
-					await playSound(sounds.click);
+					playSound(sounds.click);
 					router.back();
 				}}
 			>

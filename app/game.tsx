@@ -15,16 +15,27 @@ import React, { useCallback, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import useList from "react-use/lib/useList";
 import useMount from "react-use/lib/useMount";
+import * as StoreReview from "expo-store-review";
 
 export default function Game() {
 	const { showAdIfLoaded } = useInterstitialAd(interstitial);
 
 	const onGameEnd = useCallback(
+		// Check if an ad should be displayed and ask for review when its time.
 		async (gameResult?: GameResult) => {
 			const gamesPlayedWithoutAds = await getData(
 				StorageKey.gamesPlayedWithoutAds,
 				String(0)
 			);
+			const totalSetsFound = await getData(
+				StorageKey.totalSetsFound,
+				String(0)
+			);
+			const reviewRequestsCount = await getData(
+				StorageKey.reviewRequestsCount,
+				String(0)
+			);
+
 			let newGamesPlayWithoutAds =
 				(+gamesPlayedWithoutAds + 1) % GAMES_UNTIL_AD;
 
@@ -35,12 +46,24 @@ export default function Game() {
 
 			const adsRemoved = await getData(StorageKey.adsRemoved, String(0));
 
+			if (
+				((+totalSetsFound >= 100 && +reviewRequestsCount === 0) ||
+					(+totalSetsFound >= 300 && +reviewRequestsCount === 1)) &&
+				(await StoreReview.isAvailableAsync()) &&
+				(await StoreReview.hasAction())
+			) {
+				storeData(
+					StorageKey.reviewRequestsCount,
+					+reviewRequestsCount + 1
+				);
+				await StoreReview.requestReview();
+			}
 			if (!+adsRemoved && newGamesPlayWithoutAds === 0) {
 				setTimeout(showAdIfLoaded, 500);
 			}
 
 			setVisibleModal(true);
-			await playSound(
+			playSound(
 				gameResult === GameResult.lose ? sounds.lose : sounds.win
 			);
 		},
@@ -85,7 +108,7 @@ export default function Game() {
 						modeData.newGame();
 						reset();
 						dummyReset();
-						await playSound(sounds.restart);
+						playSound(sounds.restart);
 					}}
 					header={modeData.endgameTitle}
 					content={modeData.endgameContent}

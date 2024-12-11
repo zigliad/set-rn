@@ -19,6 +19,7 @@ export enum StorageKey {
 	seenOnboarding = "seenOnboarding",
 	muteSounds = "muteSounds",
 	gamesPlayedWithoutAds = "gamesPlayedWithoutAds",
+	reviewRequestsCount = "reviewRequestsCount",
 
 	currentPaletteId = "currentPaletteId",
 	myPalettes = "myPalettes",

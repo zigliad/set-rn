@@ -79,7 +79,7 @@ export const PlayingCard = ({
 			exclusive={false}
 			onPress={async () => {
 				if (onPress) {
-					await playSound(sounds.click);
+					playSound(sounds.click);
 					onPress();
 				}
 			}}

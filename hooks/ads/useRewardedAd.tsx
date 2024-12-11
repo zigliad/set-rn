@@ -1,5 +1,5 @@
 import { Action1 } from "@/extra-types/utils/functions";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
 	RewardedAd,
 	RewardedAdEventType,
@@ -23,6 +23,7 @@ export const useRewardedAd = (
 			RewardedAdEventType.EARNED_REWARD,
 			(reward) => {
 				onReward(reward);
+				setLoaded(false);
 				rewarded.load();
 			}
 		);
@@ -37,5 +38,11 @@ export const useRewardedAd = (
 		};
 	}, [rewarded, onReward]);
 
-	return loaded;
+	const showAdIfLoaded = useCallback(() => {
+		if (loaded) {
+			rewarded.show();
+		}
+	}, [loaded, rewarded]);
+
+	return { showAdIfLoaded, loaded };
 };

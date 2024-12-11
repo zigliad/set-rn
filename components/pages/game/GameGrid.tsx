@@ -70,7 +70,7 @@ export const GameGrid = ({
 			setTimeout(dummyReset, 200);
 			reset();
 			const { isSet, set } = await checkSet(newPicked);
-			await playSound(isSet ? sounds.setFound : sounds.error);
+			playSound(isSet ? sounds.setFound : sounds.error);
 			if (isSet && set) await setFound(set);
 		},
 		[dummySet, dummyReset, reset, checkSet]

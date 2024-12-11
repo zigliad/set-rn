@@ -5,10 +5,18 @@ export const useInterstitialAd = (interstitial: InterstitialAd) => {
 	const [loaded, setLoaded] = useState(false);
 
 	useEffect(() => {
-		const unsubscribe = interstitial.addAdEventListener(
+		const unsubscribeLoaded = interstitial.addAdEventListener(
 			AdEventType.LOADED,
 			() => {
 				setLoaded(true);
+			}
+		);
+
+		const unsubscribeClosed = interstitial.addAdEventListener(
+			AdEventType.CLOSED,
+			() => {
+				setLoaded(false);
+				interstitial.load();
 			}
 		);
 
@@ -16,16 +24,17 @@ export const useInterstitialAd = (interstitial: InterstitialAd) => {
 		interstitial.load();
 
 		// Unsubscribe from events on unmount
-		return unsubscribe;
-	}, []);
+		return () => {
+			unsubscribeLoaded();
+			unsubscribeClosed();
+		};
+	}, [interstitial]);
 
 	const showAdIfLoaded = useCallback(() => {
 		if (loaded) {
 			interstitial.show();
-			setLoaded(false);
-			interstitial.load();
 		}
-	}, [loaded, interstitial, setLoaded]);
+	}, [loaded, interstitial]);
 
 	return { showAdIfLoaded, loaded };
 };

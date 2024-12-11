@@ -7,8 +7,9 @@ import { Spinner } from "@/components/ui/spinner";
 import { VStack } from "@/components/ui/vstack";
 import { BackButton } from "@/components/utils/BackButton";
 import { PriceTag } from "@/components/utils/PriceTag";
-import { rewardedAdUnitId } from "@/constants/ads";
+import { rewarded } from "@/constants/ads";
 import { sounds } from "@/constants/sounds";
+import { useRewardedAd } from "@/hooks/ads/useRewardedAd";
 import {
 	NON_CONSUMABLE_PRODUCT_IDS,
 	REMOVE_ADS_PRODUCT_ID,
@@ -20,21 +21,31 @@ import { useStorageState } from "@/hooks/useStorageState";
 import { fontWeightStyles } from "@/styles/commonStyles";
 import { playSound } from "@/utils/soundPlayer";
 import { StorageKey } from "@/utils/storage";
-import { useEffect, useMemo, useState } from "react";
-import { useRewardedAd } from "react-native-google-mobile-ads";
+import { useCallback, useMemo, useState } from "react";
+import { RewardedAdReward } from "react-native-google-mobile-ads";
+
 import Purchases from "react-native-purchases";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Shop() {
-	const { coins, gems } = useCurrencies();
-	const { isLoaded, isClosed, load, show, reward, isEarnedReward } =
-		useRewardedAd(rewardedAdUnitId);
+	const { coins, gems, incCoins, incGems } = useCurrencies();
+
+	const onReward = useCallback(
+		(reward: RewardedAdReward) => {
+			if (reward.type === "coins") {
+				incCoins(reward.amount);
+			} else if (reward.type === "gems") {
+				incGems(reward.amount);
+			}
+		},
+		[incCoins, incGems]
+	);
+
+	const { showAdIfLoaded, loaded } = useRewardedAd(rewarded, onReward);
 
 	const { customerInfo } = useCustomerInfo();
 	const { products } = useProducts(NON_CONSUMABLE_PRODUCT_IDS);
 	const [loading, setLoading] = useState(false);
-
-	useEffect(load, [load]);
 
 	const removeAdsProduct = useMemo(
 		() =>
@@ -75,11 +86,11 @@ export default function Shop() {
 					/>
 					<Divider />
 					<Button
-						isDisabled={!isLoaded}
+						isDisabled={!loaded}
 						onPress={() => {
-							if (isLoaded) {
+							if (loaded) {
 								playSound(sounds.click);
-								show();
+								showAdIfLoaded();
 							}
 						}}
 					>
