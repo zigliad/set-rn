@@ -58,10 +58,10 @@ export const useLevelsMode = (
 		async (result?: GameResult) => {
 			let newLevel;
 			if (result !== GameResult.lose) {
-				setWinText(
-					`You found ${level} sets in ${gameTime - time} seconds!`
-				);
 				newLevel = +level + 1;
+				setWinText(
+					`You've completed level ${level}!\nNext level: ${newLevel} sets, ${newLevel * levelTime} seconds.`
+				);
 				setLevel(String(newLevel));
 			}
 			baseEndGame(result, newLevel);
