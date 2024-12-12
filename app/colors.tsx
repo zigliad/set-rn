@@ -14,7 +14,7 @@ export default function Colors() {
 	const [paletteClicked, setPaletteClicked] = useState<Palette>();
 
 	return (
-		<SafeAreaView className="bg-background-base">
+		<SafeAreaView>
 			<Box className="relative w-full h-full flex flex-row">
 				<VStack className="w-1/3 px-2 py-4">
 					<PriceTag price={coins} fontSize={48} currencySize={48} />

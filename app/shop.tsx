@@ -69,7 +69,7 @@ export default function Shop() {
 	);
 
 	return (
-		<SafeAreaView className="bg-background-base">
+		<SafeAreaView>
 			<Box className="relative w-full h-full flex flex-row">
 				<VStack className="w-1/3 px-2 py-4" space="lg">
 					<PriceTag

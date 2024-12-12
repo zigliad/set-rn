@@ -4,11 +4,11 @@ import { ColorsContext, useInitColors } from "@/hooks/useInitColors";
 import { Stack } from "expo-router";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import mobileAds from "react-native-google-mobile-ads";
-
 import "@/global.css";
 import { MyModesContext, useInitMyModes } from "@/hooks/ads/useMyModes";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
+import { useColorScheme } from "react-native";
 
 mobileAds().initialize();
 
@@ -16,6 +16,7 @@ export default function RootLayout() {
 	const colors = useInitColors();
 	const currencies = useInitCurrencies();
 	const myModes = useInitMyModes();
+	const currentScheme = useColorScheme();
 
 	return (
 		<GluestackUIProvider mode="system">
@@ -27,6 +28,12 @@ export default function RootLayout() {
 							<Stack
 								screenOptions={{
 									headerShown: false,
+									contentStyle: {
+										backgroundColor:
+											currentScheme === "light"
+												? "#f2f2f6"
+												: "#1c1c1e",
+									},
 								}}
 							>
 								<Stack.Screen name="index" />

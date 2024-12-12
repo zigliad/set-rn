@@ -1,7 +1,6 @@
 import { titleStyles } from "@/app";
 import { AwesomeModal } from "@/components/awesome-modal/AwesomeModal";
 import { GridAction, GridActions } from "@/components/GridActions";
-import { Heading } from "@/components/ui/heading";
 import { HStack } from "@/components/ui/hstack";
 import { Text } from "@/components/ui/text";
 import { BackButton } from "@/components/utils/BackButton";
@@ -103,7 +102,7 @@ export default function MoreOptions() {
 	];
 
 	return (
-		<SafeAreaView className="bg-background-base">
+		<SafeAreaView>
 			<View className="relative">
 				<Text
 					className="absolute top-8 left-8"

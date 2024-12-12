@@ -149,7 +149,7 @@ export default function Rules() {
 	const rule = rulesConfig[stage];
 
 	return (
-		<SafeAreaView className="bg-background-base">
+		<SafeAreaView>
 			<HStack className="justify-between pt-4 h-full" space={"md"}>
 				<VStack className="flex-1 p-4 h-full justify-between">
 					<VStack space={"md"}>

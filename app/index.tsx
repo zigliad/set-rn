@@ -4,9 +4,9 @@ import { BuyModeModal } from "@/components/pages/index/BuyModeModal";
 import { OnboardingModal } from "@/components/pages/index/OnboardingModal";
 import { StatsModal } from "@/components/StatsModal";
 import { Box } from "@/components/ui/box";
-import { Heading } from "@/components/ui/heading";
 import { HStack } from "@/components/ui/hstack";
 import { Text } from "@/components/ui/text";
+
 import { PriceTag } from "@/components/utils/PriceTag";
 import { sounds } from "@/constants/sounds";
 import { useMyModes } from "@/hooks/ads/useMyModes";
@@ -21,7 +21,6 @@ import { router } from "expo-router";
 import { Lock } from "lucide-react-native";
 import { useEffect, useMemo, useState } from "react";
 import { ImageURISource, StyleSheet, View } from "react-native";
-
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export const titleStyles = StyleSheet.create({
@@ -109,7 +108,7 @@ export default function Index() {
 	}, [moreOptions, myModes, gems, coins]);
 
 	return (
-		<SafeAreaView className="bg-background-base">
+		<SafeAreaView>
 			<View className="relative">
 				<Box className="absolute top-8 left-8">
 					<Text size="5xl" style={titleStyles.pageTitle}>

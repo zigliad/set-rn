@@ -29,7 +29,7 @@ export default function SetsFound() {
 	);
 
 	return (
-		<SafeAreaView className="bg-background-base">
+		<SafeAreaView>
 			<Box className="relative w-full h-full">
 				<FlatGrid
 					spacing={20}
