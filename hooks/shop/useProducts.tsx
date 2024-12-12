@@ -1,11 +1,14 @@
 import { Price } from "@/types/price";
 import { useEffect, useState } from "react";
 import { Platform } from "react-native";
-import Purchases, { PurchasesStoreProduct } from "react-native-purchases";
+import Purchases, {
+	PRODUCT_CATEGORY,
+	PurchasesStoreProduct,
+} from "react-native-purchases";
 
 export const APIKeys = {
 	apple: "appl_emsJrqniTudiHIFlRjHRJMyvoFv",
-	google: "",
+	google: "goog_qqvbIyrVnAblmIgwksYsTncikQw",
 };
 
 export const LEGACY_PREMIUM_PRODUCT_ID = "com.zigdonliad.Sets.premium";
@@ -50,8 +53,12 @@ export const useProducts = (identifiers: string[]) => {
 			Purchases.configure({
 				apiKey: Platform.OS === "ios" ? APIKeys.apple : APIKeys.google,
 			});
-			const products = await Purchases.getProducts(identifiers);
-			setProducts(products);
+			const fetchedProducts = await Purchases.getProducts(
+				identifiers,
+				PRODUCT_CATEGORY.NON_SUBSCRIPTION
+			);
+
+			setProducts(fetchedProducts);
 		};
 
 		setup().catch(console.error);
