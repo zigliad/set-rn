@@ -111,7 +111,6 @@ export const useInitColors = () => {
 						colors: ["#FF99CC", "#a2edfe", "#B399FF"],
 					},
 					beach: {
-						price: { coins: 2000 },
 						colors: [
 							"#92B4EC",
 							theme === "dark" ? "#fff2dd" : "#d2bfa3",
