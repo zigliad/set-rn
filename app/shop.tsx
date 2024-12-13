@@ -14,6 +14,7 @@ import {
 	NON_CONSUMABLE_PRODUCT_IDS,
 	REMOVE_ADS_PRODUCT_ID,
 	useProducts,
+	useRemoveAdsProduct,
 } from "@/hooks/shop/useProducts";
 import { useCurrencies } from "@/hooks/useCurrencies";
 import { purchasedRemoveAds, useCustomerInfo } from "@/hooks/useCustomerInfo";
@@ -43,20 +44,9 @@ export default function Shop() {
 
 	const { showAdIfLoaded, loaded } = useRewardedAd(rewarded, onReward);
 
-	const { customerInfo } = useCustomerInfo();
-	const { products } = useProducts(NON_CONSUMABLE_PRODUCT_IDS);
 	const [loading, setLoading] = useState(false);
-
-	const removeAdsProduct = useMemo(
-		() =>
-			products
-				? products.find(
-						(product) =>
-							product.identifier === REMOVE_ADS_PRODUCT_ID
-					)
-				: undefined,
-		[products]
-	);
+	const { customerInfo } = useCustomerInfo();
+	const removeAdsProduct = useRemoveAdsProduct();
 
 	const [adsRemoved, setAdsRemoved] = useStorageState(
 		StorageKey.adsRemoved,
@@ -99,7 +89,7 @@ export default function Shop() {
 						</ButtonText>
 					</Button>
 					{!didPurchaseRemoveAds &&
-						!adsRemoved &&
+						!+adsRemoved &&
 						removeAdsProduct && (
 							<>
 								<Divider />

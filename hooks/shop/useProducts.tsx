@@ -47,6 +47,11 @@ export const CONSUMABLE_PRODUCTS: Record<
 
 export const CONSUMABLE_PRODUCT_IDS = Object.keys(CONSUMABLE_PRODUCTS);
 
+const COINS_AND_GEMS_OFFER_ID = "offer_1";
+const REMOVE_ADS_OFFER_ID = "offer_remove_ads";
+
+const REDUNDANT_SUFFIX = " (SET - a Twisted Classic)";
+
 export const useProducts = (identifiers: string[]) => {
 	const [products, setProducts] = useState<PurchasesStoreProduct[]>();
 
@@ -69,7 +74,41 @@ export const useProducts = (identifiers: string[]) => {
 	return { products };
 };
 
-export const useConsumableProducts = () => {
+const renamedProduct = (p: PurchasesStoreProduct) => ({
+	...p,
+	title: p.title.replaceAll(REDUNDANT_SUFFIX, ""),
+});
+
+export const useRemoveAdsProduct = () => {
+	const [product, setProduct] = useState<PurchasesStoreProduct>();
+
+	useEffect(() => {
+		const setup = async () => {
+			Purchases.configure({
+				apiKey: Platform.OS === "ios" ? APIKeys.apple : APIKeys.google,
+			});
+			// const _products = await Purchases.getProducts(
+			// 	CONSUMABLE_PRODUCT_IDS
+			// );
+			const offers = await Purchases.getOfferings();
+			const _products = offers.all[
+				REMOVE_ADS_OFFER_ID
+			].availablePackages.map((pack) => pack.product);
+
+			const _product = _products.find(
+				(p) => p.identifier === REMOVE_ADS_PRODUCT_ID
+			);
+
+			if (_product) setProduct(renamedProduct(_product));
+		};
+
+		setup().catch(console.error);
+	}, []);
+
+	return product;
+};
+
+export const useCoinsAndGemsProducts = () => {
 	const [products, setProducts] = useState<PurchasesStoreProduct[]>();
 
 	useEffect(() => {
@@ -77,15 +116,22 @@ export const useConsumableProducts = () => {
 			Purchases.configure({
 				apiKey: Platform.OS === "ios" ? APIKeys.apple : APIKeys.google,
 			});
-			const _products = await Purchases.getProducts(
-				CONSUMABLE_PRODUCT_IDS
-			);
+			// const _products = await Purchases.getProducts(
+			// 	CONSUMABLE_PRODUCT_IDS
+			// );
+			const offers = await Purchases.getOfferings();
+			const _products = offers.all[
+				COINS_AND_GEMS_OFFER_ID
+			].availablePackages.map((pack) => pack.product);
+
 			setProducts(
-				[..._products].sort(
-					(p1, p2) =>
-						CONSUMABLE_PRODUCTS[p1.identifier].index -
-						CONSUMABLE_PRODUCTS[p2.identifier].index
-				)
+				_products
+					.map(renamedProduct)
+					.sort(
+						(p1, p2) =>
+							CONSUMABLE_PRODUCTS[p1.identifier].index -
+							CONSUMABLE_PRODUCTS[p2.identifier].index
+					)
 			);
 		};
 

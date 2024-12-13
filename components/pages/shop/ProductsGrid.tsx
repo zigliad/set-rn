@@ -11,7 +11,7 @@ import { SetState } from "@/extra-types/utils/extra";
 import {
 	CONSUMABLE_PRODUCT_IDS,
 	CONSUMABLE_PRODUCTS,
-	useConsumableProducts,
+	useCoinsAndGemsProducts,
 } from "@/hooks/shop/useProducts";
 import { useCurrencies } from "@/hooks/useCurrencies";
 import { fontWeightStyles } from "@/styles/commonStyles";
@@ -30,7 +30,7 @@ export const ProductsGrid = ({
 }) => {
 	const { incCoins, incGems } = useCurrencies();
 
-	const { products } = useConsumableProducts();
+	const { products } = useCoinsAndGemsProducts();
 
 	if (!products)
 		return (
