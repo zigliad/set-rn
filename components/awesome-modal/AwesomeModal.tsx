@@ -51,6 +51,7 @@ export const AwesomeModal = ({
 	tailwindColor,
 	icon,
 	backdropOnResolve = false,
+	backdropSecondaryOnResolve = false,
 	secondaryOnResolve,
 	secondaryButtonText,
 }: {
@@ -64,6 +65,7 @@ export const AwesomeModal = ({
 	tailwindColor?: string;
 	icon?: LucideIcon;
 	backdropOnResolve?: boolean;
+	backdropSecondaryOnResolve?: boolean;
 	secondaryOnResolve?: DispatchWithoutAction;
 	secondaryButtonText?: string;
 }) => {
@@ -77,7 +79,13 @@ export const AwesomeModal = ({
 	return (
 		<Modal isOpen={visible}>
 			<ModalBackdrop
-				onPress={backdropOnResolve ? onResolve : undefined}
+				onPress={
+					backdropOnResolve
+						? onResolve
+						: backdropSecondaryOnResolve
+							? secondaryOnResolve
+							: undefined
+				}
 			/>
 			<ModalContent
 				className="relative overflow-visible bg-background-card p-2 rounded-xl"
