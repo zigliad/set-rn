@@ -9,6 +9,7 @@ import { PriceTag } from "@/components/utils/PriceTag";
 import { sounds } from "@/constants/sounds";
 import { SetState } from "@/extra-types/utils/extra";
 import {
+	CONSUMABLE_PRODUCT_IDS,
 	CONSUMABLE_PRODUCTS,
 	useConsumableProducts,
 } from "@/hooks/shop/useProducts";
@@ -19,6 +20,8 @@ import React from "react";
 import { TouchableOpacity } from "react-native";
 import Purchases from "react-native-purchases";
 import { FlatGrid } from "react-native-super-grid";
+
+const SKELETON_DATA = [...Array(CONSUMABLE_PRODUCT_IDS.length).keys()];
 
 export const ProductsGrid = ({
 	setLoading,
@@ -35,7 +38,7 @@ export const ProductsGrid = ({
 				className="w-2/3"
 				maxItemsPerRow={2}
 				spacing={12}
-				data={[1, 2, 3, 4, 5, 6, 7, 8]}
+				data={SKELETON_DATA}
 				renderItem={({ item }) => {
 					return (
 						<Skeleton

@@ -45,6 +45,8 @@ export const CONSUMABLE_PRODUCTS: Record<
 	}, // 10$, +20%
 };
 
+export const CONSUMABLE_PRODUCT_IDS = Object.keys(CONSUMABLE_PRODUCTS);
+
 export const useProducts = (identifiers: string[]) => {
 	const [products, setProducts] = useState<PurchasesStoreProduct[]>();
 
@@ -76,7 +78,7 @@ export const useConsumableProducts = () => {
 				apiKey: Platform.OS === "ios" ? APIKeys.apple : APIKeys.google,
 			});
 			const _products = await Purchases.getProducts(
-				Object.keys(CONSUMABLE_PRODUCTS)
+				CONSUMABLE_PRODUCT_IDS
 			);
 			setProducts(
 				[..._products].sort(
