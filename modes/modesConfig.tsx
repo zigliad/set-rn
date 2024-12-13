@@ -59,25 +59,25 @@ export const modesConfig: ModeConfig[] = [
 		title: "6-Pack",
 		mode: "sixPack",
 		Icon: require("@/assets/images/mode-icons/loupe.png"),
-		getMedal: getMedalByWinsAmount(StorageKey.sixPack, [100, 300, 500]),
+		getMedal: getMedalByWinsAmount(StorageKey.sixPack, [50, 150, 300]),
 	},
 	{
 		title: "High-5",
 		mode: "highFive",
 		Icon: require("@/assets/images/mode-icons/high-5.png"),
-		getMedal: getMedalByLowScore(StorageKey.highFive, [16, 12, 8]),
+		getMedal: getMedalByLowScore(StorageKey.highFive, [24, 18, 12]),
 	},
 	{
 		title: "8-Pack",
 		mode: "eightPack",
 		Icon: require("@/assets/images/mode-icons/8-ball.png"),
-		getMedal: getMedalByWinsAmount(StorageKey.eightPack, [100, 300, 500]),
+		getMedal: getMedalByWinsAmount(StorageKey.eightPack, [50, 150, 300]),
 	},
 	{
 		title: "Drain",
 		mode: "drain",
 		Icon: require("@/assets/images/mode-icons/drain.png"),
-		getMedal: getMedalByWinsAmount(StorageKey.drain, [100, 300, 500]),
+		getMedal: getMedalByWinsAmount(StorageKey.drain, [50, 150, 300]),
 		price: { gems: 7 },
 	},
 	{
@@ -90,7 +90,7 @@ export const modesConfig: ModeConfig[] = [
 		title: "Disco",
 		mode: "disco",
 		Icon: require("@/assets/images/mode-icons/disco.png"),
-		getMedal: getMedalByHighScore(StorageKey.disco, [8, 12, 16]),
+		getMedal: getMedalByHighScore(StorageKey.disco, [6, 10, 14]),
 		price: { gems: 7 },
 	},
 	{
@@ -105,7 +105,6 @@ export const modesConfig: ModeConfig[] = [
 		Icon: require("@/assets/images/mode-icons/levels.png"),
 		getMedal: getMedalByWinsAmount(StorageKey.levels, [10, 20, 30]),
 	},
-
 	{
 		title: "Mania",
 		mode: "mania",
@@ -117,7 +116,7 @@ export const modesConfig: ModeConfig[] = [
 		title: "Expert",
 		mode: "expert",
 		Icon: require("@/assets/images/mode-icons/expert.png"),
-		getMedal: getMedalByHighScore(StorageKey.expert, [5, 8, 10]),
+		getMedal: getMedalByHighScore(StorageKey.expert, [4, 6, 8]),
 		price: { gems: 10 },
 	},
 	{
