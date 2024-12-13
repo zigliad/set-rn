@@ -96,7 +96,7 @@ export const useTimeMode = (
 		newGame,
 		checkSet,
 		rules: harder
-			? `Find as many sets as you can in ${seconds} seconds! For each mistake you lose ${harder.scorePenalty} points and ${harder.timePenalty} seconds.\nMax mistakes: ${harder.maxMistakes}.`
+			? `Find as many sets as you can in ${seconds} seconds! The cards now have an extra feature: border color. For each mistake, you lose ${harder.scorePenalty} points and ${harder.timePenalty} seconds. Max mistakes: ${harder.maxMistakes}.`
 			: `Find as many sets as you can in ${seconds} seconds!`,
 		title: `${timeLeft} seconds left / ${score}`,
 		endgameTitle:
