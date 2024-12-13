@@ -12,20 +12,20 @@ import { useState } from "react";
 import { Linking, Platform, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const creditsText = `
+const CREDITS_TEXT = `
 App developed and designed by Liad Zigdon, all rights reserved.\n
 The game 'SET' was invented by Marsha Falco in 1974.\n
 Icons are from www.flaticon.com and were made by Freepik, Good Ware, Those Icons, mynamepong, Google, Pixel Perfect and Roundicons.
 `;
 
-const androidPackageName = "host.exp.exponent";
-const itunesItemId = 1506464825;
+const ANDROID_PACKAGE_NAME = "com.zigdonliad.Sets";
+const ITUNES_ITEM_ID = 1506464825;
 
 export default function MoreOptions() {
 	const [visibleModal, setVisibleModal] = useState(false);
 	const [muteSounds, setMuteSounds] = useStorageState(
 		StorageKey.muteSounds,
-		"0"
+		String(0)
 	);
 
 	const moreOptionsConfig: GridAction[] = [
@@ -84,11 +84,11 @@ export default function MoreOptions() {
 			onClick: () => {
 				if (Platform.OS === "ios")
 					Linking.openURL(
-						`itms-apps://itunes.apple.com/app/viewContentsUserReviews/id${itunesItemId}?action=write-review`
+						`itms-apps://itunes.apple.com/app/viewContentsUserReviews/id${ITUNES_ITEM_ID}?action=write-review`
 					);
 				else if (Platform.OS === "android")
 					Linking.openURL(
-						`market://details?id=${androidPackageName}&showAllReviews=true`
+						`market://details?id=${ANDROID_PACKAGE_NAME}&showAllReviews=true`
 					);
 			},
 		},
@@ -119,7 +119,7 @@ export default function MoreOptions() {
 					onResolve={() => setVisibleModal(false)}
 					type="info"
 					header="Credits"
-					content={creditsText}
+					content={CREDITS_TEXT}
 					icon={Candy}
 					backdropOnResolve
 				/>

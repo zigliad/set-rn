@@ -20,7 +20,7 @@
 		},
 		"android": {
 			"adaptiveIcon": {
-				"foregroundImage": "./assets/images/adaptive-icon.png",
+				"foregroundImage": "./assets/images/icon.png",
 				"backgroundColor": "#F2F2F7"
 			},
 			"package": "com.zigdonliad.Sets",
