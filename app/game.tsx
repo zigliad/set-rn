@@ -23,7 +23,6 @@ export default function Game() {
 	const onGameEnd = useCallback(
 		// Check if an ad should be displayed and ask for review when its time.
 		async (gameResult?: GameResult) => {
-			const adsRemoved = await getData(StorageKey.adsRemoved, String(0));
 			const gamesPlayedWithoutAds = await getData(
 				StorageKey.gamesPlayedWithoutAds,
 				String(0)
@@ -37,7 +36,7 @@ export default function Game() {
 				String(0)
 			);
 
-			const newGamesPlayWithoutAds =
+			let newGamesPlayWithoutAds =
 				(+gamesPlayedWithoutAds + 1) % GAMES_UNTIL_AD;
 
 			storeData(
@@ -45,9 +44,11 @@ export default function Game() {
 				String(newGamesPlayWithoutAds)
 			);
 
+			const adsRemoved = await getData(StorageKey.adsRemoved, String(0));
+
 			if (
 				((+totalSetsFound >= 100 && +reviewRequestsCount === 0) ||
-					(+totalSetsFound >= 400 && +reviewRequestsCount === 1)) &&
+					(+totalSetsFound >= 300 && +reviewRequestsCount === 1)) &&
 				(await StoreReview.isAvailableAsync()) &&
 				(await StoreReview.hasAction())
 			) {
@@ -56,7 +57,8 @@ export default function Game() {
 					+reviewRequestsCount + 1
 				);
 				await StoreReview.requestReview();
-			} else if (!+adsRemoved && newGamesPlayWithoutAds === 0) {
+			}
+			if (!+adsRemoved && newGamesPlayWithoutAds === 0) {
 				setTimeout(showAdIfLoaded, 500);
 			}
 
