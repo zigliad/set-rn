@@ -6,7 +6,6 @@ import { Text } from "@/components/ui/text";
 import { BackButton } from "@/components/utils/BackButton";
 import { useStorageState } from "@/hooks/useStorageState";
 import { StorageKey } from "@/utils/storage";
-import Constants from "expo-constants";
 import { router } from "expo-router";
 import { Candy, Heart } from "lucide-react-native";
 import { useMemo, useState } from "react";
@@ -16,8 +15,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const CREDITS_TEXT = `
 App developed and designed by Liad Zigdon, all rights reserved.\n
 The game 'SET' was invented by Marsha Falco in 1974.\n
-Icons are from www.flaticon.com and were made by Freepik, Good Ware, Those Icons, mynamepong, Google, Pixel Perfect and Roundicons.\n
-App version: ${Constants.expoConfig?.version}`;
+Icons are from www.flaticon.com and were made by Freepik, Good Ware, Those Icons, mynamepong, Google, Pixel Perfect and Roundicons.`;
+// App version: ${Constants.expoConfig?.version}`;
 
 const ANDROID_PACKAGE_NAME = "com.zigdonliad.Sets";
 const ITUNES_ITEM_ID = 1506464825;
