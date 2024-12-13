@@ -16,7 +16,8 @@
 		"ios": {
 			"supportsTablet": true,
 			"requireFullScreen": false,
-			"bundleIdentifier": "com.zigdonliad.Sets"
+			"bundleIdentifier": "com.zigdonliad.Sets",
+			"buildNumber": "10" // remove after first build (use remote in eas.json)
 		},
 		"android": {
 			"adaptiveIcon": {
@@ -24,7 +25,8 @@
 				"backgroundColor": "#F2F2F7"
 			},
 			"package": "com.zigdonliad.Sets",
-			"permissions": ["com.android.vending.BILLING"]
+			"permissions": ["com.android.vending.BILLING"],
+			"versionCode": 10 // remove after first build (use remote in eas.json)
 		},
 		"androidStatusBar": {
 			"translucent": true
