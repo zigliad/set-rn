@@ -1,28 +1,19 @@
 import { ElevatedCard } from "@/components/ElevatedCard";
 import { PaletteDisplay } from "@/components/pages/colors/PaletteDisplay";
-import { Box } from "@/components/ui/box";
 import { HStack } from "@/components/ui/hstack";
 import { Icon } from "@/components/ui/icon";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
-import { PriceTag } from "@/components/utils/PriceTag";
-import { sounds } from "@/constants/sounds";
+import { Sound } from "@/constants/sounds";
 import { Action1 } from "@/extra-types/utils/functions";
 import { useCurrencies } from "@/hooks/useCurrencies";
-import {
-	CLASSIC_PALETTE_ID,
-	DEFAULT_PALETTE_PRICE,
-	Palette,
-	useColors,
-} from "@/hooks/useInitColors";
+import { CLASSIC_PALETTE_ID, Palette, useColors } from "@/hooks/useInitColors";
 import { fontWeightStyles } from "@/styles/commonStyles";
 import { playSound } from "@/utils/soundPlayer";
-import { router } from "expo-router";
-import { Check, Coins } from "lucide-react-native";
+import { Check, Lock } from "lucide-react-native";
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import { FlatGrid } from "react-native-super-grid";
-import { Lock } from "lucide-react-native";
 
 export const PalettesGrid = ({
 	onPaletteClick,
@@ -62,7 +53,7 @@ export const PalettesGrid = ({
 					>
 						<TouchableOpacity
 							onPress={() => {
-								playSound(sounds.click);
+								playSound(Sound.click);
 								if (ownPalette) {
 									x.setCurrentPaletteId(palette.id);
 								} else {

@@ -1,6 +1,5 @@
 import { AwesomeModalActions } from "@/components/awesome-modal/AwesomeModalActions";
 import { Center } from "@/components/ui/center";
-import { Heading } from "@/components/ui/heading";
 import { HStack } from "@/components/ui/hstack";
 import { Icon } from "@/components/ui/icon";
 import { Modal, ModalBackdrop, ModalContent } from "@/components/ui/modal";
@@ -8,7 +7,7 @@ import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
 import { PriceTag } from "@/components/utils/PriceTag";
 import { DAILY_COINS_REWARDS } from "@/constants/dailyRewards";
-import { sounds } from "@/constants/sounds";
+import { Sound } from "@/constants/sounds";
 import { useCurrencies } from "@/hooks/useCurrencies";
 import { useStorageState } from "@/hooks/useStorageState";
 import { fontWeightStyles } from "@/styles/commonStyles";
@@ -124,7 +123,7 @@ export const DailyRewardModal = ({}: {}) => {
 						buttonText="Claim"
 						onResolve={() => {
 							setVisible(false);
-							playSound(sounds.win);
+							playSound(Sound.win);
 							incCoins(DAILY_COINS_REWARDS[+streak]);
 							setLastRewardDate(String(new Date()));
 							setStreak(

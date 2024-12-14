@@ -6,7 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
 import { PriceTag } from "@/components/utils/PriceTag";
-import { sounds } from "@/constants/sounds";
+import { Sound } from "@/constants/sounds";
 import { SetState } from "@/extra-types/utils/extra";
 import {
 	CONSUMABLE_PRODUCT_IDS,
@@ -70,7 +70,7 @@ export const ProductsGrid = ({
 					>
 						<TouchableOpacity
 							onPress={async () => {
-								playSound(sounds.click);
+								playSound(Sound.click);
 								setLoading(true);
 								try {
 									await Purchases.purchaseStoreProduct(
@@ -78,7 +78,7 @@ export const ProductsGrid = ({
 									);
 									incGems(gems);
 									incCoins(coins);
-									playSound(sounds.buy);
+									playSound(Sound.buy);
 								} catch (e) {}
 								setLoading(false);
 							}}

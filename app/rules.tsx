@@ -2,12 +2,11 @@ import Card from "@/bl/card/Card";
 import { PlayingCard } from "@/components/pages/game/PlayingCard";
 import { Button } from "@/components/ui/button";
 import { Center } from "@/components/ui/center";
-import { Heading } from "@/components/ui/heading";
 import { HStack } from "@/components/ui/hstack";
 import { Icon } from "@/components/ui/icon";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
-import { sounds } from "@/constants/sounds";
+import { Sound } from "@/constants/sounds";
 import { fontWeightStyles } from "@/styles/commonStyles";
 import { playSound } from "@/utils/soundPlayer";
 import { router } from "expo-router";
@@ -169,7 +168,7 @@ export default function Rules() {
 							<Button
 								className=" rounded-full bg-background-800 shadow-xl"
 								onPress={async () => {
-									playSound(sounds.click);
+									playSound(Sound.click);
 									if (stage === 0) router.back();
 									else setStage((s) => s - 1);
 								}}
@@ -183,10 +182,10 @@ export default function Rules() {
 								className=" rounded-full bg-background-800 shadow-xl"
 								onPress={async () => {
 									if (stage === rulesConfig.length - 1) {
-										playSound(sounds.win);
+										playSound(Sound.win);
 										router.back();
 									} else {
-										playSound(sounds.click);
+										playSound(Sound.click);
 										setStage((s) => s + 1);
 									}
 								}}

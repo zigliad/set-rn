@@ -3,7 +3,7 @@ import { GameBar } from "@/components/pages/game/GameBar";
 import { GameGrid } from "@/components/pages/game/GameGrid";
 import { HStack } from "@/components/ui/hstack";
 import { GAMES_UNTIL_AD, interstitial } from "@/constants/ads";
-import { sounds } from "@/constants/sounds";
+import { Sound } from "@/constants/sounds";
 import { useInterstitialAd } from "@/hooks/ads/useInterstitialAd";
 import { modes, Modes } from "@/modes/modes";
 import { ModeContext } from "@/modes/modesContext";
@@ -11,11 +11,11 @@ import { GameResult } from "@/modes/modeTypes";
 import { playSound } from "@/utils/soundPlayer";
 import { getData, StorageKey, storeData } from "@/utils/storage";
 import { useLocalSearchParams } from "expo-router";
+import * as StoreReview from "expo-store-review";
 import React, { useCallback, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import useList from "react-use/lib/useList";
 import useMount from "react-use/lib/useMount";
-import * as StoreReview from "expo-store-review";
 
 export default function Game() {
 	const { showAdIfLoaded } = useInterstitialAd(interstitial);
@@ -61,9 +61,7 @@ export default function Game() {
 			}
 
 			setVisibleModal(true);
-			playSound(
-				gameResult === GameResult.lose ? sounds.lose : sounds.win
-			);
+			playSound(gameResult === GameResult.lose ? Sound.lose : Sound.win);
 		},
 		[showAdIfLoaded]
 	);
@@ -106,7 +104,7 @@ export default function Game() {
 						modeData.newGame();
 						reset();
 						dummyReset();
-						playSound(sounds.restart);
+						playSound(Sound.restart);
 					}}
 					header={modeData.endgameTitle}
 					content={modeData.endgameContent}

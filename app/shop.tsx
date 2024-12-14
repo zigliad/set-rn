@@ -8,14 +8,9 @@ import { VStack } from "@/components/ui/vstack";
 import { BackButton } from "@/components/utils/BackButton";
 import { PriceTag } from "@/components/utils/PriceTag";
 import { rewarded } from "@/constants/ads";
-import { sounds } from "@/constants/sounds";
+import { Sound } from "@/constants/sounds";
 import { useRewardedAd } from "@/hooks/ads/useRewardedAd";
-import {
-	NON_CONSUMABLE_PRODUCT_IDS,
-	REMOVE_ADS_PRODUCT_ID,
-	useProducts,
-	useRemoveAdsProduct,
-} from "@/hooks/shop/useProducts";
+import { useRemoveAdsProduct } from "@/hooks/shop/useProducts";
 import { useCurrencies } from "@/hooks/useCurrencies";
 import { purchasedRemoveAds, useCustomerInfo } from "@/hooks/useCustomerInfo";
 import { useStorageState } from "@/hooks/useStorageState";
@@ -79,7 +74,7 @@ export default function Shop() {
 						isDisabled={!loaded}
 						onPress={() => {
 							if (loaded) {
-								playSound(sounds.click);
+								playSound(Sound.click);
 								showAdIfLoaded();
 							}
 						}}
@@ -95,14 +90,14 @@ export default function Shop() {
 								<Divider />
 								<Button
 									onPress={async () => {
-										playSound(sounds.click);
+										playSound(Sound.click);
 										setLoading(true);
 										try {
 											await Purchases.purchaseStoreProduct(
 												removeAdsProduct
 											);
 											setAdsRemoved(String(1));
-											playSound(sounds.buy);
+											playSound(Sound.buy);
 										} catch (e) {}
 										setLoading(false);
 									}}

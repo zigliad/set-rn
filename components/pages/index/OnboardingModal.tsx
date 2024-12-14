@@ -1,5 +1,5 @@
 import { AwesomeModal } from "@/components/awesome-modal/AwesomeModal";
-import { sounds } from "@/constants/sounds";
+import { Sound } from "@/constants/sounds";
 import { playSound } from "@/utils/soundPlayer";
 import { router } from "expo-router";
 import { GraduationCap, HandMetal, Smile } from "lucide-react-native";
@@ -60,11 +60,11 @@ export const OnboardingModal = ({
 			visible={visible}
 			{...modalStage}
 			onResolve={() => {
-				playSound(sounds.click);
+				playSound(Sound.click);
 				modalStage.onResolve?.();
 			}}
 			secondaryOnResolve={() => {
-				playSound(sounds.click);
+				playSound(Sound.click);
 				modalStage.secondaryOnResolve?.();
 			}}
 		/>

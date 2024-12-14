@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Center } from "@/components/ui/center";
 import { Icon } from "@/components/ui/icon";
 import { Text } from "@/components/ui/text";
-import { sounds } from "@/constants/sounds";
+import { Sound } from "@/constants/sounds";
 import { useMode } from "@/modes/modesContext";
 import { fontWeightStyles } from "@/styles/commonStyles";
 import { playSound } from "@/utils/soundPlayer";
@@ -42,7 +42,7 @@ export const GameBar = ({
 					variant="link"
 					onPress={async () => {
 						setVisibleModal(true);
-						playSound(sounds.click);
+						playSound(Sound.click);
 					}}
 				>
 					<Icon as={Info} className={iconClassName} />
@@ -53,7 +53,7 @@ export const GameBar = ({
 						resetPicked();
 						dummyReset();
 						modeData.newGame();
-						playSound(sounds.restart);
+						playSound(Sound.restart);
 					}}
 				>
 					<Icon as={RotateCcw} className={iconClassName} />
@@ -84,7 +84,7 @@ export const GameBar = ({
 			<Button
 				variant="link"
 				onPress={async () => {
-					playSound(sounds.click);
+					playSound(Sound.click);
 					router.back();
 				}}
 			>

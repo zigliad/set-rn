@@ -2,8 +2,7 @@ import Card from "@/bl/card/Card";
 import { Set as CardsSet } from "@/bl/types/set";
 import { PlayingCard } from "@/components/pages/game/PlayingCard";
 import { Box } from "@/components/ui/box";
-import { Text } from "@/components/ui/text";
-import { sounds } from "@/constants/sounds";
+import { Sound } from "@/constants/sounds";
 import { useMode } from "@/modes/modesContext";
 import { playSound } from "@/utils/soundPlayer";
 import {
@@ -70,7 +69,7 @@ export const GameGrid = ({
 			setTimeout(dummyReset, 200);
 			reset();
 			const { isSet, set } = await checkSet(newPicked);
-			playSound(isSet ? sounds.setFound : sounds.error);
+			playSound(isSet ? Sound.setFound : Sound.error);
 			if (isSet && set) await setFound(set);
 		},
 		[dummySet, dummyReset, reset, checkSet]

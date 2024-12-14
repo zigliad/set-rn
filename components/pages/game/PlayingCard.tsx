@@ -1,7 +1,7 @@
 import Card from "@/bl/card/Card";
 import { ElevatedCard } from "@/components/ElevatedCard";
 import { Center } from "@/components/ui/center";
-import { sounds } from "@/constants/sounds";
+import { Sound } from "@/constants/sounds";
 import { useColors } from "@/hooks/useInitColors";
 import { playSound } from "@/utils/soundPlayer";
 import cardsSvgs from "@/utils/svgsLoader";
@@ -79,7 +79,7 @@ export const PlayingCard = ({
 			exclusive={false}
 			onPress={async () => {
 				if (onPress) {
-					playSound(sounds.click);
+					playSound(Sound.click);
 					onPress();
 				}
 			}}

@@ -1,16 +1,15 @@
 import { AwesomeModalActions } from "@/components/awesome-modal/AwesomeModalActions";
 import { Box } from "@/components/ui/box";
 import { Center } from "@/components/ui/center";
-import { Heading } from "@/components/ui/heading";
 import { HStack } from "@/components/ui/hstack";
 import { Image } from "@/components/ui/image";
 import { Modal, ModalBackdrop, ModalContent } from "@/components/ui/modal";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
 import { PriceTag } from "@/components/utils/PriceTag";
-import { sounds } from "@/constants/sounds";
-import { useMyModes } from "@/hooks/ads/useMyModes";
+import { Sound } from "@/constants/sounds";
 import { useCurrencies } from "@/hooks/useCurrencies";
+import { useMyModes } from "@/hooks/useMyModes";
 import { DEFAULT_MODE_PRICE, ModeConfig } from "@/modes/modesConfig";
 import { fontWeightStyles } from "@/styles/commonStyles";
 import { playSound } from "@/utils/soundPlayer";
@@ -81,18 +80,18 @@ export const BuyModeModal = ({
 						onResolve={() => {
 							onResolve();
 							if (gems >= gemsPrice && coins >= coinsPrice) {
-								playSound(sounds.buy);
+								playSound(Sound.buy);
 								setMyModes([...myModes, mode.mode]);
 								incGems(-gemsPrice);
 								incCoins(-coinsPrice);
 							} else {
-								playSound(sounds.error);
+								playSound(Sound.error);
 								router.push("/shop");
 							}
 						}}
 						secondaryButtonText="Not Now"
 						secondaryOnResolve={() => {
-							playSound(sounds.click);
+							playSound(Sound.click);
 							onResolve();
 						}}
 					/>

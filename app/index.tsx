@@ -8,9 +8,9 @@ import { HStack } from "@/components/ui/hstack";
 import { Text } from "@/components/ui/text";
 
 import { PriceTag } from "@/components/utils/PriceTag";
-import { sounds } from "@/constants/sounds";
-import { useMyModes } from "@/hooks/ads/useMyModes";
+import { Sound } from "@/constants/sounds";
 import { useCurrencies } from "@/hooks/useCurrencies";
+import { useMyModes } from "@/hooks/useMyModes";
 import { useShowOnboarding } from "@/hooks/useShowOnboarding";
 import { Modes } from "@/modes/modes";
 import { ModeConfig, modesConfig } from "@/modes/modesConfig";
@@ -97,7 +97,7 @@ export default function Index() {
 							});
 						},
 						onDisabledClick: () => {
-							playSound(sounds.click);
+							playSound(Sound.click);
 							setModeClicked(modeConf);
 						},
 					};

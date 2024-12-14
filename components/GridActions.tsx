@@ -5,7 +5,7 @@ import { Icon } from "@/components/ui/icon";
 import { Image } from "@/components/ui/image";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
-import { sounds } from "@/constants/sounds";
+import { Sound } from "@/constants/sounds";
 import { useColors } from "@/hooks/useInitColors";
 import { fontWeightStyles } from "@/styles/commonStyles";
 import { playSound } from "@/utils/soundPlayer";
@@ -88,7 +88,7 @@ export const GridActions = ({ actions }: { actions: GridAction[] }) => {
 									onPress={async () => {
 										if (!item.disabled) {
 											item.onClick();
-											playSound(sounds.click);
+											playSound(Sound.click);
 										} else {
 											item.onDisabledClick?.();
 										}

@@ -5,10 +5,13 @@ import { Stack } from "expo-router";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import mobileAds from "react-native-google-mobile-ads";
 import "@/global.css";
-import { MyModesContext, useInitMyModes } from "@/hooks/ads/useMyModes";
+import { MyModesContext, useInitMyModes } from "@/hooks/useMyModes";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 import { useColorScheme } from "react-native";
+import { useEffect } from "react";
+import { preloadAllSounds } from "@/constants/sounds";
+import { usePreloadSounds } from "@/hooks/usePreloadSounds";
 
 mobileAds().initialize();
 
@@ -17,6 +20,8 @@ export default function RootLayout() {
 	const currencies = useInitCurrencies();
 	const myModes = useInitMyModes();
 	const currentScheme = useColorScheme();
+
+	const { soundsLoaded } = usePreloadSounds();
 
 	return (
 		<GluestackUIProvider mode="system">
