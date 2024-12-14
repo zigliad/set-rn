@@ -30,9 +30,9 @@ export default function RootLayout() {
 									headerShown: false,
 									contentStyle: {
 										backgroundColor:
-											currentScheme === "light"
-												? "#f2f2f6"
-												: "#1c1c1e",
+											currentScheme === "dark"
+												? "#1c1c1e"
+												: "#f2f2f6",
 									},
 								}}
 							>

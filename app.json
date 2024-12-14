@@ -16,7 +16,8 @@
 		"ios": {
 			"supportsTablet": true,
 			"requireFullScreen": false,
-			"bundleIdentifier": "com.zigdonliad.Sets"
+			"bundleIdentifier": "com.zigdonliad.Sets",
+			"buildNumber": "20"
 		},
 		"android": {
 			"adaptiveIcon": {
