@@ -63,7 +63,7 @@ export const DailyRewardModal = ({}: {}) => {
 					className="text-center"
 					style={fontWeightStyles.black}
 				>
-					Welcome Back!
+					Welcome Back
 				</Text>
 				<VStack className="w-full items-center" space="lg">
 					<VStack>
@@ -71,13 +71,7 @@ export const DailyRewardModal = ({}: {}) => {
 							className="text-center"
 							style={fontWeightStyles.medium}
 						>
-							Come back every day to claim your daily reward.
-						</Text>
-						<Text
-							className="text-center"
-							style={fontWeightStyles.medium}
-						>
-							Complete a full week and earn 100 coins!
+							Come back every day to claim your daily reward!
 						</Text>
 					</VStack>
 					<HStack className="divide-x">
