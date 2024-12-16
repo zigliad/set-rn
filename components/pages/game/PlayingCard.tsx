@@ -5,8 +5,8 @@ import { Sound } from "@/constants/sounds";
 import { useColors } from "@/hooks/useInitColors";
 import { playSound } from "@/utils/soundPlayer";
 import cardsSvgs from "@/utils/svgsLoader";
-import React, { DispatchWithoutAction } from "react";
-import { Platform } from "react-native";
+import React, { DispatchWithoutAction, useEffect, useRef } from "react";
+import { Animated, Platform } from "react-native";
 import { BaseButton } from "react-native-gesture-handler";
 
 const date = new Date(); // Current date
@@ -37,33 +37,51 @@ const InnerPlayingCard = ({
 	const borderColor =
 		cardString.length >= 5 ? colors[+cardString.charAt(4) - 1] : undefined;
 
+	const scale = useRef(new Animated.Value(0.75)).current;
+	useEffect(() => {
+		Animated.spring(scale, {
+			toValue: picked ? 0.75 : 1,
+			useNativeDriver: true,
+			speed: 60,
+			bounciness: 0,
+		}).start();
+	}, [picked]);
+
 	return (
-		<ElevatedCard
-			className={
-				"flex items-center justify-center rounded-xl transform scale-100 " +
-				(picked ? " scale-75" : "") +
-				(Platform.OS === "ios" ? " transition-all" : "")
-			}
-			style={{
-				...size,
-				...(borderColor && {
-					borderLeftColor: borderColor,
-					borderBottomColor: borderColor,
-				}),
-			}}
+		<Animated.View
+			style={[
+				{
+					transform: [{ scale }],
+				},
+			]}
 		>
-			<Center
-				className="w-full h-full"
-				style={{ transform: [{ rotate: "90deg" }] }}
+			<ElevatedCard
+				className={"flex items-center justify-center rounded-xl"}
+				style={{
+					...size,
+					...(borderColor &&
+						Platform.OS === "ios" && {
+							borderLeftColor: borderColor,
+							borderBottomColor: borderColor,
+						}),
+				}}
+				borderColor={
+					Platform.OS === "android" ? borderColor : undefined
+				}
 			>
-				<CardImage
-					fill={color}
-					stroke={color}
-					height={size.width}
-					width={size.height}
-				/>
-			</Center>
-		</ElevatedCard>
+				<Center
+					className="w-full h-full"
+					style={{ transform: [{ rotate: "90deg" }] }}
+				>
+					<CardImage
+						fill={color}
+						stroke={color}
+						height={size.width}
+						width={size.height}
+					/>
+				</Center>
+			</ElevatedCard>
+		</Animated.View>
 	);
 };
 

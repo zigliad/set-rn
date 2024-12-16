@@ -57,6 +57,11 @@ export default function Game() {
 					if (adShown)
 						storeData(StorageKey.gamesPlayedWithoutAds, String(0));
 				}, 500);
+			} else if (newGamesPlayWithoutAds > 0) {
+				storeData(
+					StorageKey.gamesPlayedWithoutAds,
+					String(newGamesPlayWithoutAds)
+				);
 			}
 
 			setVisibleModal(true);

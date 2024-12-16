@@ -6,14 +6,17 @@ export const ElevatedCard = ({
 	children,
 	className = "",
 	style: extraStyle = undefined,
+	borderColor,
 }: PropsWithChildren<{
 	className?: string;
 	style?: StyleProp<ViewStyle>;
+	borderColor?: string;
 }>) => {
 	return (
 		<Center
 			className={
-				"bg-background-card rounded-2xl border-2 border-background-card-shadow " +
+				"bg-background-card rounded-2xl border-2 " +
+				(borderColor ? "" : "border-background-card-shadow ") +
 				className
 			}
 			style={[
@@ -21,6 +24,9 @@ export const ElevatedCard = ({
 					borderLeftWidth: 6,
 					borderBottomWidth: 6,
 					zIndex: 10,
+					...(borderColor && {
+						borderColor,
+					}),
 				},
 				extraStyle,
 			]}

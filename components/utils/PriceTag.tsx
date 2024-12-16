@@ -1,11 +1,9 @@
 import SetCoin from "@/assets/images/currencies/coin.svg";
 import SetGem from "@/assets/images/currencies/gem.svg";
 import { HStack } from "@/components/ui/hstack";
-import { Icon } from "@/components/ui/icon";
 import { Text } from "@/components/ui/text";
 import { PropsOf } from "@/extra-types/utils/extra";
 import { fontWeightStyles } from "@/styles/commonStyles";
-import { Home } from "lucide-react-native";
 import React, { useEffect, useRef } from "react";
 import { Animated, Easing } from "react-native";
 
