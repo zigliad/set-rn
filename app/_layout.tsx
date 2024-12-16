@@ -1,19 +1,21 @@
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import { CurrenciesContext, useInitCurrencies } from "@/hooks/useCurrencies";
 import { ColorsContext, useInitColors } from "@/hooks/useInitColors";
+import { MyModesContext, useInitMyModes } from "@/hooks/useMyModes";
+import { usePreloadSounds } from "@/hooks/usePreloadSounds";
 import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import { I18nManager, useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import mobileAds from "react-native-google-mobile-ads";
+
 import "@/global.css";
-import { MyModesContext, useInitMyModes } from "@/hooks/useMyModes";
-import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
-import { useColorScheme } from "react-native";
-import { useEffect } from "react";
-import { preloadAllSounds } from "@/constants/sounds";
-import { usePreloadSounds } from "@/hooks/usePreloadSounds";
 
 mobileAds().initialize();
+
+I18nManager.forceRTL(false);
+I18nManager.allowRTL(false);
 
 export default function RootLayout() {
 	const colors = useInitColors();
@@ -21,7 +23,7 @@ export default function RootLayout() {
 	const myModes = useInitMyModes();
 	const currentScheme = useColorScheme();
 
-	const { soundsLoaded } = usePreloadSounds();
+	usePreloadSounds();
 
 	return (
 		<GluestackUIProvider mode="system">

@@ -33,7 +33,9 @@ export const useInterstitialAd = (interstitial: InterstitialAd) => {
 	const showAdIfLoaded = useCallback(() => {
 		if (loaded) {
 			interstitial.show();
+			return true;
 		}
+		return false;
 	}, [loaded, interstitial]);
 
 	return { showAdIfLoaded, loaded };

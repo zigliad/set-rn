@@ -42,7 +42,7 @@ export const StatsModal = ({
 				onResolve();
 			}}
 			header={"Statistics"}
-			content={`1-Minute best: ${oneMinute}\n6-Pack wins: ${sixPack}\nHigh-5 best: ${+highFive === Infinity ? "N/A" : `${highFive} seconds`}\n8-Pack wins: ${eightPack}\nDrain wins: ${drain}\nSurvival best: ${survival}\nDisco best: ${disco}\nSpeed best: ${speed}\nCurrent level: ${levels}\nMania wins: ${mania}\nExpert best: ${expert}\nTotal sets found: ${(+totalSetsFound).toLocaleString()}\n\n${setsFound?.length.toLocaleString()} unique sets found`}
+			content={`1-Minute best: ${oneMinute}\n6-Pack wins: ${sixPack}\nHigh-5 best: ${+highFive === Infinity ? "N/A" : `${highFive} seconds`}\n8-Pack wins: ${eightPack}\nDrain wins: ${drain}\nSurvival best: ${survival}\nDisco best: ${disco}\nSpeed best: ${speed}\nCurrent level: ${levels}\nMania wins: ${mania}\nExpert best: ${expert}\n\n${(+totalSetsFound).toLocaleString()} total sets found,\nincluding ${setsFound?.length.toLocaleString()} unique sets.`}
 			tailwindColor="bg-purple-500"
 			icon={Award}
 			backdropOnResolve

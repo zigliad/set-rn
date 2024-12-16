@@ -40,11 +40,6 @@ export default function Game() {
 			const newGamesPlayWithoutAds =
 				(+gamesPlayedWithoutAds + 1) % GAMES_UNTIL_AD;
 
-			storeData(
-				StorageKey.gamesPlayedWithoutAds,
-				String(newGamesPlayWithoutAds)
-			);
-
 			if (
 				((+totalSetsFound >= 100 && +reviewRequestsCount === 0) ||
 					(+totalSetsFound >= 400 && +reviewRequestsCount === 1)) &&
@@ -57,7 +52,11 @@ export default function Game() {
 				);
 				await StoreReview.requestReview();
 			} else if (!+adsRemoved && newGamesPlayWithoutAds === 0) {
-				setTimeout(showAdIfLoaded, 500);
+				setTimeout(() => {
+					const adShown = showAdIfLoaded();
+					if (adShown)
+						storeData(StorageKey.gamesPlayedWithoutAds, String(0));
+				}, 500);
 			}
 
 			setVisibleModal(true);
